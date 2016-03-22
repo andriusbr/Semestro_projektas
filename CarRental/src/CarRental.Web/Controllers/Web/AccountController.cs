@@ -51,14 +51,14 @@ namespace CarRental.Web.Controllers.Web
         {
             if (ModelState.IsValid)
             {
-                if (register.IsValid(register.UserName, register.Password, register.ConfirmPassword))
+                if (register.addUser(register.Email, register.UserName, register.Password))
                 {
                     //FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Login data is incorrect!");
+                    ModelState.AddModelError("", "Account already exists!");
                 }
             }
             return View(register);

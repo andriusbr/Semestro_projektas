@@ -5,7 +5,8 @@
 }
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "Login failed. Check your login details.");
+    //<asp:ValidationSummary ID="ValidationSummary1" ShowMessageBox="true" runat="server" />
+    @Html.ValidationSummary(true, "Login failed.");
     <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
     <div align="center">
         <fieldset>
@@ -16,6 +17,7 @@
             <div class="editor-field">
                 @Html.TextBoxFor(u => u.UserName)
                 @Html.ValidationMessageFor(u => u.UserName)
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="editor-label">
                 @Html.LabelFor(u => u.Password)
