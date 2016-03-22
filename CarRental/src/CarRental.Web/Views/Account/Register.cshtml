@@ -1,0 +1,46 @@
+﻿@model CarRental.Web.Models.Register
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/site.css" rel="stylesheet" type="text/css" media="screen" />
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Registration failed. Check your login details.");
+    <div align="center">
+        <fieldset>
+            <legend>Register</legend>
+            <div class="editor-label">
+                @Html.LabelFor(u => u.Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.Email)
+                @Html.ValidationMessageFor(u => u.Email)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(u => u.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.UserName)
+                @Html.ValidationMessageFor(u => u.UserName)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(u => u.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(u => u.Password)
+                @Html.ValidationMessageFor(u => u.Password)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(u => u.ConfirmPassword)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(u => u.ConfirmPassword)
+                @Html.ValidationMessageFor(u => u.ConfirmPassword)
+            </div>
+            <input type="submit" value="Register" />
+        </fieldset>
+    </div>
+    
+}

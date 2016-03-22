@@ -1,0 +1,13 @@
+﻿.registerLabel{
+    width: 30%;
+    float: left;
+    text-align: right;
+    display: inline-block;
+}
+
+.registerTextBox{
+    width: 50%;
+    margin-left: 10px;
+    float:left; 
+    display: inline-block;
+}
