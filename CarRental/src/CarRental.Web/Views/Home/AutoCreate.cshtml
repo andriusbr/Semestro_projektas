@@ -1,15 +1,29 @@
-﻿<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-<script>
-    //$(function () { $.post('../api/autos', "=Labas"); });
-    //$.post('../api/autos', "=Labas");
-    $.ajax({
-        type: "POST",
-        url: "../api/autos",
-        data: JSON.stringify({ "Id": 1, "Name" : "Labas" }),
-        success: function (x) {
-            console.log("kasnors", x);
-    
-       },
-        contentType: "application/json"
-    });
-</script>
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>auto Sukurimas</title>
+</head>
+<body>
+    <div>
+        <h2>Naujas auto</h2>
+        <input type="text" id="make" size="5" />
+        <input type="text" id="year" size="5" />
+        <input type="button" value="Ivesti" onclick="create();" />
+        <p id="product" />
+    </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        function create() {
+            $.ajax({
+                type: "POST",
+                url: "../api/autos",
+                data: JSON.stringify({
+                    "Make": document.getElementById('make').value,
+                    "Year": document.getElementById('year').value
+                }),
+                contentType: "application/json"
+            });
+        }
+    </script>
+  </body>
+</html>

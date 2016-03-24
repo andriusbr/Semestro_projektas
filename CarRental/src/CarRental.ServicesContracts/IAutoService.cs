@@ -8,5 +8,7 @@ namespace CarRental.ServicesContracts
         IList<Auto> GetAll();
 
         Auto GetById(int id);
+
+        void Create(Auto auto);
     }
 }

@@ -28,5 +28,13 @@ namespace CarRental.Services
 
             return auto;
         }
+
+        public void Create(Auto auto)
+        {
+            
+                dbContext.Autos.Add(auto);
+                dbContext.SaveChanges();
+            
+        }
     }
 }
