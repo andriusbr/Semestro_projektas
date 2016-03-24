@@ -1,6 +1,7 @@
 ﻿using CarRental.DataAccess;
 using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
+using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +31,7 @@ namespace CarRental.Services
 
             return user;
         }
+
+        
     }
 }

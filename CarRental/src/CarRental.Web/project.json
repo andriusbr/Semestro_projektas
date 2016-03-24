@@ -24,7 +24,15 @@
   },
 
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "dependencies": {
+        "microsoft-web-helpers": "2.1.20710.2",
+        "Microsoft.AspNet.WebPages.Data": "3.2.3"
+      },
+      "frameworkAssemblies": {
+        "System.Web": "4.0.0.0"
+      }
+    },
     "dnxcore50": { }
   },
 

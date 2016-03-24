@@ -8,8 +8,8 @@ using CarRental.DataAccess;
 namespace CarRental.Web.Migrations.LoginDb
 {
     [DbContext(typeof(LoginDbContext))]
-    [Migration("20160319120304_LoginDbContextMigration")]
-    partial class LoginDbContextMigration
+    [Migration("20160323162959_LoginDbMigration")]
+    partial class LoginDbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,10 @@ namespace CarRental.Web.Migrations.LoginDb
                     b.Property<string>("Email");
 
                     b.Property<string>("Password");
+
+                    b.Property<string>("Status")
+                        .HasAnnotation("Relational:DefaultValue", "regular")
+                        .HasAnnotation("Relational:DefaultValueType", "System.String");
 
                     b.Property<string>("Username");
 

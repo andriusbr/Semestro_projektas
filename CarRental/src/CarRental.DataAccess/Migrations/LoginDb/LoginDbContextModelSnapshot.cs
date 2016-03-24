@@ -25,6 +25,10 @@ namespace CarRental.Web.Migrations.LoginDb
 
                     b.Property<string>("Password");
 
+                    b.Property<string>("Status")
+                        .HasAnnotation("Relational:DefaultValue", "regular")
+                        .HasAnnotation("Relational:DefaultValueType", "System.String");
+
                     b.Property<string>("Username");
 
                     b.HasKey("Id");

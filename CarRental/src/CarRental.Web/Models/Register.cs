@@ -33,26 +33,16 @@ namespace CarRental.Web.Models
         public string ConfirmPassword { get; set; }
 
 
-        public bool addUser(string _email, string _username, string _password)
+        public string addUser(string _email, string _username, string _password)
         {
             using (var cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM [User] WHERE Email=@email AND Username=@username", cn);
-                cmd.Parameters.AddWithValue("@email", _email);
-                cmd.Parameters.AddWithValue("@username", _username);
-                cn.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
+                if (!doesUserExist(cn, _email, _username))
                 {
-                    if (dr.HasRows == true)
-                    {
-                        cn.Close();
-                        return false;
-                    }
+                    return "Account already exists!";
                 }
-                cn.Close();
 
-                cmd = new SqlCommand("INSERT INTO [User] (Email, Password, Username) VALUES (@email, @passw, @usern)", cn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [User] (Email, Password, Username) VALUES (@email, @passw, @usern)", cn);
 
                 cmd.Parameters.AddWithValue("@email", _email);
                 cmd.Parameters.AddWithValue("@passw", Encode(_password));
@@ -74,11 +64,39 @@ namespace CarRental.Web.Models
                 }catch(Exception e)
                 {
                     cn.Close();
-                    return false;
+                    return "Database error";
                 }
                 cn.Close();
-                return true;
+                return "Success";
             }
+        }
+
+        private static bool doesUserExist(SqlConnection cn, string _email, string _username)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [User] WHERE Email=@email AND Username=@username", cn);
+            cmd.Parameters.AddWithValue("@email", _email);
+            cmd.Parameters.AddWithValue("@username", _username);
+            cn.Open();
+            SqlDataReader dr;
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                cn.Close();
+                return false;
+            }
+            while (dr.Read())
+            {
+                if (dr.HasRows == true)
+                {
+                    cn.Close();
+                    return false;
+                }
+            }
+            cn.Close();
+            return true;
         }
 
 

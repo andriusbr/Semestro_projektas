@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace CarRental.Web.Migrations.LoginDb
 {
-    public partial class LoginDbContextMigration : Migration
+    public partial class LoginDbMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace CarRental.Web.Migrations.LoginDb
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true, defaultValue: "regular"),
                     Username = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
