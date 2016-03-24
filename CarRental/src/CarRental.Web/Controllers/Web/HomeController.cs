@@ -13,5 +13,10 @@ namespace CarRental.Web.Controllers.Web
         {
             return View();
         }
+
+        public IActionResult AutoCreate()
+        {
+            return View();
+        }
     }
 }

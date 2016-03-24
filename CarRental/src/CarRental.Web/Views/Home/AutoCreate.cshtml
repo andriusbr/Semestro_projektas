@@ -1,0 +1,15 @@
+﻿<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    //$(function () { $.post('../api/autos', "=Labas"); });
+    //$.post('../api/autos', "=Labas");
+    $.ajax({
+        type: "POST",
+        url: "../api/autos",
+        data: JSON.stringify({ "Id": 1, "Name" : "Labas" }),
+        success: function (x) {
+            console.log("kasnors", x);
+    
+       },
+        contentType: "application/json"
+    });
+</script>

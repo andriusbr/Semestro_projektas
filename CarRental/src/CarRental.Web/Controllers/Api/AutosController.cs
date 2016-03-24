@@ -1,5 +1,6 @@
 ﻿using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
+using CarRental.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
 
@@ -32,8 +33,12 @@ namespace CarRental.Web.Controllers.Api
         }
 
         [HttpPost]
-        public void Post([FromBody]string value)
+        public string Post([FromBody]MyModel value)
         {
+           
+           
+
+            return value.Name;
         }
 
         [HttpPut("{id}")]
