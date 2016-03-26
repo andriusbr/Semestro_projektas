@@ -9,9 +9,21 @@
         <p>
             <a asp-action="AutoCreate">Sukurti automobilį</a>
         </p>
-        <ul id="autos" />
-    </div>
-
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Modelis</th>
+                    <th>Metai</th>
+                    <th>Kuro tipas</th>
+                    <th>TA iki</th>
+                    <th>Civ.dr. iki</th>
+                    <th>Kasko iki</th>
+                    <th>Būsena</th>
+                </tr>
+            </thead>
+            <tbody id="autos"></tbody>
+        </table>
+    </div>    
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
     var uri = '../api/autos';
@@ -20,17 +32,16 @@
       // Send an AJAX request
       $.getJSON(uri)
           .done(function (data) {
-            // On success, 'data' contains a list of products.
-            $.each(data, function (key, item) {
-              // Add a list item for the product.
-              $('<li>', { text: formatItem(item) }).appendTo($('#autos'));
+            // On success, 'data' contains a list of autos.
+              $.each(data, function (key, item) {
+                  var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
+                      + item.FuelType + '</td><td>' + item.TAEnd + '</td><td>'
+                      + item.InsurenceEnd + '</td><td>' + item.CascoInsurenceEnd + '</td><td>'
+                      + item.Activity + '</td></tr>';
+                  $("#autos").append(html);
             });
           });
     });
-
-    function formatItem(item) {
-      return 'Markė: ' + item.Make + ' Metai: ' + item.Year;
-    }
     </script>
 </body>
 </html>
