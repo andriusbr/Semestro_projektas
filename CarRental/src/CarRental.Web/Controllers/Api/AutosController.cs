@@ -33,12 +33,9 @@ namespace CarRental.Web.Controllers.Api
         }
 
         [HttpPost]
-        public string Post([FromBody]MyModel value)
+        public void Post([FromBody]Auto value)
         {
-           
-           
-
-            return value.Name;
+            autoService.Create(value);            
         }
 
         [HttpPut("{id}")]
