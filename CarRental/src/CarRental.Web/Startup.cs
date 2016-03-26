@@ -19,6 +19,13 @@ namespace Canplanet.Web
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<CarRentalDbContext>();
+
+
+            services.AddTransient<ILoginService, LoginService>();
+
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<LoginDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

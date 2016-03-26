@@ -21,7 +21,7 @@ namespace CarRental.Web.Models
         public bool RememberMe { get; set; }
 
 
-        public string VerifyAccount(string _username, string _password)
+        /*public string VerifyAccount(string _username, string _password)
         {
             using (var cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
             {
@@ -88,6 +88,6 @@ namespace CarRental.Web.Models
             var encoder = new ASCIIEncoding();
             var combined = encoder.GetBytes(value ?? "");
             return BitConverter.ToString(hash.ComputeHash(combined)).ToLower().Replace("-", "");
-        }
+        }*/
     }
 }
