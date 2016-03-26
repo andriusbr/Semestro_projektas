@@ -1,4 +1,6 @@
 ﻿using CarRental.DataAccess;
+using CarRental.DataAccess.Entities;
+using CarRental.Services;
 using CarRental.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System;
@@ -26,11 +28,11 @@ namespace CarRental.Web.Controllers.Web
         }
 
         [HttpPost]
-        public ActionResult Login(Models.Account user)
+        public ActionResult Login(Account user)
         {
             if (ModelState.IsValid)
             {
-                string message = user.VerifyAccount(user.UserName, user.Password);
+                string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
                 if (message.Equals("Success"))
                 {
                     //FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
@@ -63,7 +65,8 @@ namespace CarRental.Web.Controllers.Web
         {
             if (ModelState.IsValid)
             {
-                string message = register.addUser(register.Email, register.UserName, register.Password);
+                //new LoginService(new LoginDbContext())
+                string message = new LoginService(new LoginDbContext()).AddUser(register.Email, register.UserName, register.Password);
                 if (message.Equals("Success"))
                 {
                     return RedirectToAction("Index", "Home");
@@ -88,10 +91,12 @@ namespace CarRental.Web.Controllers.Web
             //List<User> users = new List<User>();
             //User user = new User { Id = 1, Username = "aa", Password = "aa", Email = "fdg", Status = "g" };
             //users.Add(user);
-            return View(LoadValues());
+            LoginService service = new LoginService(new LoginDbContext());
+            IList<User> list = service.GetAll();
+            return View(service.GetAll()/*LoadValues()*/);
         }
 
-        public List<User> LoadValues()
+        public static List<User> LoadValues()
         {
             List<User> users = new List<User>();
             SqlConnection cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");

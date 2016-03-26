@@ -3,44 +3,39 @@
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/css/site.css" rel="stylesheet" type="text/css" media="screen" />
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true, "Registration failed. Check your login details.");
-    <div align="center">
-        <fieldset>
-            <legend>Register</legend>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.Email)
+<div align="center">
+    <legend>Register</legend>
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="UserName"></label>
+            <div>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.Email)
-                @Html.ValidationMessageFor(u => u.Email)
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <div>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.UserName)
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <div>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.UserName)
-                @Html.ValidationMessageFor(u => u.UserName)
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <div>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.Password)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(u => u.Password)
-                @Html.ValidationMessageFor(u => u.Password)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(u => u.ConfirmPassword)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(u => u.ConfirmPassword)
-                @Html.ValidationMessageFor(u => u.ConfirmPassword)
-            </div>
-            <input type="submit" value="Register" />
-        </fieldset>
-    </div>
-    
-}
+        </div>
+        <button type="submit" class="btn btn-default">Register</button>
+    </form>
+</div>

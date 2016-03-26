@@ -33,7 +33,7 @@ namespace CarRental.Web.Models
         public string ConfirmPassword { get; set; }
 
 
-        public string addUser(string _email, string _username, string _password)
+        /*public string addUser(string _email, string _username, string _password)
         {
             using (var cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
             {
@@ -47,16 +47,6 @@ namespace CarRental.Web.Models
                 cmd.Parameters.AddWithValue("@email", _email);
                 cmd.Parameters.AddWithValue("@passw", Encode(_password));
                 cmd.Parameters.AddWithValue("@usern", _username);
-
-                /*cmd.Parameters
-                    .Add(new SqlParameter("@email", SqlDbType.NVarChar))
-                    .Value = _email;
-                cmd.Parameters
-                    .Add(new SqlParameter("@passw", SqlDbType.NVarChar))
-                    .Value = Encode(_password);
-                cmd.Parameters
-                    .Add(new SqlParameter("@usern", SqlDbType.NVarChar))
-                    .Value = _username;*/
 
                 cn.Open();
                 try {
@@ -106,7 +96,7 @@ namespace CarRental.Web.Models
             var encoder = new ASCIIEncoding();
             var combined = encoder.GetBytes(value ?? "");
             return BitConverter.ToString(hash.ComputeHash(combined)).ToLower().Replace("-", "");
-        }
+        }*/
 
     }
 }
