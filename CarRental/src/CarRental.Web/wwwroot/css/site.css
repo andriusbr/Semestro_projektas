@@ -35,8 +35,10 @@ textarea {
         z-index: 10 !important;
     }
 }
-<<<<<<< HEAD
 
+.padding20{
+    padding: 20px;
+}
 
 .container {
     position: absolute;
@@ -45,9 +47,6 @@ textarea {
     transform: translateX(-50%) translateY(-20%);
 }
 
-.center{
-    align-self:center
-}
 
 
 
@@ -149,5 +148,3 @@ textarea {
 .CSSTableGenerator tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
-=======
->>>>>>> 6a58c02f1adcefd748275ba435f777bbc6cc677d
