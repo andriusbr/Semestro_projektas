@@ -1,13 +1,37 @@
-﻿<!DOCTYPE html>
-
-<html>
+﻿@model CarRental.DataAccess.Entities.Auto
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>CarRental</title>
 </head>
 <body>
     <div>
-        @RenderBody()
+        <h2>Ištrinti automobilį?</h2>
     </div>
+    <dl class="dl-horizontal" id="auto"></dl>
+    <input type="button" value="Ištrinti" onclick='deleteAuto();location.href="/Home/Automobiliai";' class="btn btn-default" />
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = '../../api/autos/' + @ViewContext.RouteData.Values["id"];
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+                        var html = '<dt>' + key + '</dt><dd>' + item + '</dd>';
+                        $("#auto").append(html);
+                    });
+                });
+        });
+
+        function deleteAuto() {
+            $.ajax({
+                type: "DELETE",
+                url: uri,                
+                contentType: "application/json"
+            });
+        }
+    </script>
 </body>
 </html>
