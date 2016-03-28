@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using CarRental.DataAccess.Entities;
+using Microsoft.AspNet.Mvc;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -15,6 +16,16 @@ namespace CarRental.Web.Controllers.Web
         }
 
         public IActionResult AutoCreate()
+        {
+            return View();
+        }
+
+        public IActionResult AutoDelete()
+        {
+            return View();
+        }
+
+        public IActionResult AutoDetails()
         {
             return View();
         }

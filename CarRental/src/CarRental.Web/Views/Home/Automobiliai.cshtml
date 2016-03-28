@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Carrental</title>
+    <title>CarRental</title>
 </head>
 <body>
     <div>
@@ -37,7 +37,7 @@
                   var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
                       + item.FuelType + '</td><td>' + item.TAEnd + '</td><td>'
                       + item.InsurenceEnd + '</td><td>' + item.CascoInsurenceEnd + '</td><td>'
-                      + item.Activity + '</td></tr>';
+                      + item.Activity + '</td><td>'                      + '<a href="/Home/AutoDetails/' + item.AutoId + '">Detaliau</a>' + '</td></tr>';
                   $("#autos").append(html);
             });
           });

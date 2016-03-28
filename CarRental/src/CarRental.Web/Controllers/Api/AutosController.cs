@@ -35,7 +35,7 @@ namespace CarRental.Web.Controllers.Api
         [HttpPost]
         public void Post([FromBody]Auto value)
         {
-            autoService.Create(value);            
+            autoService.Create(value);
         }
 
         [HttpPut("{id}")]
@@ -46,6 +46,7 @@ namespace CarRental.Web.Controllers.Api
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            autoService.Delete(id);
         }
     }
 }
