@@ -1,143 +1,137 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>auto Sukurimas</title>
-</head>
-<body>
-    <div>
-        <h2>Naujas auto</h2>
-        <div class="form-horizontal">
-            <div class="form-group">
-                <label asp-for="Make" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Make" id="make" class="form-control" />
-                    <span asp-validation-for="Make" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Year" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Year" id="year" class="form-control" />
-                    <span asp-validation-for="Year" class="text-danger" />
-                </div>
-            </div>
-            <!--<div class="form-group">
-                <label asp-for="PlateNumber" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="PlateNumber" id="plateNumber" class="form-control" />
-                    <span asp-validation-for="PlateNumber" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Color" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Color" id="color" class="form-control" />
-                    <span asp-validation-for="Color" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="DocumentNumber" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="DocumentNumber" id="documentNumber" class="form-control" />
-                    <span asp-validation-for="DocumentNumber" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="EngineCapicity" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="EngineCapicity" id="engineCapicity" class="form-control" />
-                    <span asp-validation-for="EngineCapicity" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Milleage" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Milleage" id="milleage" class="form-control" />
-                    <span asp-validation-for="Milleage" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="MainBelt" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="MainBelt" id="mainBelt" class="form-control" />
-                    <span asp-validation-for="MainBelt" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="OilChange" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="OilChange" id="oilChange" class="form-control" />
-                    <span asp-validation-for="OilChange" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="TAEnd" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="TAEnd" id="tAEnd" class="form-control" />
-                    <span asp-validation-for="TAEnd" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="InsurenceEnd" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="InsurenceEnd" id="insurenceEnd" class="form-control" />
-                    <span asp-validation-for="InsurenceEnd" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="CascoInsurenceEnd" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="CascoInsurenceEnd" id="cascoInsurenceEnd" class="form-control" />
-                    <span asp-validation-for="CascoInsurenceEnd" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="AudioCode" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="AudioCode" id="audioCode" class="form-control" />
-                    <span asp-validation-for="AudioCode" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Comments" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Comments" id="comments" class="form-control" />
-                    <span asp-validation-for="Comments" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="FuelType" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="FuelType" id="fuelType" class="form-control" />
-                    <span asp-validation-for="FuelType" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gearbox" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Gearbox" id="gearbox" class="form-control" />
-                    <span asp-validation-for="Gearbox" class="text-danger" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Activity" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Activity" id="activity" class="form-control" />
-                    <span asp-validation-for="Activity" class="text-danger" />
-                </div>
-            </div>-->
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Ivesti" onclick="create();" class="btn btn-default" />
-                </div>
+<div>
+    <h2>Naujas auto</h2>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="Make" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Make" id="make" class="form-control" />
+                <span asp-validation-for="Make" class="text-danger" />
             </div>
         </div>
-                
-                <p id="product" />
+        <div class="form-group">
+            <label asp-for="Year" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Year" id="year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger" />
+            </div>
+        </div>
+        <!--<div class="form-group">
+            <label asp-for="PlateNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PlateNumber" id="plateNumber" class="form-control" />
+                <span asp-validation-for="PlateNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Color" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Color" id="color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DocumentNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DocumentNumber" id="documentNumber" class="form-control" />
+                <span asp-validation-for="DocumentNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="EngineCapicity" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="EngineCapicity" id="engineCapicity" class="form-control" />
+                <span asp-validation-for="EngineCapicity" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Milleage" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Milleage" id="milleage" class="form-control" />
+                <span asp-validation-for="Milleage" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MainBelt" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MainBelt" id="mainBelt" class="form-control" />
+                <span asp-validation-for="MainBelt" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OilChange" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OilChange" id="oilChange" class="form-control" />
+                <span asp-validation-for="OilChange" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TAEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TAEnd" id="tAEnd" class="form-control" />
+                <span asp-validation-for="TAEnd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="InsurenceEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="InsurenceEnd" id="insurenceEnd" class="form-control" />
+                <span asp-validation-for="InsurenceEnd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CascoInsurenceEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CascoInsurenceEnd" id="cascoInsurenceEnd" class="form-control" />
+                <span asp-validation-for="CascoInsurenceEnd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AudioCode" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AudioCode" id="audioCode" class="form-control" />
+                <span asp-validation-for="AudioCode" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Comments" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Comments" id="comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FuelType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FuelType" id="fuelType" class="form-control" />
+                <span asp-validation-for="FuelType" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Gearbox" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Gearbox" id="gearbox" class="form-control" />
+                <span asp-validation-for="Gearbox" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Activity" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Activity" id="activity" class="form-control" />
+                <span asp-validation-for="Activity" class="text-danger" />
+            </div>
+        </div>-->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Ivesti" onclick='create();location.href="/Home/AutoIndex";' class="btn btn-default" />
+            </div>
+        </div>
     </div>
-            <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-            <script>
+
+    <p id="product" />
+</div>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
                 function create() {
                     $.ajax({
                         type: "POST",
@@ -164,6 +158,4 @@
                         contentType: "application/json"
                     });
                 }
-            </script>
-</body>
-</html>
+</script>

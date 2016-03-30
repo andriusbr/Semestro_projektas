@@ -1,0 +1,46 @@
+﻿<div>
+    <h2>Automobiliai</h2>
+    <p>
+        <a asp-action="AutoCreate">Sukurti automobilį</a>
+    </p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Modelis</th>
+                <th>Metai</th>
+                <th>Kuro tipas</th>
+                <th>TA iki</th>
+                <th>Civ.dr. iki</th>
+                <th>Kasko iki</th>
+                <th>Būsena</th>
+            </tr>
+        </thead>
+        <tbody id="autos"></tbody>
+    </table>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <div id="spinner">
+        <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+    </div>
+</div>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var uri = '../api/autos';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+              $('#spinner').hide();
+            // On success, 'data' contains a list of autos.
+              $.each(data, function (key, item) {
+                  var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
+                      + item.FuelType + '</td><td>' + item.TAEnd + '</td><td>'
+                      + item.InsurenceEnd + '</td><td>' + item.CascoInsurenceEnd + '</td><td>'
+                      + item.Activity + '</td><td>'
+                      + '<a href="/Home/AutoDetails/' + item.AutoId + '">Detaliau</a>' + '</td><td>'
+                      + '<a href="/Home/AutoDelete/' + item.AutoId + '">Ištrinti</a>' + '</td></tr>';
+                  $("#autos").append(html);
+            });
+          });
+    });
+</script>

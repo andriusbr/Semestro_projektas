@@ -1,37 +1,44 @@
-﻿@model CarRental.DataAccess.Entities.Auto
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>CarRental</title>
-</head>
-<body>
-    <div>
-        <h2>Ištrinti automobilį?</h2>
-    </div>
-    <dl class="dl-horizontal" id="auto"></dl>
-    <input type="button" value="Ištrinti" onclick='deleteAuto();location.href="/Home/Automobiliai";' class="btn btn-default" />
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-    <script>
-        var uri = '../../api/autos/' + @ViewContext.RouteData.Values["id"];
+﻿<div>
+    <h2>Ištrinti automobilį?</h2>
+</div>
+<dl class="dl-horizontal" id="auto"></dl>
+<input type="button" value="Ištrinti" onclick='deleteAuto();location.href="/Home/AutoIndex";' class="btn btn-default" />
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+        var uri = '../../api/autos/' + @ViewBag.autoId;
 
         $(document).ready(function () {
-            // Send an AJAX request
+            function addItem(name, value) {
+                $("#auto").append('<dt>' + name + '</dt><dd>' + value + '</dd>');
+            }
+
             $.getJSON(uri)
                 .done(function (data) {
-                    $.each(data, function (key, item) {
-                        var html = '<dt>' + key + '</dt><dd>' + item + '</dd>';
-                        $("#auto").append(html);
-                    });
+                    addItem('Modelis:', data.Make);
+                    addItem('Metai:', data.Year);
+                    addItem('Numeris:', data.PlateNumber);
+                    addItem('Spalva:', data.Color);
+                    addItem('Dokumento nr.:', data.DocumentNumber);
+                    addItem('Variklio tūris:', data.EngineCapicity);
+                    addItem('Kilometražas:', data.Milleage);
+                    addItem('Keistas diržas:', data.MainBelt);
+                    addItem('Keisti tepalai', data.OilChange);
+                    addItem('TA iki:', data.TAEnd);
+                    addItem('Draudimas iki:', data.InsurenceEnd);
+                    addItem('Kasko iki:', data.CascoInsurenceEnd);
+                    addItem('Audio kodas:', data.AudioCode);
+                    addItem('Komentarai:', data.Comments);
+                    addItem('Kuro tipas:', data.FuelType);
+                    addItem('Pavarų dėžė:', data.Gearbox);
+                    addItem('Aktyvus:', data.Activity);
                 });
         });
 
         function deleteAuto() {
             $.ajax({
                 type: "DELETE",
-                url: uri,                
+                url: uri,
                 contentType: "application/json"
             });
         }
-    </script>
-</body>
-</html>
+</script>

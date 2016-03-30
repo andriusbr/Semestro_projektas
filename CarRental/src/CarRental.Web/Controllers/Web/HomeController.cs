@@ -10,7 +10,7 @@ namespace CarRental.Web.Controllers.Web
             return View();
         }
 
-        public IActionResult Automobiliai()
+        public IActionResult AutoIndex()
         {
             return View();
         }
@@ -20,13 +20,15 @@ namespace CarRental.Web.Controllers.Web
             return View();
         }
 
-        public IActionResult AutoDelete()
+        public IActionResult AutoDelete(int id)
         {
+            ViewBag.autoId = id;
             return View();
         }
 
-        public IActionResult AutoDetails()
+        public IActionResult AutoDetails(int id)
         {
+            ViewBag.autoId = id;
             return View();
         }
     }

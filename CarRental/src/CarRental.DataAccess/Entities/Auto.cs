@@ -6,11 +6,7 @@ namespace CarRental.DataAccess.Entities
     public class Auto
     {
         public int AutoId { get; set; }
-
-        [Display(Name = "Modelis")]
         public string Make { get; set; }
-
-        [Display(Name = "Metai")]
         public int Year { get; set; }
         public string PlateNumber { get; set; }
         public string Color { get; set; }
