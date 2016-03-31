@@ -12,5 +12,7 @@ namespace CarRental.ServicesContracts
         void Create(Auto auto);
 
         void Delete(int id);
+
+        void Edit(int id, Auto auto);
     }
 }

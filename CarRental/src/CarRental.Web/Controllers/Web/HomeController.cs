@@ -31,5 +31,11 @@ namespace CarRental.Web.Controllers.Web
             ViewBag.autoId = id;
             return View();
         }
+
+        public IActionResult AutoEdit(int id)
+        {
+            ViewBag.autoId = id;
+            return View();
+        }
     }
 }

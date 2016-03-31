@@ -35,10 +35,17 @@ namespace CarRental.Services
             dbContext.SaveChanges();           
         }
 
-        public void Delete (int id)
+        public void Delete(int id)
         {
             Auto auto = dbContext.Autos.Single(m => m.AutoId == id);
             dbContext.Autos.Remove(auto);
+            dbContext.SaveChanges();
+        }
+
+        public void Edit(int id, Auto auto)
+        {
+            auto.AutoId = id;
+            dbContext.Autos.Update(auto);
             dbContext.SaveChanges();
         }
     }

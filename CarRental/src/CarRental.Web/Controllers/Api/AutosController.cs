@@ -39,8 +39,9 @@ namespace CarRental.Web.Controllers.Api
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Auto value)
         {
+            autoService.Edit(id, value);
         }
 
         [HttpDelete("{id}")]

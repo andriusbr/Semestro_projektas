@@ -21,7 +21,37 @@ namespace CarRental.Web.Migrations
                     b.Property<int>("AutoId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Activity");
+
+                    b.Property<string>("AudioCode");
+
+                    b.Property<DateTime>("CascoInsurenceEnd");
+
+                    b.Property<string>("Color");
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("DocumentNumber");
+
+                    b.Property<float>("EngineCapicity");
+
+                    b.Property<string>("FuelType");
+
+                    b.Property<string>("Gearbox");
+
+                    b.Property<DateTime>("InsurenceEnd");
+
+                    b.Property<int>("MainBelt");
+
                     b.Property<string>("Make");
+
+                    b.Property<int>("Milleage");
+
+                    b.Property<int>("OilChange");
+
+                    b.Property<string>("PlateNumber");
+
+                    b.Property<DateTime>("TAEnd");
 
                     b.Property<int>("Year");
 
