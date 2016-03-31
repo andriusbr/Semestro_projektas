@@ -3,32 +3,30 @@ using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 using Microsoft.Data.Entity.Metadata;
 
-namespace CarRental.Web.Migrations.LoginDb
+namespace CarRental.Web.Migrations
 {
-    public partial class LoginDbMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Auto",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    AutoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true, defaultValue: "regular"),
-                    Username = table.Column<string>(nullable: true)
+                    Make = table.Column<string>(nullable: true),
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Auto", x => x.AutoId);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable("User");
+            migrationBuilder.DropTable("Auto");
         }
     }
 }

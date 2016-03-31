@@ -1,4 +1,4 @@
-﻿using CarRental.DataAccess.Entities;
+using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
 using CarRental.Web.Models;
 using Microsoft.AspNet.Mvc;

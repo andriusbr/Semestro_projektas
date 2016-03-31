@@ -21509,7 +21509,14 @@
     ],
     "DNX,Version=v4.5.1": [
       "microsoft-web-helpers >= 2.1.20710.2",
-      "System-Web-Helpers.dll >= 1.0.1"
+      "System-Web-Helpers.dll >= 1.0.1",
+      "fx/presentationframework.aero2 >= 4.0.0",
+      "fx/presentationframework.aerolite >= 4.0.0",
+      "fx/System.ComponentModel.Composition.registration >= 4.0.0",
+      "fx/System.configuration >= 4.0.0",
+      "fx/System.identitymodel.services >= 4.0.0",
+      "fx/System.Web >= 4.0.0",
+      "fx/System.XML >= 4.0.0"
     ],
     "DNXCore,Version=v5.0": []
   }

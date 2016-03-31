@@ -29,6 +29,13 @@
   "frameworks": {
     "dnx451": {
       "frameworkAssemblies": {
+        "presentationframework.aero2": "4.0.0.0",
+        "presentationframework.aerolite": "4.0.0.0",
+        "System.ComponentModel.Composition.registration": "4.0.0.0",
+        "System.configuration": "4.0.0.0",
+        "System.identitymodel.services": "4.0.0.0",
+        "System.Web": "4.0.0.0",
+        "System.XML": "4.0.0.0"
       },
       "dependencies": {
         "microsoft-web-helpers": "2.1.20710.2",
