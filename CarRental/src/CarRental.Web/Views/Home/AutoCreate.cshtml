@@ -1,161 +1,183 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
 <div>
-    <h2>Naujas auto</h2>
-    <div class="form-horizontal">
+    <h2>Naujas automobilis</h2>
+    <div class="form-horizontal col-md-6">
         <div class="form-group">
-            <label asp-for="Make" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Modelis</label>
+            <div class="col-md-9">
                 <input asp-for="Make" id="make" class="form-control" />
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Year" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Metai</label>
+            <div class="col-md-9">
                 <input asp-for="Year" id="year" class="form-control" />
                 <span asp-validation-for="Year" class="text-danger" />
             </div>
         </div>
-        <!--<div class="form-group">
-            <label asp-for="PlateNumber" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+        <div class="form-group">
+            <label class="col-md-3 control-label">Valstybinis nr.</label>
+            <div class="col-md-9">
                 <input asp-for="PlateNumber" id="plateNumber" class="form-control" />
                 <span asp-validation-for="PlateNumber" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Color" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Spalva</label>
+            <div class="col-md-9">
                 <input asp-for="Color" id="color" class="form-control" />
                 <span asp-validation-for="Color" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="DocumentNumber" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Dokumento nr.</label>
+            <div class="col-md-9">
                 <input asp-for="DocumentNumber" id="documentNumber" class="form-control" />
                 <span asp-validation-for="DocumentNumber" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="EngineCapicity" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Variklio tūris</label>
+            <div class="col-md-9">
                 <input asp-for="EngineCapicity" id="engineCapicity" class="form-control" />
                 <span asp-validation-for="EngineCapicity" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Milleage" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Kilometražas</label>
+            <div class="col-md-9">
                 <input asp-for="Milleage" id="milleage" class="form-control" />
                 <span asp-validation-for="Milleage" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="MainBelt" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Keistas diržas</label>
+            <div class="col-md-9">
                 <input asp-for="MainBelt" id="mainBelt" class="form-control" />
                 <span asp-validation-for="MainBelt" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="OilChange" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Keisti tepalai</label>
+            <div class="col-md-9">
                 <input asp-for="OilChange" id="oilChange" class="form-control" />
                 <span asp-validation-for="OilChange" class="text-danger" />
             </div>
         </div>
+    </div>
+    <div class="form-horizontal col-md-6">
         <div class="form-group">
-            <label asp-for="TAEnd" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="TAEnd" id="tAEnd" class="form-control" />
+            <label class="col-md-3 control-label">TA pabaiga</label>
+            <div class="col-md-9">
+                <input type="date" id="tAEnd" class="form-control" />
                 <span asp-validation-for="TAEnd" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="InsurenceEnd" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="InsurenceEnd" id="insurenceEnd" class="form-control" />
+            <label class="col-md-3 control-label">Draudimo pabaiga</label>
+            <div class="col-md-9">
+                <input type="date" id="insurenceEnd" class="form-control" />
                 <span asp-validation-for="InsurenceEnd" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="CascoInsurenceEnd" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CascoInsurenceEnd" id="cascoInsurenceEnd" class="form-control" />
+            <label class="col-md-3 control-label">Kasko pabaiga</label>
+            <div class="col-md-9">
+                <input type="date" id="cascoInsurenceEnd" class="form-control" />
                 <span asp-validation-for="CascoInsurenceEnd" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AudioCode" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Audio kodas</label>
+            <div class="col-md-9">
                 <input asp-for="AudioCode" id="audioCode" class="form-control" />
                 <span asp-validation-for="AudioCode" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Comments" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Komentarai</label>
+            <div class="col-md-9">
                 <input asp-for="Comments" id="comments" class="form-control" />
                 <span asp-validation-for="Comments" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="FuelType" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Kuro tipas</label>
+            <div class="col-md-9">
                 <input asp-for="FuelType" id="fuelType" class="form-control" />
                 <span asp-validation-for="FuelType" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Gearbox" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Pavarų dėžė</label>
+            <div class="col-md-9">
                 <input asp-for="Gearbox" id="gearbox" class="form-control" />
                 <span asp-validation-for="Gearbox" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Activity" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <label class="col-md-3 control-label">Aktyvus</label>
+            <div class="col-md-9">
                 <input asp-for="Activity" id="activity" class="form-control" />
                 <span asp-validation-for="Activity" class="text-danger" />
             </div>
-        </div>-->
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();location.href="/Home/AutoIndex";' class="btn btn-default" />
+                <input type="button" value="Ivesti" onclick='create();/*location.href="/Home/AutoIndex";*/' class="btn btn-default" />
             </div>
         </div>
     </div>
-
-    <p id="product" />
+    <p>
+        <a asp-action="AutoIndex">Grįžti į sąrašą</a>
+    </p>
 </div>
+
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
 <script>
-                function create() {
-                    $.ajax({
-                        type: "POST",
-                        url: "../api/autos",
-                        data: JSON.stringify({
-                            "Make": document.getElementById('make').value,
-                            "Year": document.getElementById('year').value
-                            /*"PlateNumber": document.getElementById('plateNumber').value,
-                            "Color": document.getElementById('color').value,
-                            "DocumentNumber": document.getElementById('documentNumber').value,
-                            "EngineCapicity": document.getElementById('engineCapicity').value,
-                            "Milleage": document.getElementById('milleage').value,
-                            "MainBelt": document.getElementById('mainBelt').value,
-                            "OilChange": document.getElementById('oilChange').value,
-                            "TAEnd": document.getElementById('tAEnd').value,
-                            "InsurenceEnd": document.getElementById('insurenceEnd').value,
-                            "CascoInsurenceEnd": document.getElementById('cascoInsurenceEnd').value,
-                            "AudioCode": document.getElementById('audioCode').value,
-                            "Comments": document.getElementById('comments').value,
-                            "FuelType": document.getElementById('fuelType').value,
-                            "Gearbox": document.getElementById('gearbox').value,
-                            "Activity": document.getElementById('activity').value*/
-                        }),
-                        contentType: "application/json"
-                    });
-                }
+    function create() {
+        console.log(document.getElementById('activity').value);
+        $.ajax({
+            type: "POST",
+            url: "../api/autos",
+            data: JSON.stringify({
+                "Make": document.getElementById('make').value,
+                "Year": check(document.getElementById('year').value),
+                "PlateNumber": document.getElementById('plateNumber').value,
+                "Color": document.getElementById('color').value,
+                "DocumentNumber": document.getElementById('documentNumber').value,
+                "EngineCapicity": check(document.getElementById('engineCapicity').value),
+                "Milleage": check(document.getElementById('milleage').value),
+                "MainBelt": check(document.getElementById('mainBelt').value),
+                "OilChange": check(document.getElementById('oilChange').value),
+                "TAEnd": checkDate(document.getElementById('tAEnd').value),
+                "InsurenceEnd": checkDate(document.getElementById('insurenceEnd').value),
+                "CascoInsurenceEnd": checkDate(document.getElementById('cascoInsurenceEnd').value),
+                "AudioCode": document.getElementById('audioCode').value,
+                "Comments": document.getElementById('comments').value,
+                "FuelType": document.getElementById('fuelType').value,
+                "Gearbox": document.getElementById('gearbox').value,
+                "Activity": document.getElementById('activity').value
+            }),
+            contentType: "application/json"
+        });
+    }
+
+    function check(id) {
+        if (id.length == 0) {
+            id = 0;
+            return id;
+        }
+        return id;
+    }
+
+    function checkDate(date) {
+        if (date.length == 0) {
+            date = '2000-01-01'
+            return date;
+
+        }
+        return date;
+    }
 </script>
