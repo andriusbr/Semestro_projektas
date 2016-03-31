@@ -8,8 +8,8 @@ using CarRental.DataAccess;
 namespace CarRental.Web.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20160331122124_Initial")]
-    partial class Initial
+    [Migration("20160326134532_NewAutoParam")]
+    partial class NewAutoParam
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
