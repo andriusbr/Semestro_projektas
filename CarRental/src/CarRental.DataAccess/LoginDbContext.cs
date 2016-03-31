@@ -20,7 +20,8 @@ namespace CarRental.DataAccess
         {
             modelBuilder.Entity<User>()
                 .Property(b => b.Status)
-                .HasDefaultValue("regular");
+                .HasDefaultValue(UserStatus.Regular);
+            
         }
     }
 }

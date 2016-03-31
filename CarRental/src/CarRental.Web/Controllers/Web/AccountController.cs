@@ -7,12 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+//using System.Web.Security;
 
 namespace CarRental.Web.Controllers.Web
 {
     public class AccountController : Controller
     {
         //public object FormsAuthentication { get; private set; }
+        private static LoginService service = new LoginService(new LoginDbContext());
 
         //
         // GET: /User/
@@ -20,7 +22,7 @@ namespace CarRental.Web.Controllers.Web
         {
             return View();
         }
-
+        
         [HttpGet]
         public ActionResult Login()
         {
@@ -35,15 +37,17 @@ namespace CarRental.Web.Controllers.Web
                 string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
                 if (message.Equals("Success"))
                 {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Index", "Home");
                 }
-                else if (message.Equals("Admin"))
+                else if (message.Equals(UserStatus.Admin))
                 {
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Admin", "Account");
                 }
-                else if (message.Equals("Master"))
+                else if (message.Equals(UserStatus.Master))
                 {
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Master", "Account");
                 }
                 else
@@ -61,7 +65,7 @@ namespace CarRental.Web.Controllers.Web
         }
 
         [HttpPost]
-        public ActionResult Register(Models.Register register)
+        public ActionResult Register(Register register)
         {
             if (ModelState.IsValid)
             {
@@ -88,35 +92,41 @@ namespace CarRental.Web.Controllers.Web
 
         public IActionResult Master()
         {
-            //List<User> users = new List<User>();
-            //User user = new User { Id = 1, Username = "aa", Password = "aa", Email = "fdg", Status = "g" };
-            //users.Add(user);
             LoginService service = new LoginService(new LoginDbContext());
             IList<User> list = service.GetAll();
-            return View(service.GetAll()/*LoadValues()*/);
+            return View(service.GetAll());
         }
 
-        public static List<User> LoadValues()
+        [HttpGet]
+        public IActionResult ChangePassword()
         {
-            List<User> users = new List<User>();
-            SqlConnection cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            cn.Open();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [User]", cn);
-            //SqlDataAdapter da = new SqlDataAdapter(cmd);
-            using (SqlDataReader read = cmd.ExecuteReader())
-            {
-                while (read.Read())
-                {
-                    User user = new User();
-                    user.Id = (int)read["Id"];
-                    user.Username = (read["Username"].ToString());
-                    user.Email = (read["Email"].ToString());
-                    user.Status = (read["Status"].ToString());
-                    users.Add(user);
-                }
-            }
-            return users;
+            return View();
         }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePassword change)
+        {
+            /*if (ModelState.IsValid)
+            {
+                if (service.ChangePassword(change.CurrentPassword,change.NewPassword))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Incorrect password");
+                }
+            }*/
+            return View();
+        }
+        
+        public void ChangeUserStatus(int id, string value)
+        {
+            service.ChangeStatus(id, value);
+            
+        }
+
+
 
         public ActionResult Logout()
         {

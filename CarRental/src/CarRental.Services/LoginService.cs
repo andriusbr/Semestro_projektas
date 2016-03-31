@@ -41,13 +41,13 @@ namespace CarRental.Services
             if (isCorrect)
             {
                 var user = dbContext.Logins.FirstOrDefault(x => x.Username == _username);
-                if (user.Status.Equals("admin"))
+                if (user.Status.Equals(UserStatus.Admin))
                 {
-                    return "Admin";
+                    return UserStatus.Admin;
                 }
-                else if (user.Status.Equals("master"))
+                else if (user.Status.Equals(UserStatus.Master))
                 {
-                    return "Master";
+                    return UserStatus.Master;
                 }
                 else
                 {
@@ -84,6 +84,27 @@ namespace CarRental.Services
             }
 
             return "Error";
+        }
+
+
+        public bool ChangePassword(string username, string currentPassword, string newPassword)
+        {
+            var user = dbContext.Logins.FirstOrDefault(x => x.Username == username && x.Password == Encode(currentPassword));
+            if (user == null)
+            {
+                return false;
+            }
+            user.Password = Encode(newPassword);
+            dbContext.SaveChanges();
+            return true;
+        }
+
+
+        public void ChangeStatus(int id, string status)
+        {
+            var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
+            user.Status = status;
+            dbContext.SaveChanges();
         }
 
 

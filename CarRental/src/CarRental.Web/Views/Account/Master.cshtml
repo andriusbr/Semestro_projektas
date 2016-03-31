@@ -1,4 +1,5 @@
 ﻿@using CarRental.DataAccess.Entities;
+@using CarRental.Web.Controllers.Web;
 @model List<User>
 @{
     ViewBag.Title = "Mater";
@@ -21,9 +22,48 @@
                     <td>@Html.DisplayFor(model => item.Id)</td>
                     <td>@Html.DisplayFor(model => item.Username)</td>
                     <td>@Html.DisplayFor(model => item.Email)</td>
-                    <td>@Html.DisplayFor(model => item.Status)</td>
+                    <td>
+                        <select id="selectUserStatus" onchange="ChangeStatus(this, @item.Id)">
+                            @if (item.Status.Equals(UserStatus.Regular))
+                            {
+                                <option value="regular" selected="selected">@UserStatus.Regular</option>
+                                <option value="admin">@UserStatus.Admin</option>
+                                <option value="master">@UserStatus.Master</option>
+                            }
+                            @if (item.Status.Equals(UserStatus.Admin))
+                            {
+                                <option value="regular">@UserStatus.Regular</option>
+                                <option value="admin" selected="selected">@UserStatus.Admin</option>
+                                <option value="master">@UserStatus.Master</option>
+                            }
+                            @if (item.Status.Equals(UserStatus.Master) && item.Id != 1)
+                            {
+                                <option value="regular">@UserStatus.Regular</option>
+                                <option value="admin">@UserStatus.Admin</option>
+                                <option value="master" selected="selected">@UserStatus.Master</option>
+                            }
+                            @if (item.Status.Equals(UserStatus.Master) && item.Id == 1)
+                            {
+                                <option value="master" selected="selected">@UserStatus.Master</option>
+                            }
+                        </select>                        
+                    </td> 
                 </tr>
             }
         </table>
     </div>
 </body>
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    function ChangeStatus(selectTag, _id) {
+        var selIdx = selectTag.selectedIndex;
+        var selOption = selectTag.options[selIdx];
+
+        var e = document.getElementById("selectUserStatus");
+        var strUser = e.options[e.selectedIndex].text;
+        $.get("/Account/ChangeUserStatus", { id: _id, value: selOption.text });
+    }
+</script>
