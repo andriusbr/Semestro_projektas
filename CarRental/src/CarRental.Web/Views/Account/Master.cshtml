@@ -7,58 +7,67 @@
 }
 
 <body>
-    <div class="CSSTableGenerator padding20">
-        <table>
-            <tr>
-                <td>ID</td>
-                <td>Username</td>
-                <td>Email</td>
-                <td>Status</td>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+    <div>
+      <table class="table table-bordered">
+           <thead>
                 <tr>
-                    <td>@Html.DisplayFor(model => item.Id)</td>
-                    <td>@Html.DisplayFor(model => item.Username)</td>
-                    <td>@Html.DisplayFor(model => item.Email)</td>
-                    <td>
-                        <select id="selectUserStatus" onchange="ChangeStatus(this, @item.Id)">
-                            @if (item.Status.Equals(UserStatus.Regular))
-                            {
-                                <option value="regular" selected="selected">@UserStatus.Regular</option>
+                    <td>ID</td>
+                    <td>Username</td>
+                    <td>Email</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@Html.DisplayFor(model => item.Id)</td>
+                <td>@Html.DisplayFor(model => item.Username)</td>
+                <td>@Html.DisplayFor(model => item.Email)</td>
+                <td>
+                    <select id="selectUserStatus" onchange="changeStatus(this, @item.Id)">
+                        @if (item.Status.Equals(UserStatus.Regular))
+                        {
+                            <option value="regular" selected="selected">@UserStatus.Regular</option>
                                 <option value="admin">@UserStatus.Admin</option>
                                 <option value="master">@UserStatus.Master</option>
-                            }
-                            @if (item.Status.Equals(UserStatus.Admin))
-                            {
-                                <option value="regular">@UserStatus.Regular</option>
+                        }
+                        @if (item.Status.Equals(UserStatus.Admin))
+                        {
+                            <option value="regular">@UserStatus.Regular</option>
                                 <option value="admin" selected="selected">@UserStatus.Admin</option>
                                 <option value="master">@UserStatus.Master</option>
-                            }
-                            @if (item.Status.Equals(UserStatus.Master) && item.Id != 1)
-                            {
-                                <option value="regular">@UserStatus.Regular</option>
+                        }
+                        @if (item.Status.Equals(UserStatus.Master) && item.Id != 1)
+                        {
+                            <option value="regular">@UserStatus.Regular</option>
                                 <option value="admin">@UserStatus.Admin</option>
                                 <option value="master" selected="selected">@UserStatus.Master</option>
-                            }
-                            @if (item.Status.Equals(UserStatus.Master) && item.Id == 1)
-                            {
-                                <option value="master" selected="selected">@UserStatus.Master</option>
-                            }
-                        </select>                        
-                    </td> 
-                </tr>
-            }
+                        }
+                        @if (item.Status.Equals(UserStatus.Master) && item.Id == 1)
+                        {
+                            <option value="master" selected="selected">@UserStatus.Master</option>
+                        }
+                    </select>
+                </td>
+                @if (!item.Status.Equals(UserStatus.Master))
+                {
+                    <td>
+                        <a href='javascript:window.location.reload();' onclick="removeUser(@item.Id)">Remove</a>
+                    </td>
+                }
+            </tr>
+        }
         </table>
     </div>
+
 </body>
 
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
-    function ChangeStatus(selectTag, _id) {
+    function changeStatus(selectTag, _id) {
         var selIdx = selectTag.selectedIndex;
         var selOption = selectTag.options[selIdx];
 
@@ -66,4 +75,11 @@
         var strUser = e.options[e.selectedIndex].text;
         $.get("/Account/ChangeUserStatus", { id: _id, value: selOption.text });
     }
+
+    function removeUser(_id) {
+        if(confirm("Are you sure you want to remove this user?")){
+            $.get("/Account/RemoveUser", { id: _id });
+        }
+    }
+
 </script>

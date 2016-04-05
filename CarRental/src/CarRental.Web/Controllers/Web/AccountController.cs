@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-//using System.Web.Security;
+using System.Web.Security;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -37,7 +37,7 @@ namespace CarRental.Web.Controllers.Web
                 string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
                 if (message.Equals("Success"))
                 {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
+                    FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Index", "Home");
                 }
                 else if (message.Equals(UserStatus.Admin))
@@ -124,6 +124,12 @@ namespace CarRental.Web.Controllers.Web
         {
             service.ChangeStatus(id, value);
             
+        }
+
+
+        public void RemoveUser(int id)
+        {
+            service.RemoveUser(id);
         }
 
 
