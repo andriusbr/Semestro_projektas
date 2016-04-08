@@ -108,6 +108,14 @@ namespace CarRental.Services
         }
 
 
+        public void RemoveUser(int id)
+        {
+            var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
+            dbContext.Logins.Remove(user);
+            dbContext.SaveChanges();
+        }
+
+
         public static string Encode(string value)
         {
             var hash = System.Security.Cryptography.SHA1.Create();

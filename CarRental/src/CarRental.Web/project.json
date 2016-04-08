@@ -42,7 +42,7 @@
         "System-Web-Helpers.dll": "1.0.1"
       }
     },
-    "dnxcore50": { }
+    
   },
 
   "exclude": [
