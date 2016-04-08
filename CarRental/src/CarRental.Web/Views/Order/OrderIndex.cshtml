@@ -37,9 +37,9 @@
                       + item.OrderEnd + '</td><td>' + item.RentPlace + '</td><td>'
                       + item.RentReturn + '</td><td>' + item.DayPrice + '</td><td>'
                       + item.DeliveryPrice + '</td><td>'
-                      + '<a href="/Order/AutoDetails/' + item.OrderId + '">Detaliau</a>' + '</td><td>'
-                      + '<a href="/Order/AutoEdit/' + item.OrderId + '">Redaguoti</a>' + '</td><td>'
-                      + '<a href="/Order/AutoDelete/' + item.OrderId + '">Ištrinti</a>' + '</td></tr>';
+                      + '<a href="/Order/OrderDetails/' + item.OrderId + '">Detaliau</a>' + '</td><td>'
+                      + '<a href="/Order/OrderEdit/' + item.OrderId + '">Redaguoti</a>' + '</td><td>'
+                      + '<a href="/Order/OrderDelete/' + item.OrderId + '">Ištrinti</a>' + '</td></tr>';
                   $("#orders").append(html);
             });
           });
