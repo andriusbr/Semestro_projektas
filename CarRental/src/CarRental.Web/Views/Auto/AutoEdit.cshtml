@@ -157,14 +157,12 @@
                     $("#comments").val(data.Comments);
                     $("#fuelType").val(data.FuelType);
                     $("#gearbox").val(data.Gearbox);
-                    $("#activity").val(data.Activity);
-                
+                    $("#activity").val(data.Activity);                
                 });
     
     });
 
     function edit() {
-        console.log(document.getElementById('activity').value);
         $.ajax({
             type: "PUT",
             url: "../../api/autos/" + @ViewBag.autoId,
