@@ -1,5 +1,4 @@
-﻿using CarRental.DataAccess.Entities;
-using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Mvc;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -7,34 +6,6 @@ namespace CarRental.Web.Controllers.Web
     {
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult AutoIndex()
-        {
-            return View();
-        }
-
-        public IActionResult AutoCreate()
-        {
-            return View();
-        }
-
-        public IActionResult AutoDelete(int id)
-        {
-            ViewBag.autoId = id;
-            return View();
-        }
-
-        public IActionResult AutoDetails(int id)
-        {
-            ViewBag.autoId = id;
-            return View();
-        }
-
-        public IActionResult AutoEdit(int id)
-        {
-            ViewBag.autoId = id;
             return View();
         }
     }
