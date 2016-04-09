@@ -2,7 +2,9 @@
 using CarRental.DataAccess.Entities;
 using CarRental.Services;
 using CarRental.Web.Models;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -37,7 +39,7 @@ namespace CarRental.Web.Controllers.Web
                 string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
                 if (message.Equals("Success"))
                 {
-                    FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Index", "Home");
                 }
                 else if (message.Equals(UserStatus.Admin))
@@ -46,7 +48,22 @@ namespace CarRental.Web.Controllers.Web
                     return RedirectToAction("Admin", "Account");
                 }
                 else if (message.Equals(UserStatus.Master))
-                {
+                {      
+                    /*FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1,
+                            user.UserName,
+                            DateTime.Now,
+                            DateTime.Now.AddHours(2),
+                            false,
+                            string.Empty);
+
+                    // add cookie to response stream         
+                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                    System.Web.HttpCookie authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                    if (authTicket.IsPersistent)
+                    {
+                        authCookie.Expires = authTicket.Expiration;
+                    }
+                    System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);*/
                     //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
                     return RedirectToAction("Master", "Account");
                 }
@@ -92,9 +109,9 @@ namespace CarRental.Web.Controllers.Web
 
         public IActionResult Master()
         {
-            LoginService service = new LoginService(new LoginDbContext());
-            IList<User> list = service.GetAll();
-            return View(service.GetAll());
+            //LoginService service = new LoginService(new LoginDbContext());
+            //IList<User> list = service.GetAll();
+            return View(/*service.GetAll()*/);
         }
 
         [HttpGet]
@@ -119,6 +136,11 @@ namespace CarRental.Web.Controllers.Web
             }*/
             return View();
         }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return service.GetAll();
+        }
         
         public void ChangeUserStatus(int id, string value)
         {
@@ -132,11 +154,17 @@ namespace CarRental.Web.Controllers.Web
             service.RemoveUser(id);
         }
 
+        public IEnumerable<User> SearchUsers(string SearchQuery)
+        {
+            IEnumerable<User> list = service.SearchUsers(SearchQuery);
+            return list;
+        }
 
 
+        [Authorize]
         public ActionResult Logout()
         {
-            //FormsAuthentication.SignOut();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
     }
