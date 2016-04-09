@@ -15,6 +15,7 @@ namespace Canplanet.Web
             services.AddMvc();
 
             services.AddTransient<IAutoService, AutoService>();
+            services.AddTransient<IOrderService, OrderService>();
 
             services.AddEntityFramework()
                 .AddSqlServer()

@@ -1,0 +1,47 @@
+﻿<div>
+    <h2>Užsakymai</h2>
+    <p>
+        <a asp-action="OrderCreate">Naujas užsakymas</a>
+    </p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Auto Id</th>
+                <th>Nuomos pradžia</th>
+                <th>Nuomos pabaiga</th>
+                <th>Pristatymo vieta</th>
+                <th>Grąžinimo vieta</th>
+                <th>Paros Kaina</th>
+                <th>Pristatymo kaina</th>
+            </tr>
+        </thead>
+        <tbody id="orders"></tbody>
+    </table>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <div id="spinner">
+        <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+    </div>
+</div>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var uri = '../api/orders';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+              $('#spinner').hide();
+            // On success, 'data' contains a list of autos.
+              $.each(data, function (key, item) {
+                  var html = '<tr><td>' + item.AutoId + '</td><td>' + item.OrderStart + '</td><td>'
+                      + item.OrderEnd + '</td><td>' + item.RentPlace + '</td><td>'
+                      + item.RentReturn + '</td><td>' + item.DayPrice + '</td><td>'
+                      + item.DeliveryPrice + '</td><td>'
+                      + '<a href="/Order/OrderDetails/' + item.OrderId + '">Detaliau</a>' + '</td><td>'
+                      + '<a href="/Order/OrderEdit/' + item.OrderId + '">Redaguoti</a>' + '</td><td>'
+                      + '<a href="/Order/OrderDelete/' + item.OrderId + '">Ištrinti</a>' + '</td></tr>';
+                  $("#orders").append(html);
+            });
+          });
+    });
+</script>

@@ -1,0 +1,127 @@
+﻿@model CarRental.DataAccess.Entities.Order
+<div>
+    <h2>Užsakymo redagavimas</h2>
+    <div class="form-horizontal col-md-6">
+        <div class="form-group">
+            <label class="col-md-3 control-label">Auto Id</label>
+            <div class="col-md-9">
+                <input asp-for="AutoId" id="auto" class="form-control" />
+                <span asp-validation-for="AutoId" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Nuomos pražia</label>
+            <div class="col-md-9">
+                <input type="date" id="orderStart" class="form-control" />
+                <span asp-validation-for="OrderStart" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Nuomos Pabaiga</label>
+            <div class="col-md-9">
+                <input type="date" id="orderEnd" class="form-control" />
+                <span asp-validation-for="OrderEnd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Pristatymo vieta</label>
+            <div class="col-md-9">
+                <input asp-for="RentPlace" id="rentPlace" class="form-control" />
+                <span asp-validation-for="RentPlace" class="text-danger" />
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal col-md-6">
+        <div class="form-group">
+            <label class="col-md-3 control-label">Grąžinimo vieta</label>
+            <div class="col-md-9">
+                <input asp-for="RentReturn" id="rentReturn" class="form-control" />
+                <span asp-validation-for="RentReturn" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Paros Kaina</label>
+            <div class="col-md-9">
+                <input asp-for="DayPrice" id="dayPrice" class="form-control" />
+                <span asp-validation-for="DayPrice" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Pristatymo kaina</label>
+            <div class="col-md-9">
+                <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
+                <span asp-validation-for="DeliveryPrice" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Komentarai</label>
+            <div class="col-md-9">
+                <input asp-for="Commentd" id="commentd" class="form-control" />
+                <span asp-validation-for="Commentd" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Redaguoti" onclick='edit();location.href="/Order/OrderIndex";' class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <p>
+        <a asp-action="OrderIndex">Grįžti į sąrašą</a>
+    </p>
+</div>
+
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var uri = '../../api/orders/' + @ViewBag.orderId;
+
+    $(document).ready(function (){
+        $.getJSON(uri)
+                .done(function (data){
+                    $("#auto").val(data.AutoId);
+                    $("#orderStart").val(data.OrderStart);
+                    $("#orderEnd").val(data.OrderEnd);
+                    $("#rentPlace").val(data.RentPlace);
+                    $("#rentReturn").val(data.RentReturn);
+                    $("#dayPrice").val(data.DayPrice);
+                    $("#deliveryPrice").val(data.DeliveryPrice);
+                    $("#commentd").val(data.Commentd);                  
+                });
+
+    });
+
+    function edit() {
+        $.ajax({
+            type: "PUT",
+            url: "../../api/orders/" + @ViewBag.orderId,
+            data: JSON.stringify({
+                "AutoId": check(document.getElementById('auto').value),
+                "OrderStart": checkDate(document.getElementById('orderStart').value),
+                "OrderEnd": checkDate(document.getElementById('orderEnd').value),
+                "RentPlace": document.getElementById('rentPlace').value,
+                "RentReturn": document.getElementById('rentReturn').value,
+                "DayPrice": check(document.getElementById('dayPrice').value),
+                "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
+                "Commentd": document.getElementById('commentd').value
+            }),
+            contentType: "application/json"
+        });
+    }
+
+    function check(id) {
+        if (id.length == 0) {
+            id = 0;
+            return id;
+        }
+        return id;
+    }
+
+    function checkDate(date) {
+        if (date.length == 0) {
+            date = '2000-01-01'
+            return date;
+
+        }
+        return date;
+    }
+</script>
