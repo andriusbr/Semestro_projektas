@@ -12,49 +12,49 @@
             <label class="col-md-3 control-label">Nuomos pražia</label>
             <div class="col-md-9">
                 <input type="date" id="orderStart" class="form-control" />
-                <span asp-validation-for="OrderStart" class="text-danger" />
+                <span asp-validation-for="OrderStart" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Nuomos Pabaiga</label>
             <div class="col-md-9">
                 <input type="date" id="orderEnd" class="form-control" />
-                <span asp-validation-for="OrderEnd" class="text-danger" />
+                <span asp-validation-for="OrderEnd" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Pristatymo vieta</label>
             <div class="col-md-9">
                 <input asp-for="RentPlace" id="rentPlace" class="form-control" />
-                <span asp-validation-for="RentPlace" class="text-danger" />
+                <span asp-validation-for="RentPlace" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Grąžinimo vieta</label>
             <div class="col-md-9">
                 <input asp-for="RentReturn" id="rentReturn" class="form-control" />
-                <span asp-validation-for="RentReturn" class="text-danger" />
+                <span asp-validation-for="RentReturn" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Paros Kaina</label>
             <div class="col-md-9">
                 <input asp-for="DayPrice" id="dayPrice" class="form-control" />
-                <span asp-validation-for="DayPrice" class="text-danger" />
+                <span asp-validation-for="DayPrice" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Pristatymo kaina</label>
             <div class="col-md-9">
                 <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
-                <span asp-validation-for="DeliveryPrice" class="text-danger" />
+                <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Komentarai</label>
             <div class="col-md-9">
                 <input asp-for="Commentd" id="commentd" class="form-control" />
-                <span asp-validation-for="Commentd" class="text-danger" />
+                <span asp-validation-for="Commentd" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -71,7 +71,8 @@
                     <th>Metai</th>
                     <th>Kuras</th>
                     <th>Valst. nr.</th>
-                    <th>Pavaros</th>                    
+                    <th>Pavaros</th>
+                    <th></th>                    
                 </tr>
             </thead>
             <tbody id="autos"></tbody>
@@ -84,10 +85,8 @@
 
 <script>
     $(document).ready(function () {
-        // Send an AJAX request
         $.getJSON('/api/autos')
             .done(function (data) {
-                // On success, 'data' contains a list of autos.
                 $.each(data, function (key, item) {
                     var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
                       + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'

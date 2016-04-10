@@ -3,7 +3,9 @@
 </div>
 <dl class="dl-horizontal" id="order"></dl>
 <input type="button" value="Ištrinti" onclick='deleteOrder();location.href="/Order/OrderIndex";' class="btn btn-default" />
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<p>
+    <a asp-action="OrderIndex">Grįžti į sąrašą</a>
+</p>
 <script>
         var uri = '../../api/orders/' + @ViewBag.orderId;
 
