@@ -16,6 +16,7 @@ namespace CarRental.Web.Controllers.Web
 
         public IActionResult OrderCreate()
         {
+            ViewData["Title"] = "Kurimas";
             return View();
         }
 

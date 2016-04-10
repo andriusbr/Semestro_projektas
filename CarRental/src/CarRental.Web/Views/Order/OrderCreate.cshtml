@@ -1,12 +1,11 @@
 ﻿@model CarRental.DataAccess.Entities.Order
-<div>
+<div id='autoId' class="row">
     <h2>Naujas užsakymas</h2>
     <div class="form-horizontal col-md-6">
         <div class="form-group">
-            <label class="col-md-3 control-label">Auto Id</label>
+            <label class="col-md-3 control-label">Automobilis</label>
             <div class="col-md-9">
-                <input asp-for="AutoId" id="auto" class="form-control" />
-                <span asp-validation-for="AutoId" class="text-danger" />
+                <input type="text" id="autoModel" class="form-control" />
             </div>
         </div>
         <div class="form-group">
@@ -78,13 +77,11 @@
             <tbody id="autos"></tbody>
         </table>     
     </div>
-    
+    <p>
+        <a asp-action="OrderIndex">Grįžti į sąrašą</a>
+    </p>
 </div>
-<p>
-    <a asp-action="OrderIndex">Grįžti į sąrašą</a>
-</p>
 
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
 <script>
     $(document).ready(function () {
         // Send an AJAX request
@@ -94,8 +91,8 @@
                 $.each(data, function (key, item) {
                     var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
                       + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
-                      + item.Gearbox + '</td><td>'                     
-                      + '<button type="button" class="btn btn-link">Rinktis</button>';
+                      + item.Gearbox + '</td><td>'
+                      + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
                     $("#autos").append(html);
                 });
             });
@@ -106,7 +103,7 @@
             type: "POST",
             url: "../api/orders",
             data: JSON.stringify({
-                "AutoId": check(document.getElementById('auto').value),
+                "AutoId": document.getElementById('autoId').value,
                 "OrderStart": checkDate(document.getElementById('orderStart').value),
                 "OrderEnd": checkDate(document.getElementById('orderEnd').value),
                 "RentPlace": document.getElementById('rentPlace').value,
@@ -117,6 +114,15 @@
             }),
             contentType: "application/json"
         });
+    }
+
+    function addAuto(auto) {
+        $.getJSON('../../api/autos/' + auto)
+            .done(function (data) {
+                $('#autoId').val(data.AutoId);
+                $('#autoModel').val(data.Make + ' ' + data.PlateNumber);
+
+            });
     }
 
     function check(id) {
