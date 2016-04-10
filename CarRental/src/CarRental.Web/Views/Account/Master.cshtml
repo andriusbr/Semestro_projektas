@@ -1,13 +1,19 @@
 ﻿@using CarRental.DataAccess.Entities;
-@using CarRental.Web.Controllers.Web;
-@model List<User>
 @{
     ViewBag.Title = "Mater";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <body>
+    <div class="input-group padding10">
+        <input id="txt_Search" type="text" class="form-control table table-bordered" placeholder="Search" />
+        <span class="input-group-addon">
+            <a href="#"><i class="glyphicon glyphicon-search" onclick="searchUsers()"></i></a>
+        </span>
+    </div>
     <div>
+        
       <table class="table table-bordered">
            <thead>
                 <tr>
@@ -17,47 +23,8 @@
                     <td>Status</td>
                 </tr>
             </thead>
-
-        @foreach (var item in Model)
-            {
-            <tr>
-                <td>@Html.DisplayFor(model => item.Id)</td>
-                <td>@Html.DisplayFor(model => item.Username)</td>
-                <td>@Html.DisplayFor(model => item.Email)</td>
-                <td>
-                    <select id="selectUserStatus" onchange="changeStatus(this, @item.Id)">
-                        @if (item.Status.Equals(UserStatus.Regular))
-                        {
-                            <option value="regular" selected="selected">@UserStatus.Regular</option>
-                                <option value="admin">@UserStatus.Admin</option>
-                                <option value="master">@UserStatus.Master</option>
-                        }
-                        @if (item.Status.Equals(UserStatus.Admin))
-                        {
-                            <option value="regular">@UserStatus.Regular</option>
-                                <option value="admin" selected="selected">@UserStatus.Admin</option>
-                                <option value="master">@UserStatus.Master</option>
-                        }
-                        @if (item.Status.Equals(UserStatus.Master) && item.Id != 1)
-                        {
-                            <option value="regular">@UserStatus.Regular</option>
-                                <option value="admin">@UserStatus.Admin</option>
-                                <option value="master" selected="selected">@UserStatus.Master</option>
-                        }
-                        @if (item.Status.Equals(UserStatus.Master) && item.Id == 1)
-                        {
-                            <option value="master" selected="selected">@UserStatus.Master</option>
-                        }
-                    </select>
-                </td>
-                @if (!item.Status.Equals(UserStatus.Master))
-                {
-                    <td>
-                        <a href='javascript:window.location.reload();' onclick="removeUser(@item.Id)">Remove</a>
-                    </td>
-                }
-            </tr>
-        }
+          <tbody id="userTable"></tbody>
+        
         </table>
     </div>
 
@@ -65,8 +32,35 @@
 
 
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        //alert(@UserStatus.Master);
+        displayAllUsers();
+    });
+
+    $("#txt_Search").keyup(function () {
+        searchUsers();
+    });
+
+    $("#txt_Search").keyup(function() {
+
+        if (!this.value) {
+            displayAllUsers();
+        }
+
+    });
+
+    function displayAllUsers(){
+        $.get("/Account/GetAllUsers",
+            function (data) {
+                generateTable(data);
+            });
+
+    }
+
+
     function changeStatus(selectTag, _id) {
         var selIdx = selectTag.selectedIndex;
         var selOption = selectTag.options[selIdx];
@@ -82,4 +76,71 @@
         }
     }
 
+    function searchUsers() {
+        var searchQuery = $("#txt_Search").val();
+        $.get("/Account/SearchUsers", { SearchQuery: searchQuery },
+            function (data) {
+                generateTable(data);
+        });
+
+    }
+
+    function generateTable(data) {
+        $("#userTable").empty();
+        var new_tbody = document.createElement('tbody');
+
+        for (var i = 0; i < data.length; i++) {
+            var html = '<tr><td>' + data[i].Id + '</td><td>' + data[i].Username + '</td><td>'
+              + data[i].Email + '</td><td>' + data[i].Status + '</td>';
+
+
+            html = html + '<td>' + '<select id="selectUserStatus" onchange="changeStatus(this, ' + data[i].Id + ')">';
+            if (data[i].Status == '@UserStatus.Regular') {
+                html = html + '<option value="regular" selected="selected">@UserStatus.Regular</option>'+
+                                  '<option value="admin">@UserStatus.Admin</option>'+
+                                  '<option value="master">@UserStatus.Master</option>';
+
+            }
+            if (data[i].Status == '@UserStatus.Admin') {
+                html = html + '<option value="regular">@UserStatus.Regular</option>' +
+                                  '<option value="admin" selected="selected">@UserStatus.Admin</option>' +
+                                  '<option value="master">@UserStatus.Master</option>';
+
+            }
+            if (data[i].Status == '@UserStatus.Master' && data[i].Id != 1) {
+                html = html + '<option value="regular">@UserStatus.Regular</option>' +
+                                  '<option value="admin">@UserStatus.Admin</option>' +
+                                  '<option value="master" selected="selected">@UserStatus.Master</option>';
+
+            }
+            if (data[i].Status == '@UserStatus.Master' && data[i].Id == 1) {
+                html = html + '<option value="master" selected="selected">@UserStatus.Master</option>';
+
+            }
+
+
+
+            html += "</select></td>";
+
+
+            if (data[i].Status != '@UserStatus.Master') {
+                html = html + '<td>' + '<a href="javascript:window.location.reload();" onclick="removeUser(' + data[i].Id + ')">Remove</a>' + '</td>';
+            }
+            html+='</tr>';
+            $("#userTable").append(html);
+
+        }
+    }
+
+
+
+
 </script>
+
+
+<style>
+    .padding10{
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+</style>

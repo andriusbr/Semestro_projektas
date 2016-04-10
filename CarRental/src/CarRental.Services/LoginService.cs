@@ -69,9 +69,11 @@ namespace CarRental.Services
                 {
                     Email = _email,
                     Username = _username,
-                    Password = Encode(_password)
+                    Password = Encode(_password),
+                    Status = UserStatus.Regular
                 };
                 dbContext.Add(user);
+                dbContext.SaveChanges();
                 return "Success";
             }
             else if (isEmailTaken)
@@ -113,6 +115,28 @@ namespace CarRental.Services
             var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
             dbContext.Logins.Remove(user);
             dbContext.SaveChanges();
+        }
+
+        public IEnumerable<User> SearchUsers(string SearchQuery)
+        {
+            List<User> list = new List<User>();
+            string SearchLower = SearchQuery.ToLower();
+            foreach (var user in dbContext.Logins)
+            {
+                if(user.Username != null && user.Username.ToLower().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+                else if(user.Email !=null && user.Email.ToLower().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+                else if (user.Id.ToString().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+            }
+            return list;
         }
 
 
