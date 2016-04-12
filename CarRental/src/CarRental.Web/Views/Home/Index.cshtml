@@ -3,13 +3,49 @@
     ViewBag.Title = "Car Rental";
 }
 
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
 </head>
 <body>
     <h1>CarRental</h1>
+
+    <div class="search-container">
+        <form id="eventForm" method="post" class="form-horizontal">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="input-group input-append date" id="datepicker1" data-date-format="dd-mm-yyyy">
+                        <input type="text" class="form-control" name="date" />
+                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
 </body>
 </html>
+
+<style>
+    .search-container {
+        align-items: center;
+        padding: 20px;
+        background-color: #d0e4fe;
+    }
+</style>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<script>
+     $("#datepicker1").datepicker();
+
+</script>
