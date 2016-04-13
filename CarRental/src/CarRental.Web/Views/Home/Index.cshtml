@@ -9,6 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
 </head>
 <body>
@@ -16,12 +17,35 @@
 
     <div class="search-container">
         <form id="eventForm" method="post" class="form-horizontal">
+
+            <label>Pradžia</label></br>
             <div class="row">
-                <div class="col-md-2">
-                    <div class="input-group input-append date" id="datepicker1" data-date-format="dd-mm-yyyy">
+                <div class="col-md-3">
+                    <div class="input-group input-append date" id="datepicker1">
                         <input type="text" class="form-control" name="date" />
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
+                </div>
+                <div class="col-md-1 time">
+                    <select name="selectHourStart" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10" selected="selected">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
+                </div>
+                <div class="col-md-1 time">
+                    <select name="selectMinuteStart" class="form-control"><option value="0" selected="selected">00</option><option value="15">15</option><option value="30">30</option><option value="45">45</option></select>
+                </div>
+            </div>
+            <label>Pabaiga</label></br>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="input-group input-append date" id="datepicker2">
+                        <input type="text" class="form-control" name="date" />
+                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-1 time">
+                    <select name="selectHourEnd" class="form-control"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10" selected="selected">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
+                </div>
+                <div class="col-md-1 time">
+                    <select name="selectMinuteEnd" class="form-control"><option value="0" selected="selected">00</option><option value="15">15</option><option value="30">30</option><option value="45">45</option></select>
                 </div>
             </div>
         </form>
@@ -39,13 +63,86 @@
         padding: 20px;
         background-color: #d0e4fe;
     }
+
+    .time {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 6%;
+    }
+
 </style>
 
 
 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
+
+
+<script src="https://jquery-ui.googlecode.com/svn/tags/1.8.5/ui/i18n/jquery.ui.datepicker-lt.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 <script>
-     $("#datepicker1").datepicker();
+   
+
+    //$('#datepicker1').datepicker($.datepicker.regional['lt']);
+    $("#datepicker1").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepicker2").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    /*$("#datepicker1").datepicker();
+
+    $('datepicker1').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+    });*/
+
+   /* $(function () {
+        $("#datepicker1").datepicker();
+        $( "#datepicker1" ).datepicker("show");
+    });*/
+
+    /*define('jqueryui/datepicker-lt', ['jquery', 'jqueryui/datepicker'], function (jQuery) {
+
+        jQuery(function ($) {
+            $("#datepicker1").datepicker.regional['lt'] = {
+                closeText: 'UÂdaryti',
+                prevText: '&#x3c;Atgal',
+                nextText: 'Pirmyn&#x3e;',
+                currentText: 'Âiandien',
+                monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'GeguÂ?', 'BirÂelis',
+                'Liepa', 'Rugpj?tis', 'Rugs?jis', 'Spalis', 'Lapkritis', 'Gruodis'],
+                monthNamesShort: ['Sau', 'Vas', 'Kov', 'Bal', 'Geg', 'Bir',
+                'Lie', 'Rugp', 'Rugs', 'Spa', 'Lap', 'Gru'],
+                dayNames: ['sekmadienis', 'pirmadienis', 'antradienis', 'tre?iadienis', 'ketvirtadienis', 'penktadienis', 'ÂeÂtadienis'],
+                dayNamesShort: ['sek', 'pir', 'ant', 'tre', 'ket', 'pen', 'ÂeÂ'],
+                dayNamesMin: ['Se', 'Pr', 'An', 'Tr', 'Ke', 'Pe', 'Âe'],
+                weekHeader: 'Wk',
+                dateFormat: 'yy-mm-dd',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
+            $.datepicker.setDefaults($.datepicker.regional['lt']);
+        });
+    });*/
+
+
+
+        //$.datepicker.setDefaults($.datepicker.regional[""]);
+       // $("#datepicker1").datepicker($.datepicker.regional["lt"]);
+        /*$("#locale").change(function () {
+            $("#datepicker").datepicker("option",
+				$.datepicker.regional[$(this).val()]);
+        });*/
+
 
 </script>
