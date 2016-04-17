@@ -1,10 +1,13 @@
 ﻿using CarRental.DataAccess;
+using CarRental.DataAccess.Entities;
 using CarRental.Services;
 using CarRental.ServicesContracts;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 
 namespace Canplanet.Web
 {
@@ -27,6 +30,20 @@ namespace Canplanet.Web
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<LoginDbContext>();
+
+            services.AddIdentity<User, IdentityRole>(o => {
+                o.Password.RequireDigit = false;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonLetterOrDigit = false; ;
+                o.Password.RequiredLength = 6;
+            })
+                .AddEntityFrameworkStores<LoginDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -48,6 +65,8 @@ namespace Canplanet.Web
             app.UseIISPlatformHandler();
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(config => {
                 config.MapRoute(

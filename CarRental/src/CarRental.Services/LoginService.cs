@@ -24,9 +24,9 @@ namespace CarRental.Services
             return logins;
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
-            var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
+            var user = dbContext.Logins.FirstOrDefault(x => x.Id.Equals(id));
 
             return user;
         }
@@ -37,10 +37,10 @@ namespace CarRental.Services
 
         public string VerifyAccount(string _username, string _password)
         {
-            bool isCorrect = dbContext.Logins.Any(e => e.Username == _username && e.Password == Encode(_password));
+            /*bool isCorrect = dbContext.Logins.Any(e => e.UserName == _username && e.Password == Encode(_password));
             if (isCorrect)
             {
-                var user = dbContext.Logins.FirstOrDefault(x => x.Username == _username);
+                var user = dbContext.Logins.FirstOrDefault(x => x.UserName == _username);
                 if (user.Status.Equals(UserStatus.Admin))
                 {
                     return UserStatus.Admin;
@@ -53,29 +53,33 @@ namespace CarRental.Services
                 {
                     return "Success";
                 }
-            }
+            }*/
             return "Error";
         }
 
 
-        public string AddUser(string _email, string _username, string _password)
+        public string AddUser(string _firstName, string _lastName, string _phone, string _email, string _username, string _password)
         {
             bool isEmailTaken = dbContext.Logins.Any(e => e.Email == _email);
-            bool isUserNameTaken = dbContext.Logins.Any(e => e.Username == _username);
+            bool isUserNameTaken = dbContext.Logins.Any(e => e.UserName == _username);
 
             if(!isEmailTaken && !isUserNameTaken)
             {
                 User user = new User()
                 {
+                    FirstName = _firstName,
+                    LastName=_lastName,
+                    PhoneNumber=_phone,
                     Email = _email,
-                    Username = _username,
+                    UserName = _username/*,
                     Password = Encode(_password),
-                    Status = UserStatus.Regular
+                    Status = UserStatus.Regular*/
                 };
                 dbContext.Add(user);
                 dbContext.SaveChanges();
                 return "Success";
             }
+            
             else if (isEmailTaken)
             {
                 return "Email already exists";
@@ -88,8 +92,13 @@ namespace CarRental.Services
             return "Error";
         }
 
+        public bool isEmailTaken(string email)
+        {
+            return dbContext.Logins.Any(e => e.Email == email);
+        }
 
-        public bool ChangePassword(string username, string currentPassword, string newPassword)
+
+        /*public bool ChangePassword(string username, string currentPassword, string newPassword)
         {
             var user = dbContext.Logins.FirstOrDefault(x => x.Username == username && x.Password == Encode(currentPassword));
             if (user == null)
@@ -99,20 +108,20 @@ namespace CarRental.Services
             user.Password = Encode(newPassword);
             dbContext.SaveChanges();
             return true;
-        }
+        }*/
 
 
         public void ChangeStatus(int id, string status)
         {
-            var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
-            user.Status = status;
+            var user = dbContext.Logins.FirstOrDefault(x => x.Id.Equals(id));
+            //user.Status = status;
             dbContext.SaveChanges();
         }
 
 
         public void RemoveUser(int id)
         {
-            var user = dbContext.Logins.FirstOrDefault(x => x.Id == id);
+            var user = dbContext.Logins.FirstOrDefault(x => x.Id.Equals(id));
             dbContext.Logins.Remove(user);
             dbContext.SaveChanges();
         }
@@ -123,7 +132,15 @@ namespace CarRental.Services
             string SearchLower = SearchQuery.ToLower();
             foreach (var user in dbContext.Logins)
             {
-                if(user.Username != null && user.Username.ToLower().Contains(SearchLower))
+                if (user.FirstName != null && user.FirstName.ToLower().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+                else if (user.LastName != null && user.LastName.ToLower().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+                else if (user.UserName != null && user.UserName.ToLower().Contains(SearchLower))
                 {
                     list.Add(user);
                 }
@@ -132,6 +149,10 @@ namespace CarRental.Services
                     list.Add(user);
                 }
                 else if (user.Id.ToString().Contains(SearchLower))
+                {
+                    list.Add(user);
+                }
+                else if (user.PhoneNumber != null && user.PhoneNumber.Contains(SearchLower))
                 {
                     list.Add(user);
                 }

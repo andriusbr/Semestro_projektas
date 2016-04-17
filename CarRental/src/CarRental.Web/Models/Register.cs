@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -11,9 +12,20 @@ namespace CarRental.Web.Models
 {
     public class Register
     {
+
+        [Required]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        //[Remote("EmailAlreadyExistsAsync", "Account", ErrorMessage = "Email is already taken.")]
         public string Email { get; set; }
 
         [Required]
@@ -22,7 +34,7 @@ namespace CarRental.Web.Models
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -33,71 +45,9 @@ namespace CarRental.Web.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "Phone (Optional)")]
+        public string PhoneNumber { get; set; }
 
-        /*public string addUser(string _email, string _username, string _password)
-        {
-            using (var cn = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CarRental;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
-            {
-                if (!doesUserExist(cn, _email, _username))
-                {
-                    return "Account already exists!";
-                }
-
-                SqlCommand cmd = new SqlCommand("INSERT INTO [User] (Email, Password, Username) VALUES (@email, @passw, @usern)", cn);
-
-                cmd.Parameters.AddWithValue("@email", _email);
-                cmd.Parameters.AddWithValue("@passw", Encode(_password));
-                cmd.Parameters.AddWithValue("@usern", _username);
-
-                cn.Open();
-                try {
-                    cmd.ExecuteNonQuery();
-                }catch(Exception e)
-                {
-                    cn.Close();
-                    return "Database error";
-                }
-                cn.Close();
-                return "Success";
-            }
-        }
-
-        private static bool doesUserExist(SqlConnection cn, string _email, string _username)
-        {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [User] WHERE Email=@email AND Username=@username", cn);
-            cmd.Parameters.AddWithValue("@email", _email);
-            cmd.Parameters.AddWithValue("@username", _username);
-            cn.Open();
-            SqlDataReader dr;
-            try
-            {
-                dr = cmd.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                cn.Close();
-                return false;
-            }
-            while (dr.Read())
-            {
-                if (dr.HasRows == true)
-                {
-                    cn.Close();
-                    return false;
-                }
-            }
-            cn.Close();
-            return true;
-        }
-
-
-        public static string Encode(string value)
-        {
-            var hash = System.Security.Cryptography.SHA1.Create();
-            var encoder = new ASCIIEncoding();
-            var combined = encoder.GetBytes(value ?? "");
-            return BitConverter.ToString(hash.ComputeHash(combined)).ToLower().Replace("-", "");
-        }*/
 
     }
 }

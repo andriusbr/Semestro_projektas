@@ -1,4 +1,5 @@
 ﻿using CarRental.DataAccess.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.DataAccess
 {
-    public class LoginDbContext : DbContext
+    public class LoginDbContext : IdentityDbContext<User>
     {
         public DbSet<User> Logins { get; set; }
 
@@ -18,9 +19,10 @@ namespace CarRental.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
+            base.OnModelCreating(modelBuilder);
+            /*modelBuilder.Entity<User>()
                 .Property(b => b.Status)
-                .HasDefaultValue(UserStatus.Regular);
+                .HasDefaultValue(UserStatus.Regular);*/
             
         }
     }

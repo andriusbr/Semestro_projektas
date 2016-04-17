@@ -3,20 +3,48 @@ using CarRental.DataAccess.Entities;
 using CarRental.Services;
 using CarRental.Web.Models;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Security;
+using CarRental.ServicesContracts;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Controllers.Web
 {
+    [Authorize]
     public class AccountController : Controller
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
+        private readonly ILogger _logger;
+
         //public object FormsAuthentication { get; private set; }
         private static LoginService service = new LoginService(new LoginDbContext());
+
+
+
+        public AccountController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _smsSender = smsSender;
+            _logger = loggerFactory.CreateLogger<AccountController>();
+        }
+
 
         //
         // GET: /User/
@@ -26,12 +54,52 @@ namespace CarRental.Web.Controllers.Web
         }
         
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
+        //
+        // POST: /Account/Login
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Account model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation(1, "User logged in.");
+                    return RedirectToLocal(returnUrl);
+                }
+                /*if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning(2, "User account locked out.");
+                    return View("Lockout");
+                }*/
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        /*[HttpPost]
+        [AllowAnonymous]
         public ActionResult Login(Account user)
         {
             if (ModelState.IsValid)
@@ -39,32 +107,18 @@ namespace CarRental.Web.Controllers.Web
                 string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
                 if (message.Equals("Success"))
                 {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
                     return RedirectToAction("Index", "Home");
                 }
                 else if (message.Equals(UserStatus.Admin))
                 {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
                     return RedirectToAction("Admin", "Account");
                 }
                 else if (message.Equals(UserStatus.Master))
                 {      
-                    /*FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1,
-                            user.UserName,
-                            DateTime.Now,
-                            DateTime.Now.AddHours(2),
-                            false,
-                            string.Empty);
-
-                    // add cookie to response stream         
-                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-                    System.Web.HttpCookie authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                    if (authTicket.IsPersistent)
-                    {
-                        authCookie.Expires = authTicket.Expiration;
-                    }
-                    System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);*/
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false/*user.RememberMe*/);
+                   
+                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
                     return RedirectToAction("Master", "Account");
                 }
                 else
@@ -73,21 +127,71 @@ namespace CarRental.Web.Controllers.Web
                 }
             }
             return View(user);
-        }
+        }*/
+
+
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
+
+        //
+        // POST: /Account/Register
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(Register model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (service.isEmailTaken(model.Email))
+                {
+                    ModelState.AddModelError("", "Email is already taken");
+                }
+                else
+                {
+                    var user = new User
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        PhoneNumber = model.PhoneNumber
+                    };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                        // Send an email with this link
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                    }
+                    AddErrors(result);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        /*[HttpPost]
+        [AllowAnonymous]
         public ActionResult Register(Register register)
         {
             if (ModelState.IsValid)
             {
                 //new LoginService(new LoginDbContext())
-                string message = new LoginService(new LoginDbContext()).AddUser(register.Email, register.UserName, register.Password);
+                string message = new LoginService(new LoginDbContext()).AddUser(register.FirstName, register.LastName,
+                    register.PhoneNumber, register.Email, register.UserName, register.Password);
                 if (message.Equals("Success"))
                 {
                     return RedirectToAction("Index", "Home");
@@ -98,7 +202,7 @@ namespace CarRental.Web.Controllers.Web
                 }
             }
             return View(register);
-        }
+        }*/
 
         public IActionResult Admin()
         {
@@ -149,9 +253,9 @@ namespace CarRental.Web.Controllers.Web
         }
 
 
-        public void RemoveUser(int id)
+        public void RemoveUser(string id)
         {
-            service.RemoveUser(id);
+            var result = _userManager.DeleteAsync(service.GetById(id));
         }
 
         public IEnumerable<User> SearchUsers(string SearchQuery)
@@ -161,11 +265,45 @@ namespace CarRental.Web.Controllers.Web
         }
 
 
-        [Authorize]
-        public ActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+
+        /*[AllowAnonymous]
+        public async Task<JsonResult> EmailAlreadyExistsAsync(string Email)
+        {
+            var result =
+                //await _userManager.FindByNameAsync(Email) ??
+                await _userManager.FindByEmailAsync(Email);
+            return Json(result == null);
+        }*/
+
+
     }
 }
