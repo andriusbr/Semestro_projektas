@@ -3,13 +3,123 @@
     ViewBag.Title = "Car Rental";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+
     <h1>CarRental</h1>
-</body>
-</html>
+
+    <div class="search-container">
+        <form id="eventForm" method="post" class="form-horizontal">
+
+            <label>Pradžia</label></br>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="input-group input-append date" id="datepicker1">
+                        <input type="text" class="form-control" name="date" />
+                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                
+            </div>
+            <label>Pabaiga</label></br>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="input-group input-append date" id="datepicker2">
+                        <input type="text" class="form-control" name="date" />
+                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+<style>
+    .search-container {
+        align-items: center;
+        padding: 20px;
+        background-color: #d0e4fe;
+    }
+
+    .time {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 6%;
+    }
+
+</style>
+
+
+
+
+
+<script>
+   
+
+    //$('#datepicker1').datepicker($.datepicker.regional['lt']);
+    $("#datepicker1").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepicker2").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        locale: "lt",
+        orientation: "top"
+    });
+
+    /*$("#datepicker1").datepicker();
+
+    $('datepicker1').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+    });*/
+
+   /* $(function () {
+        $("#datepicker1").datepicker();
+        $( "#datepicker1" ).datepicker("show");
+    });*/
+
+    /*define('jqueryui/datepicker-lt', ['jquery', 'jqueryui/datepicker'], function (jQuery) {
+
+        jQuery(function ($) {
+            $("#datepicker1").datepicker.regional['lt'] = {
+                closeText: 'UÂdaryti',
+                prevText: '&#x3c;Atgal',
+                nextText: 'Pirmyn&#x3e;',
+                currentText: 'Âiandien',
+                monthNames: ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'GeguÂ?', 'BirÂelis',
+                'Liepa', 'Rugpj?tis', 'Rugs?jis', 'Spalis', 'Lapkritis', 'Gruodis'],
+                monthNamesShort: ['Sau', 'Vas', 'Kov', 'Bal', 'Geg', 'Bir',
+                'Lie', 'Rugp', 'Rugs', 'Spa', 'Lap', 'Gru'],
+                dayNames: ['sekmadienis', 'pirmadienis', 'antradienis', 'tre?iadienis', 'ketvirtadienis', 'penktadienis', 'ÂeÂtadienis'],
+                dayNamesShort: ['sek', 'pir', 'ant', 'tre', 'ket', 'pen', 'ÂeÂ'],
+                dayNamesMin: ['Se', 'Pr', 'An', 'Tr', 'Ke', 'Pe', 'Âe'],
+                weekHeader: 'Wk',
+                dateFormat: 'yy-mm-dd',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
+            $.datepicker.setDefaults($.datepicker.regional['lt']);
+        });
+    });*/
+
+
+
+        //$.datepicker.setDefaults($.datepicker.regional[""]);
+       // $("#datepicker1").datepicker($.datepicker.regional["lt"]);
+        /*$("#locale").change(function () {
+            $("#datepicker").datepicker("option",
+				$.datepicker.regional[$(this).val()]);
+        });*/
+
+
+</script>

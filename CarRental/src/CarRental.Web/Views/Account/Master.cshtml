@@ -1,6 +1,6 @@
 ﻿@using CarRental.DataAccess.Entities;
 @{
-    ViewBag.Title = "Mater";
+    ViewBag.Title = "Master";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,16 +14,18 @@
     </div>
     <div>
         
-      <table class="table table-bordered">
+      <table id="userTable" class="table table-bordered">
            <thead>
                 <tr>
-                    <td>ID</td>
                     <td>Username</td>
                     <td>Email</td>
+                    <td>First name</td>
+                    <td>Last name</td>
+                    <td>Phone</td>
                     <td>Status</td>
                 </tr>
             </thead>
-          <tbody id="userTable"></tbody>
+          <tbody id="userTableBody"></tbody>
         
         </table>
     </div>
@@ -32,11 +34,10 @@
 
 
 
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+
 <script>
 
     $(document).ready(function () {
-        //alert(@UserStatus.Master);
         displayAllUsers();
     });
 
@@ -76,6 +77,16 @@
         }
     }
 
+    function test2(tst) {
+        alert(tst);
+
+    }
+
+    function test() {
+        alert("kfgodsghjl");
+
+    }
+
     function searchUsers() {
         var searchQuery = $("#txt_Search").val();
         $.get("/Account/SearchUsers", { SearchQuery: searchQuery },
@@ -85,52 +96,46 @@
 
     }
 
+
     function generateTable(data) {
-        $("#userTable").empty();
-        var new_tbody = document.createElement('tbody');
+        $("#userTableBody").empty();
+        //var new_tbody = document.createElement('tbody');
+        var tableRef = document.getElementById('userTableBody');//.getElementsByTagName('userTableBody');
 
         for (var i = 0; i < data.length; i++) {
-            var html = '<tr><td>' + data[i].Id + '</td><td>' + data[i].Username + '</td><td>'
-              + data[i].Email + '</td><td>' + data[i].Status + '</td>';
+            
+            var newRow   = tableRef.insertRow(i);
+            var cell1  = newRow.insertCell(0);
+            var cell2  = newRow.insertCell(1);
+            var cell3  = newRow.insertCell(2);
+            var cell4  = newRow.insertCell(3);
+            var cell5  = newRow.insertCell(4);
+            var cell6  = newRow.insertCell(5);
+            var cell7  = newRow.insertCell(6);
 
+            cell1.innerHTML=data[i].UserName;
+            cell2.innerHTML=data[i].Email;
+            cell3.innerHTML=data[i].FirstName;
+            cell4.innerHTML=data[i].LastName;
+            cell5.innerHTML=data[i].PhoneNumber;
 
-            html = html + '<td>' + '<select id="selectUserStatus" onchange="changeStatus(this, ' + data[i].Id + ')">';
-            if (data[i].Status == '@UserStatus.Regular') {
-                html = html + '<option value="regular" selected="selected">@UserStatus.Regular</option>'+
-                                  '<option value="admin">@UserStatus.Admin</option>'+
-                                  '<option value="master">@UserStatus.Master</option>';
+            
 
-            }
-            if (data[i].Status == '@UserStatus.Admin') {
-                html = html + '<option value="regular">@UserStatus.Regular</option>' +
-                                  '<option value="admin" selected="selected">@UserStatus.Admin</option>' +
-                                  '<option value="master">@UserStatus.Master</option>';
-
-            }
-            if (data[i].Status == '@UserStatus.Master' && data[i].Id != 1) {
-                html = html + '<option value="regular">@UserStatus.Regular</option>' +
-                                  '<option value="admin">@UserStatus.Admin</option>' +
-                                  '<option value="master" selected="selected">@UserStatus.Master</option>';
-
-            }
-            if (data[i].Status == '@UserStatus.Master' && data[i].Id == 1) {
-                html = html + '<option value="master" selected="selected">@UserStatus.Master</option>';
-
-            }
-
-
-
-            html += "</select></td>";
-
-
-            if (data[i].Status != '@UserStatus.Master') {
-                html = html + '<td>' + '<a href="javascript:window.location.reload();" onclick="removeUser(' + data[i].Id + ')">Remove</a>' + '</td>';
-            }
-            html+='</tr>';
-            $("#userTable").append(html);
+            var link = document.createElement('a');
+            link.setAttribute('href', 'javascript:window.location.reload();');
+            link.innerHTML = 'Remove';
+            link.onclick = (function (param) {
+                return function () {
+                    removeUser(param);
+                };
+            })(data[i].Id);
+            //cell7.innerHTML = link;
+            cell7.appendChild(link);
 
         }
     }
+
+    
 
 
 

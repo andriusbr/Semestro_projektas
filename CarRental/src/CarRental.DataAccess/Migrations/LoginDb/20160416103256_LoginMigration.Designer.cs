@@ -8,9 +8,10 @@ using CarRental.DataAccess;
 namespace CarRental.Web.Migrations.LoginDb
 {
     [DbContext(typeof(LoginDbContext))]
-    partial class LoginDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160416103256_LoginMigration")]
+    partial class LoginMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
