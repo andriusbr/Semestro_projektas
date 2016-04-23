@@ -1,90 +1,82 @@
 ﻿@model CarRental.DataAccess.Entities.Order
 <div id='autoId' class="row">
     <h2>Naujas užsakymas</h2>
-        <div class="form-horizontal col-md-5">
-            <div class="form-group">
-                <label class="col-md-3 control-label">Automobilis</label>
-                <div class="col-md-9">
-                    <input type="text" id="autoModel" class="form-control" />
-                </div>
+    <div class="form-horizontal col-md-5">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Automobilis</label>
+            <div class="col-md-8">
+                <input type="text" id="autoModel" class="form-control" />
             </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Nuomos pražia</label>
-                <div class="col-md-9">
-                    <div class='input-group date' id='datetimepickerstart'>
-                        <input type='text' class="form-control" id="orderStart" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-                </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Nuomos pabaiga</label>
-                <div class="col-md-9">
-                    <div class='input-group date' id='datetimepickerend'>
-                        <input type='text' class="form-control" id="orderEnd" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-               </div>
-            </div>
-            <!--<div class="form-group">
-                <label class="col-md-3 control-label">Nuomos pražia</label>
-                <div class="col-md-9">
-                    <input type="date" id="orderStart" class="form-control" />
-                    <span asp-validation-for="OrderStart" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Nuomos Pabaiga</label>
-                <div class="col-md-9">
-                    <input type="date" id="orderEnd" class="form-control" />
-                    <span asp-validation-for="OrderEnd" class="text-danger"></span>
-                </div>
-            </div>-->
-            <div class="form-group">
-                <label class="col-md-3 control-label">Pristatymo vieta</label>
-                <div class="col-md-9">
-                    <input asp-for="RentPlace" id="rentPlace" class="form-control" />
-                    <span asp-validation-for="RentPlace" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Grąžinimo vieta</label>
-                <div class="col-md-9">
-                    <input asp-for="RentReturn" id="rentReturn" class="form-control" />
-                    <span asp-validation-for="RentReturn" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Paros Kaina</label>
-                <div class="col-md-9">
-                    <input asp-for="DayPrice" id="dayPrice" class="form-control" />
-                    <span asp-validation-for="DayPrice" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Pristatymo kaina</label>
-                <div class="col-md-9">
-                    <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
-                    <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">Komentarai</label>
-                <div class="col-md-9">
-                    <input asp-for="Commentd" id="commentd" class="form-control" />
-                    <span asp-validation-for="Commentd" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Ivesti" onclick='create();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Nuomos pražia</label>
+            <div class="col-md-8">
+                <div class='input-group date' id='datetimepickerstart'>
+                    <input type='text' class="form-control" id="orderStart" onblur="orderTime(orderStart, orderEnd)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Nuomos pabaiga</label>
+            <div class="col-md-8">
+                <div class='input-group date' id='datetimepickerend'>
+                    <input type='text' class="form-control" id="orderEnd" onblur="orderTime(orderStart, orderEnd)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Nuomos trukmė</label>
+            <div class="col-md-8">
+                <input type='text' id="duration" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Pristatymo vieta</label>
+            <div class="col-md-8">
+                <input asp-for="RentPlace" id="rentPlace" class="form-control" />
+                <span asp-validation-for="RentPlace" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Grąžinimo vieta</label>
+            <div class="col-md-8">
+                <input asp-for="RentReturn" id="rentReturn" class="form-control" />
+                <span asp-validation-for="RentReturn" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Paros Kaina</label>
+            <div class="col-md-8">
+                <input asp-for="DayPrice" id="dayPrice" class="form-control" />
+                <span asp-validation-for="DayPrice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Pristatymo kaina</label>
+            <div class="col-md-8">
+                <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
+                <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Komentarai</label>
+            <div class="col-md-8">
+                <input asp-for="Commentd" id="commentd" class="form-control" />
+                <span asp-validation-for="Commentd" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Ivesti" onclick='create();location.href="/Order/OrderIndex";' class="btn btn-default" />
+            </div>
+        </div>
+    </div>
     <div class="form-horizontal col-md-7">
         <table class="table table-bordered">
             <thead>
@@ -123,15 +115,12 @@
     $('#datetimepickerstart').datetimepicker();
 
 
-        $('#datetimepickerend').datetimepicker({
-            //locale: 'it'
-            //format: 'YYYY-MM-DD HH:mm'
-            //weekStart: 1
-            //language: 'es'
-        });
-
-
-
+    $('#datetimepickerend').datetimepicker({
+        //locale: 'it'
+        //format: 'YYYY-MM-DD HH:mm'
+        //weekStart: 1
+        //language: 'es'
+    });
 
     function create() {
         $.ajax({
