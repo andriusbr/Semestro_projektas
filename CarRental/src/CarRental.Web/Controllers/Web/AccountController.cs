@@ -64,7 +64,7 @@ namespace CarRental.Web.Controllers.Web
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Account model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
