@@ -13,11 +13,11 @@
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
-}
+}*/
 
 /* Carousel */
 .carousel-caption {
@@ -135,6 +135,9 @@ textarea {
 }
 .CSSTableGenerator tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
+}
+.pad-10{
+    padding-top:10px;
 }
 
 

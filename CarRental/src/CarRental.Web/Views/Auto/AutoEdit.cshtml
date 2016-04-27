@@ -149,7 +149,9 @@
                     $("#milleage").val(data.Milleage);
                     $("#mainBelt").val(data.MainBelt);
                     $("#oilChange").val(data.OilChange);
-                    $("#tAEnd").val(data.TAEnd);
+                    var datas = new Date(data.TAEnd);
+                    //$("#tAEnd").val(datas.getFullYear() + '-' + datas.getMonth() + '-' + datas.getDay());
+                    $("#tAEnd").val(datas.format('Y'));
                     $("#insurenceEnd").val(data.InsurenceEnd);
                     $("#cascoInsurenceEnd").val(data.CascoInsurenceEnd);
                     $("#audioCode").val(data.AudioCode);
