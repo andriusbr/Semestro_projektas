@@ -2,6 +2,7 @@ using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
 using CarRental.Web.Models;
 using Microsoft.AspNet.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace CarRental.Web.Controllers.Api
@@ -24,13 +25,21 @@ namespace CarRental.Web.Controllers.Api
             return autos;
         }
 
+        [HttpGet("{rentStart}/{rentEnd}")]
+        public IEnumerable<Auto> GetFree(DateTime rentStart, DateTime rentEnd)
+        {
+            var autos = autoService.GetAllFreeAuto(rentStart, rentEnd);
+
+            return autos;
+        }
+
         [HttpGet("{id}")]
         public Auto Get(int id)
         {
             var auto = autoService.GetById(id);
 
             return auto;
-        }
+        }        
 
         [HttpPost]
         public void Post([FromBody]Auto value)

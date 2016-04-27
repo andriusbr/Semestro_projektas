@@ -125,7 +125,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();location.href="/Auto/AutoIndex";' class="btn btn-default" />
+                <input type="button" value="Ivesti" onclick='create();/*location.href="/Auto/AutoIndex";*/' class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -141,6 +141,7 @@
             url: "../api/autos",
             data: JSON.stringify({
                 "Make": document.getElementById('make').value,
+                "PriceId": 5,
                 "Year": check(document.getElementById('year').value),
                 "PlateNumber": document.getElementById('plateNumber').value,
                 "Color": document.getElementById('color').value,

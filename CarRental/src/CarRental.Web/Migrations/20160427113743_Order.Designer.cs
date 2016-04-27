@@ -8,7 +8,7 @@ using CarRental.DataAccess;
 namespace CarRental.Web.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20160408123954_Order")]
+    [Migration("20160427113743_Order")]
     partial class Order
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

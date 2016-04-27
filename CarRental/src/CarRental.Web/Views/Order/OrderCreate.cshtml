@@ -12,7 +12,7 @@
             <label class="col-md-4 control-label">Nuomos pražia</label>
             <div class="col-md-8">
                 <div class='input-group date' id='datetimepickerstart'>
-                    <input type='text' class="form-control" id="orderStart" onblur="orderTime(orderStart, orderEnd)" />
+                    <input type='text' class="form-control" id="orderStart" onblur="orderTime(orderStart, orderEnd); /*isFree(orderStart, orderEnd);*/" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -23,7 +23,7 @@
             <label class="col-md-4 control-label">Nuomos pabaiga</label>
             <div class="col-md-8">
                 <div class='input-group date' id='datetimepickerend'>
-                    <input type='text' class="form-control" id="orderEnd" onblur="orderTime(orderStart, orderEnd)" />
+                    <input type='text' class="form-control" id="orderEnd" onblur="orderTime(orderStart, orderEnd); /*isFree(orderStart, orderEnd);*/" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -73,7 +73,12 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();location.href="/Order/OrderIndex";' class="btn btn-default" />
+                <input type="button" value="Ivesti" onclick='create();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Laisvi" onclick='isFree();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -98,18 +103,63 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         $.getJSON('/api/autos')
             .done(function (data) {
                 $.each(data, function (key, item) {
-                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
+                    isFree(data);
+                    /*if (isFree(item.AutoId)) {
+                       var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
+                     + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
+                     + item.Gearbox + '</td><td>'
+                     + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
+                   $("#autos").append(html);
+                    }                 
+                });
+            });
+    });*/
+
+    /*function isFree(data) {
+        $.ajax({
+            url: '/api/autos/id/5',
+            type: 'GET',
+            dataType: 'json',
+            crossDomain: true,
+            success: function (free) {
+                var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
                       + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
                       + item.Gearbox + '</td><td>'
                       + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
+                $("#autos").append(html);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }*/
+
+    function isFree() {
+        $("#autos").html("");
+        var start = new Date(orderStart.value);
+        var startDay = start.getDate();
+        var startMonth = start.getMonth() + 1;
+        var startYear = start.getFullYear();
+        var end = new Date(orderEnd.value);
+        var endDay = end.getDate();
+        var endMonth = end.getMonth() + 1;
+        var endYear = end.getFullYear();
+
+        $.getJSON('/api/autos/' + startMonth + '-' + startDay + '-' + startYear + '/' + endMonth + '-' + endDay + '-' + endYear)
+            .done(function (data) {
+                $.each(data, function (key, item) {
+                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
+                         + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
+                         + item.Gearbox + '</td><td>'
+                         + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
                     $("#autos").append(html);
                 });
             });
-    });
+    }
 
 
     $('#datetimepickerstart').datetimepicker();

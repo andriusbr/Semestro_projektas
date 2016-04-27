@@ -1,5 +1,6 @@
 ﻿using CarRental.DataAccess.Entities;
 using System.Collections.Generic;
+using System;
 
 namespace CarRental.ServicesContracts
 {
@@ -14,5 +15,7 @@ namespace CarRental.ServicesContracts
         void Delete(int id);
 
         void Edit(int id, Auto auto);
+
+        IList<Auto> GetAllFreeAuto(DateTime rentStart, DateTime rentEnd);
     }
 }

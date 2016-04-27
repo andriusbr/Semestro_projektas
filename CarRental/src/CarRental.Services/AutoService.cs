@@ -3,6 +3,7 @@ using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace CarRental.Services
 {
@@ -47,6 +48,40 @@ namespace CarRental.Services
             auto.AutoId = id;
             dbContext.Autos.Update(auto);
             dbContext.SaveChanges();
+        }
+
+        public IList<Auto> GetAllFreeAuto(DateTime rentStart, DateTime rentEnd)
+        {
+            var autos = dbContext.Autos.ToList();
+            List<Auto> freeAutos = new List<Auto>();
+            foreach (var auto in autos)
+                if (IsFree(auto.AutoId, rentStart, rentEnd))
+                    freeAutos.Add(auto);
+
+            return freeAutos;
+        }
+
+        bool IsFree(int id, DateTime rentStart, DateTime rentEnd)
+        {
+            if (rentStart.Year == 0001 || rentEnd.Year == 0001)
+                return false;
+            bool free = true;
+            OrderService order = new OrderService(dbContext);
+            IList<Order> orders = order.GetAll();
+            foreach(var ord in orders)
+            {
+                if(id == ord.AutoId)
+                {
+                    if (rentStart.Date >= ord.OrderStart.Date && rentStart.Date <= ord.OrderEnd.Date || 
+                        rentEnd.Date >= ord.OrderStart.Date && rentEnd.Date <= ord.OrderEnd.Date || 
+                        rentStart.Date <= ord.OrderStart.Date && rentEnd.Date >= ord.OrderEnd.Date)
+                    {
+                        free = false;
+                    }
+                }
+            }
+
+            return free;
         }
     }
 }

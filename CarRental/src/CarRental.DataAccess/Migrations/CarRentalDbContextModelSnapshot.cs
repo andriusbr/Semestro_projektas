@@ -57,6 +57,30 @@ namespace CarRental.Web.Migrations
 
                     b.HasKey("AutoId");
                 });
+
+            modelBuilder.Entity("CarRental.DataAccess.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AutoId");
+
+                    b.Property<string>("Commentd");
+
+                    b.Property<decimal>("DayPrice");
+
+                    b.Property<string>("DeliveryPrice");
+
+                    b.Property<DateTime>("OrderEnd");
+
+                    b.Property<DateTime>("OrderStart");
+
+                    b.Property<string>("RentPlace");
+
+                    b.Property<string>("RentReturn");
+
+                    b.HasKey("OrderId");
+                });
         }
     }
 }
