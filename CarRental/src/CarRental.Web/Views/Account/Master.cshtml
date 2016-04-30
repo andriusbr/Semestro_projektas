@@ -1,4 +1,6 @@
 ﻿@using CarRental.DataAccess.Entities;
+
+@model CarRental.Web.Models.Master
 @{
     ViewBag.Title = "Master";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,135 +14,36 @@
             <a href="#"><i class="glyphicon glyphicon-search" onclick="searchUsers()"></i></a>
         </span>
     </div>
-    <div>
-        
-      <table id="userTable" class="table table-bordered">
-           <thead>
-                <tr>
-                    <td>Username</td>
-                    <td>Email</td>
-                    <td>First name</td>
-                    <td>Last name</td>
-                    <td>Phone</td>
-                    <td>Status</td>
-                </tr>
-            </thead>
-          <tbody id="userTableBody"></tbody>
-        
-        </table>
+    <div id="dynTable">
+        @Html.Partial("MasterPartial", Model)
     </div>
 
 </body>
 
 
-
-
 <script>
-
-    $(document).ready(function () {
-        displayAllUsers();
-    });
-
     $("#txt_Search").keyup(function () {
         searchUsers();
     });
 
-    $("#txt_Search").keyup(function() {
+    
 
-        if (!this.value) {
-            displayAllUsers();
-        }
-
-    });
-
-    function displayAllUsers(){
-        $.get("/Account/GetAllUsers",
-            function (data) {
-                generateTable(data);
+    function searchUsers() {
+        var searchQuery = $("#txt_Search").val();
+            $.ajax({
+                type: "POST",
+                url: "/Account/MasterSearch", // the method we are calling
+                contentType: "application/json",
+                data: JSON.stringify(searchQuery),
+                success: function (result) {
+                    $("#dynTable").html(result);
+                },
             });
 
     }
 
-
-    function changeStatus(selectTag, _id) {
-        var selIdx = selectTag.selectedIndex;
-        var selOption = selectTag.options[selIdx];
-
-        var e = document.getElementById("selectUserStatus");
-        var strUser = e.options[e.selectedIndex].text;
-        $.get("/Account/ChangeUserStatus", { id: _id, value: selOption.text });
-    }
-
-    function removeUser(_id) {
-        if(confirm("Are you sure you want to remove this user?")){
-            $.get("/Account/RemoveUser", { id: _id });
-        }
-    }
-
-    function test2(tst) {
-        alert(tst);
-
-    }
-
-    function test() {
-        alert("kfgodsghjl");
-
-    }
-
-    function searchUsers() {
-        var searchQuery = $("#txt_Search").val();
-        $.get("/Account/SearchUsers", { SearchQuery: searchQuery },
-            function (data) {
-                generateTable(data);
-        });
-
-    }
-
-
-    function generateTable(data) {
-        $("#userTableBody").empty();
-        //var new_tbody = document.createElement('tbody');
-        var tableRef = document.getElementById('userTableBody');//.getElementsByTagName('userTableBody');
-
-        for (var i = 0; i < data.length; i++) {
-            
-            var newRow   = tableRef.insertRow(i);
-            var cell1  = newRow.insertCell(0);
-            var cell2  = newRow.insertCell(1);
-            var cell3  = newRow.insertCell(2);
-            var cell4  = newRow.insertCell(3);
-            var cell5  = newRow.insertCell(4);
-            var cell6  = newRow.insertCell(5);
-            var cell7  = newRow.insertCell(6);
-
-            cell1.innerHTML=data[i].UserName;
-            cell2.innerHTML=data[i].Email;
-            cell3.innerHTML=data[i].FirstName;
-            cell4.innerHTML=data[i].LastName;
-            cell5.innerHTML=data[i].PhoneNumber;
-
-            
-
-            var link = document.createElement('a');
-            link.setAttribute('href', 'javascript:window.location.reload();');
-            link.innerHTML = 'Remove';
-            link.onclick = (function (param) {
-                return function () {
-                    removeUser(param);
-                };
-            })(data[i].Id);
-            //cell7.innerHTML = link;
-            cell7.appendChild(link);
-
-        }
-    }
-
-    
-
-
-
-
 </script>
+
 
 
 <style>

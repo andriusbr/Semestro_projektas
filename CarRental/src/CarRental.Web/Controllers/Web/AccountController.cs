@@ -14,6 +14,8 @@ using System.Linq;
 using System.Web.Security;
 using CarRental.ServicesContracts;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -26,8 +28,9 @@ namespace CarRental.Web.Controllers.Web
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
-        //public object FormsAuthentication { get; private set; }
-        private static LoginService service = new LoginService(new LoginDbContext());
+        private static LoginDbContext context = new LoginDbContext();
+        private static LoginService service = new LoginService(context);
+        
 
 
 
@@ -98,43 +101,16 @@ namespace CarRental.Web.Controllers.Web
             return View(model);
         }
 
-        /*[HttpPost]
-        [AllowAnonymous]
-        public ActionResult Login(Account user)
-        {
-            if (ModelState.IsValid)
-            {
-                string message = new LoginService(new LoginDbContext()).VerifyAccount(user.UserName, user.Password);
-                if (message.Equals("Success"))
-                {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else if (message.Equals(UserStatus.Admin))
-                {
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
-                    return RedirectToAction("Admin", "Account");
-                }
-                else if (message.Equals(UserStatus.Master))
-                {      
-                   
-                    //FormsAuthentication.SetAuthCookie(user.UserName, false);
-                    return RedirectToAction("Master", "Account");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Login data is incorrect!");
-                }
-            }
-            return View(user);
-        }*/
-
-
 
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
         {
+
+            //User user = new User();
+            //_userManager.GetRolesAsync(user);//IsInRole(user.Id, "Admin")
+            //string[] roles = Roles.GetRolesForUser(user.UserName);
+
             return View();
         }
 
@@ -171,6 +147,11 @@ namespace CarRental.Web.Controllers.Web
                         //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                         //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                         //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+                        //var Roles = new LoginDbContext().Roles.ToList();
+                        await _userManager.AddToRoleAsync(user, UserStatus.Regular);
+
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation(3, "User created a new account with password.");
                         return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -183,26 +164,6 @@ namespace CarRental.Web.Controllers.Web
             return View(model);
         }
 
-        /*[HttpPost]
-        [AllowAnonymous]
-        public ActionResult Register(Register register)
-        {
-            if (ModelState.IsValid)
-            {
-                //new LoginService(new LoginDbContext())
-                string message = new LoginService(new LoginDbContext()).AddUser(register.FirstName, register.LastName,
-                    register.PhoneNumber, register.Email, register.UserName, register.Password);
-                if (message.Equals("Success"))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", message);
-                }
-            }
-            return View(register);
-        }*/
 
         public IActionResult Admin()
         {
@@ -210,12 +171,41 @@ namespace CarRental.Web.Controllers.Web
         }
 
         
-
+        [HttpGet]
+        [Authorize(Roles = UserStatus.Master + "," + UserStatus.SuperAdmin)]
         public IActionResult Master()
         {
-            //LoginService service = new LoginService(new LoginDbContext());
-            //IList<User> list = service.GetAll();
-            return View(/*service.GetAll()*/);
+            IList<User> Users = service.GetAll();
+            IList<string> UserRoles = service.GetUserRoles();
+            IList<string> Roles = service.GetAllRoles();
+
+            Master model = new Master(Users, UserRoles, Roles);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = UserStatus.Master + "," + UserStatus.SuperAdmin)]
+        public IActionResult MasterSearch([FromBody]string query)
+        {
+            IList<User> Users = service.SearchUsers(query);
+            IList<string> UserRoles = service.GetUserRoles();
+            IList<string> Roles = service.GetAllRoles();
+
+            Master model = new Master(Users, UserRoles, Roles);
+
+            return PartialView("MasterPartial", model);
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AccountSettings()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -225,31 +215,64 @@ namespace CarRental.Web.Controllers.Web
         }
 
         [HttpPost]
-        public IActionResult ChangePassword(ChangePassword change)
-        {
-            /*if (ModelState.IsValid)
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {          
+            if (!ModelState.IsValid)
             {
-                if (service.ChangePassword(change.CurrentPassword,change.NewPassword))
+                return View(model);
+            }
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User changed their password successfully.");
+                    return RedirectToAction(nameof(AccountSettings), "Account");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Incorrect password");
-                }
-            }*/
+                AddErrors(result);
+                return View(model);
+            }
+            return RedirectToAction(nameof(AccountSettings), "Account");
+        }
+
+        [HttpGet]
+        public IActionResult AddPhoneNumber()
+        {
             return View();
         }
 
-        public IEnumerable<User> GetAllUsers()
+        [HttpPost]
+        public async Task<IActionResult> AddPhoneNumber(AddPhoneNumber model)
         {
-            return service.GetAll();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                bool result = service.ChangePhoneNumber(user.Id, model.PhoneNumber);
+                if (result)
+                {
+                    return RedirectToAction(nameof(AccountSettings), "Account");
+                }
+                return View(model);
+            }
+            return RedirectToAction(nameof(AccountSettings), "Account");
         }
+
+        public async Task<string> GetPhoneNumber()
+        {
+            User user = await GetCurrentUserAsync();
+            return user.PhoneNumber;
+        }
+
         
-        public void ChangeUserStatus(int id, string value)
+        public void ChangeUserStatus(string id, string value)
         {
             service.ChangeStatus(id, value);
-            
         }
 
 
@@ -292,6 +315,11 @@ namespace CarRental.Web.Controllers.Web
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        private async Task<User> GetCurrentUserAsync()
+        {
+            return await _userManager.FindByIdAsync(HttpContext.User.GetUserId());
         }
 
 

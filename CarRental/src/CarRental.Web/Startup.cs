@@ -4,6 +4,7 @@ using CarRental.Services;
 using CarRental.ServicesContracts;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +45,8 @@ namespace Canplanet.Web
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -74,6 +77,43 @@ namespace Canplanet.Web
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+
+            createRoles();
+        }
+
+
+        private void createRoles()
+        {
+            LoginDbContext context = new LoginDbContext();
+            LoginService service = new LoginService(context);
+
+            if (!service.RoleExists(UserStatus.Regular))
+            {
+                IdentityRole Role = new IdentityRole(UserStatus.Regular);
+                context.Roles.Add(Role);
+                context.SaveChanges();
+            }
+
+            if (!service.RoleExists(UserStatus.Admin))
+            {
+                IdentityRole Role = new IdentityRole(UserStatus.Admin);
+                context.Roles.Add(Role);
+                context.SaveChanges();
+            }
+
+            if (!service.RoleExists(UserStatus.Master))
+            {
+                IdentityRole Role = new IdentityRole(UserStatus.Master);
+                context.Roles.Add(Role);
+                context.SaveChanges();
+            }
+
+            if (!service.RoleExists(UserStatus.SuperAdmin))
+            {
+                IdentityRole Role = new IdentityRole(UserStatus.SuperAdmin);
+                context.Roles.Add(Role);
+                context.SaveChanges();
+            }
         }
 
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);

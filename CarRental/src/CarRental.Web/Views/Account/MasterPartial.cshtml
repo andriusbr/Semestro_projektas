@@ -1,0 +1,119 @@
+﻿@using CarRental.DataAccess.Entities;
+
+@model CarRental.Web.Models.Master
+
+
+
+    <table id="userTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Username</td>
+                <td>Email</td>
+                <td>First name</td>
+                <td>Last name</td>
+                <td>Phone</td>
+                <td>Status</td>
+            </tr>
+        </thead>
+
+        <tbody id="userTableBody"></tbody>
+
+    </table>
+
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        displayAllUsers();
+    });
+
+    
+    function displayAllUsers() {
+        $("#userTableBody").empty();
+        var tableRef = document.getElementById('userTableBody');
+
+        @for (var i = 0; i < Model.Users.Count; i++) {
+
+            @:var newRow = tableRef.insertRow(@i);
+            @:var cell1 = newRow.insertCell(0);
+            @:var cell2 = newRow.insertCell(1);
+            @:var cell3 = newRow.insertCell(2);
+            @:var cell4 = newRow.insertCell(3);
+            @:var cell5 = newRow.insertCell(4);
+            @:var cell6 = newRow.insertCell(5);
+            @:var cell7 = newRow.insertCell(6);
+
+            var user = Model.Users.ElementAt(i);
+
+            @:cell1.innerHTML = '@user.UserName';
+            @:cell2.innerHTML = '@user.Email';
+            @:cell3.innerHTML = '@user.FirstName';
+            @:cell4.innerHTML = '@user.LastName';
+            @:cell5.innerHTML = '@user.PhoneNumber';
+
+            @:var newSelect = document.createElement("select");
+            @:newSelect.setAttribute("name", "selectUserStatus" + "@i");
+            @:newSelect.setAttribute("id", "selectUserStatus" + "@i");
+            @:newSelect.onchange = function () { changeStatus("selectUserStatus" + "@i", '@user.Id') };
+
+            @:var option;
+            var userRole = Model.UserRoles.ElementAt(i);
+            if (userRole != UserStatus.SuperAdmin)
+            {
+                foreach (var role in Model.Roles)
+                {
+                    if(role != UserStatus.SuperAdmin) {
+                        @:option = document.createElement("option");
+                        @:option.setAttribute("value", '@role');
+                        @:option.innerHTML = '@role';
+                        if (userRole == role)
+                            {
+                            @:option.setAttribute("selected", "selected");
+                        }
+                        @:newSelect.appendChild(option);
+                    }
+                }
+            }
+            else
+            {
+                @:option = document.createElement("option");
+                @:option.setAttribute("value", '@userRole');
+                @:option.innerHTML = '@userRole';
+                @:option.setAttribute("selected", "selected");
+                @:newSelect.appendChild(option);
+            }
+
+            @:cell6.appendChild(newSelect);
+
+            if (Model.UserRoles.ElementAt(i) != UserStatus.SuperAdmin) {
+                @:var link = document.createElement('a');
+                @:link.setAttribute('href', 'javascript:window.location.reload();');
+                @:link.innerHTML = 'Remove';
+                @:link.onclick = (function (param) {
+                    @:return function () {
+                        @:removeUser(param);
+                    @:};
+                @:})('@Model.Users.ElementAt(i).Id');
+                @:cell7.appendChild(link);
+            }
+
+        }
+    }
+
+    function changeStatus(selectId, _id) {
+        var e = document.getElementById(selectId);
+        var selOption = e.options[e.selectedIndex];
+        $.get("/Account/ChangeUserStatus", { id: _id, value: selOption.text });
+    }
+
+    function removeUser(_id) {
+        if(confirm("Are you sure you want to remove this user?")){
+            $.get("/Account/RemoveUser", { id: _id });
+        }
+    }
+
+</script>

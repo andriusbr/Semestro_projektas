@@ -1,0 +1,31 @@
+﻿@model CarRental.Web.Models.AddPhoneNumber
+@{
+    ViewBag.Title = "Phone number";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    <h2>@ViewData["Title"].</h2>
+    <h4>Add your phone number.</h4>
+    <hr />
+
+    <form asp-controller="Account" asp-action="AddPhoneNumber" class="form-horizontal" method="post">
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PhoneNumber" class="form-control input-width280" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
