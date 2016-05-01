@@ -1,6 +1,7 @@
 ﻿using CarRental.DataAccess;
 using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,6 @@ namespace CarRental.Services
         public IList<User> GetAll()
         {
             var logins = dbContext.Logins.ToList();
-
             return logins;
         }
 
@@ -34,28 +34,42 @@ namespace CarRental.Services
 
 
 
-
-        public string VerifyAccount(string _username, string _password)
+        public IList<string> GetUserRoles()
         {
-            /*bool isCorrect = dbContext.Logins.Any(e => e.UserName == _username && e.Password == Encode(_password));
-            if (isCorrect)
+            IList<string> list = new List<string>();
+            var logins = dbContext.Logins.ToList();
+            foreach(var login in logins)
             {
-                var user = dbContext.Logins.FirstOrDefault(x => x.UserName == _username);
-                if (user.Status.Equals(UserStatus.Admin))
-                {
-                    return UserStatus.Admin;
-                }
-                else if (user.Status.Equals(UserStatus.Master))
-                {
-                    return UserStatus.Master;
-                }
-                else
-                {
-                    return "Success";
-                }
-            }*/
-            return "Error";
+                var role = GetUserRole(login.Id);
+                list.Add(role);
+            }
+            return list;
         }
+
+        public IList<string> GetUserRoles(IEnumerable<User> users)
+        {
+            IList<string> list = new List<string>();
+            foreach (var user in users)
+            {
+                var role = GetUserRole(user.Id);
+                list.Add(role);
+            }
+            return list;
+        }
+
+
+        public IList<string> GetAllRoles()
+        {
+            IList<string> list = new List<string>();
+            var roles = dbContext.Roles.ToList();
+            foreach (var role in roles)
+            {
+                list.Add(role.Name);
+            }
+            return list;
+        }
+
+
 
 
         public string AddUser(string _firstName, string _lastName, string _phone, string _email, string _username, string _password)
@@ -97,24 +111,48 @@ namespace CarRental.Services
             return dbContext.Logins.Any(e => e.Email == email);
         }
 
-
-        /*public bool ChangePassword(string username, string currentPassword, string newPassword)
+        public bool ChangePhoneNumber(string id, string phone)
         {
-            var user = dbContext.Logins.FirstOrDefault(x => x.Username == username && x.Password == Encode(currentPassword));
-            if (user == null)
+            try {
+                var user = dbContext.Logins.FirstOrDefault(x => x.Id.Equals(id));
+                user.PhoneNumber = phone;
+                dbContext.SaveChanges();
+            }
+            catch (Exception e)
             {
                 return false;
             }
-            user.Password = Encode(newPassword);
-            dbContext.SaveChanges();
             return true;
-        }*/
+        }
 
 
-        public void ChangeStatus(int id, string status)
+        public string GetUserRole(string id)
         {
-            var user = dbContext.Logins.FirstOrDefault(x => x.Id.Equals(id));
-            //user.Status = status;
+            var roleId = dbContext.UserRoles.Where(x => x.UserId == id).FirstOrDefault();
+            if(roleId == null)
+            {
+                return "";
+            }
+            var role = dbContext.Roles.Where(x => x.Id == roleId.RoleId).FirstOrDefault();
+
+            return role.Name;
+        }
+
+
+        public void ChangeStatus(string id, string status)
+        {
+            var newId = dbContext.Roles.FirstOrDefault(x => x.Name.Equals(status)).Id;
+            var currId = dbContext.UserRoles.FirstOrDefault(x => x.UserId.Equals(id));
+            if(currId != null)
+            {
+                dbContext.UserRoles.Remove(currId);
+                
+            }
+            IdentityUserRole<string> userRole = new IdentityUserRole<string>();
+            userRole.UserId = id;
+            userRole.RoleId = newId;
+            dbContext.UserRoles.Add(userRole);
+
             dbContext.SaveChanges();
         }
 
@@ -126,7 +164,7 @@ namespace CarRental.Services
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<User> SearchUsers(string SearchQuery)
+        public IList<User> SearchUsers(string SearchQuery)
         {
             List<User> list = new List<User>();
             string SearchLower = SearchQuery.ToLower();
@@ -158,6 +196,11 @@ namespace CarRental.Services
                 }
             }
             return list;
+        }
+
+        public bool RoleExists(string role)
+        {
+            return dbContext.Roles.Any(x => x.Name.Equals(role));
         }
 
 

@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <h2>@ViewData["Title"].</h2>
+    <h4>Manage your account.</h4>
+    <hr />
+    <div class="form-horizontal" >
+        <div class="row padding5">
+            <div class="col-md-1" style="font-weight: bold;">
+                Password:
+            </div>
+            <div class="col-md-2">
+                [<a asp-controller="Account" asp-action="ChangePassword">Change</a>]
+            </div>
+        </div>
+        <div class="row padding5">
+            <div class="col-md-1" style="font-weight: bold;">
+                Phone:
+            </div>
+            <div class="col-md-2">
+                <span id="phoneNumber"></span>
+                [<a id="phoneNumberRef" asp-controller="Account" asp-action="AddPhoneNumber"></a>]
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        displayPhoneNumber();
+    });
+
+    function displayPhoneNumber(){
+        $.get("/Account/GetPhoneNumber",
+            function (data) {
+                if (data === undefined) {
+                    document.getElementById("phoneNumberRef").innerHTML = 'Add';
+
+                } else {
+                    document.getElementById("phoneNumber").innerHTML = data;
+                    document.getElementById("phoneNumberRef").innerHTML = 'Change';
+                }
+            });
+
+}
+
+</script>
+
+<style>
+    .padding5{
+        padding: 5px;
+    }
+</style>

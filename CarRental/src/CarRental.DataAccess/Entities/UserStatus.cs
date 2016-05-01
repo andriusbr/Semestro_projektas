@@ -7,8 +7,9 @@ namespace CarRental.DataAccess.Entities
 {
     public class UserStatus
     {
-        public static string Regular = "Regular";
-        public static string Admin = "Admin";
-        public static string Master = "Master";
+        public const string Regular = "Regular";
+        public const string Admin = "Admin";
+        public const string Master = "Master";
+        public const string SuperAdmin = "Super Admin";
     }
 }

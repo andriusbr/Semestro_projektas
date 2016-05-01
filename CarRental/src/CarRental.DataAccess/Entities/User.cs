@@ -16,6 +16,15 @@ namespace CarRental.DataAccess.Entities
         public override string PhoneNumber { get; set; }*/
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public bool IsInRole(string role)
+        {
+            var result = Roles.Where(x => x.UserId == Id);
+            if(result != null)
+            {
+                return true;
+            }
+            return false;
+        }
         
     }
 }
