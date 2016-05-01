@@ -12,7 +12,7 @@
             <label class="col-md-4 control-label">Nuomos pražia</label>
             <div class="col-md-8">
                 <div class='input-group date' id='datetimepickerstart'>
-                    <input type='text' class="form-control" id="orderStart" onblur="orderTime(orderStart, orderEnd); /*isFree(orderStart, orderEnd);*/" />
+                    <input type='text' class="form-control" id="orderStart" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -23,7 +23,7 @@
             <label class="col-md-4 control-label">Nuomos pabaiga</label>
             <div class="col-md-8">
                 <div class='input-group date' id='datetimepickerend'>
-                    <input type='text' class="form-control" id="orderEnd" onblur="orderTime(orderStart, orderEnd); /*isFree(orderStart, orderEnd);*/" />
+                    <input type='text' class="form-control" id="orderEnd" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -76,11 +76,6 @@
                 <input type="button" value="Ivesti" onclick='create();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Laisvi" onclick='isFree();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
-            </div>
-        </div>
     </div>
     <div class="form-horizontal col-md-7">
         <table class="table table-bordered">
@@ -103,41 +98,7 @@
 </div>
 
 <script>
-    /*$(document).ready(function () {
-        $.getJSON('/api/autos')
-            .done(function (data) {
-                $.each(data, function (key, item) {
-                    isFree(data);
-                    /*if (isFree(item.AutoId)) {
-                       var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
-                     + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
-                     + item.Gearbox + '</td><td>'
-                     + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
-                   $("#autos").append(html);
-                    }                 
-                });
-            });
-    });*/
-
-    /*function isFree(data) {
-        $.ajax({
-            url: '/api/autos/id/5',
-            type: 'GET',
-            dataType: 'json',
-            crossDomain: true,
-            success: function (free) {
-                var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
-                      + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
-                      + item.Gearbox + '</td><td>'
-                      + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
-                $("#autos").append(html);
-            },
-            error: function (x, y, z) {
-                alert(x + '\n' + y + '\n' + z);
-            }
-        });
-    }*/
-
+   
     function isFree() {
         $("#autos").html("");
         var start = new Date(orderStart.value);
@@ -161,17 +122,18 @@
             });
     }
 
+    $(function () {
+        $('#datetimepickerstart').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+       
 
-    $('#datetimepickerstart').datetimepicker();
+        $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
 
-
-    $('#datetimepickerend').datetimepicker({
-        //locale: 'it'
-        //format: 'YYYY-MM-DD HH:mm'
-        //weekStart: 1
-        //language: 'es'
     });
-
+     
     function create() {
         $.ajax({
             type: "POST",

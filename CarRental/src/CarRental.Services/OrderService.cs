@@ -1,8 +1,10 @@
 ﻿using CarRental.DataAccess;
 using CarRental.DataAccess.Entities;
 using CarRental.ServicesContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+
 
 namespace CarRental.Services
 {
@@ -47,6 +49,17 @@ namespace CarRental.Services
             order.OrderId = id;
             dbContext.Orders.Update(order);
             dbContext.SaveChanges();
+        }
+
+        public IList<int> GetFromInterval(DateTime rentStart, DateTime rentEnd)
+        {
+            var orders = dbContext.Orders.Where(ord => 
+                rentStart.Date >= ord.OrderStart.Date && rentStart.Date <= ord.OrderEnd.Date ||
+                rentEnd.Date >= ord.OrderStart.Date && rentEnd.Date <= ord.OrderEnd.Date ||
+                rentStart.Date <= ord.OrderStart.Date && rentEnd.Date >= ord.OrderEnd.Date)
+                .Select( ord => ord.AutoId).Distinct().ToList();
+
+            return orders;
         }
     }
 }

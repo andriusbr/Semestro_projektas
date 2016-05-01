@@ -52,36 +52,14 @@ namespace CarRental.Services
 
         public IList<Auto> GetAllFreeAuto(DateTime rentStart, DateTime rentEnd)
         {
-            var autos = dbContext.Autos.ToList();
-            List<Auto> freeAutos = new List<Auto>();
-            foreach (var auto in autos)
-                if (IsFree(auto.AutoId, rentStart, rentEnd))
-                    freeAutos.Add(auto);
+            OrderService order = new OrderService(dbContext);
+            var autosId = order.GetFromInterval(rentStart, rentEnd);
+
+                var freeAutos = dbContext.Autos
+                .Where(aut => !autosId.Contains(aut.AutoId))
+                .ToList();
 
             return freeAutos;
-        }
-
-        bool IsFree(int id, DateTime rentStart, DateTime rentEnd)
-        {
-            if (rentStart.Year == 0001 || rentEnd.Year == 0001)
-                return false;
-            bool free = true;
-            OrderService order = new OrderService(dbContext);
-            IList<Order> orders = order.GetAll();
-            foreach(var ord in orders)
-            {
-                if(id == ord.AutoId)
-                {
-                    if (rentStart.Date >= ord.OrderStart.Date && rentStart.Date <= ord.OrderEnd.Date || 
-                        rentEnd.Date >= ord.OrderStart.Date && rentEnd.Date <= ord.OrderEnd.Date || 
-                        rentStart.Date <= ord.OrderStart.Date && rentEnd.Date >= ord.OrderEnd.Date)
-                    {
-                        free = false;
-                    }
-                }
-            }
-
-            return free;
-        }
+        }       
     }
 }
