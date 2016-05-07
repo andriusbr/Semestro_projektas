@@ -52,6 +52,9 @@ namespace CarRental.Services
 
         public IList<Auto> GetAllFreeAuto(DateTime rentStart, DateTime rentEnd)
         {
+            if (rentStart.Year == 1 || rentEnd.Year == 1)
+                return null;
+
             OrderService order = new OrderService(dbContext);
             var autosId = order.GetFromInterval(rentStart, rentEnd);
 
