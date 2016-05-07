@@ -69,5 +69,14 @@ namespace CarRental.Services
 
             return freeAutos;
         }       
+
+        public decimal GetPrice(int id, int duration)
+        {
+            var price = dbContext.Prices
+                .Where(pr => id == pr.AutoId && duration >= pr.dayFrom && duration <= pr.dayEnd)
+                .ToList();
+
+            return price[0].Value;
+        }
     }
 }

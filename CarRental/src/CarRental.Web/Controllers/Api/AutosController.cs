@@ -39,7 +39,16 @@ namespace CarRental.Web.Controllers.Api
             var auto = autoService.GetById(id);
 
             return auto;
-        }        
+        }
+
+        [HttpGet("{id}/{duration}/{bla}")]
+        public decimal Get(int id, int duration)
+        {
+            decimal price;
+            price = autoService.GetPrice(id, duration);
+
+            return price;
+        }
 
         [HttpPost("{twoDays}/{sixDays}/{thirteenDays}/{twoTwoDays}/{thirtyDays}")]
         public void Post([FromBody]Auto value, int twoDays, int sixDays, 

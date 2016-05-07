@@ -157,8 +157,17 @@
             .done(function (data) {
                 $('#autoId').val(data.AutoId);
                 $('#autoModel').val(data.Make + ' ' + data.PlateNumber);
+                getPrice(data.AutoId);
+            });
+    }
+
+    function getPrice(autid) {
+        $.getJSON('/api/autos/' + autid + '/' + document.getElementById('duration').value + '/bla')
+            .done(function (price) {
+                $('#dayPrice').val(price);
 
             });
+
     }
 
     function check(id) {

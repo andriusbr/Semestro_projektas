@@ -10,6 +10,7 @@ namespace CarRental.DataAccess.Entities
         public int PriceId { get; set; }
         public int AutoId { get; set; }
         public decimal Value { get; set; }
-        public int day { get; set; }
+        public int dayFrom { get; set; }
+        public int dayEnd { get; set; }
     }
 }

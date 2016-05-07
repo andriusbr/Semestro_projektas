@@ -17,5 +17,7 @@ namespace CarRental.ServicesContracts
         void Edit(int id, Auto auto);
 
         IList<Auto> GetAllFreeAuto(DateTime rentStart, DateTime rentEnd);
+
+        decimal GetPrice(int id, int duration);
     }
 }

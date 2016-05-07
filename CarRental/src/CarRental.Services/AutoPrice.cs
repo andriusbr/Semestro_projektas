@@ -24,19 +24,24 @@ namespace CarRental.Services
             switch (time)
             {
                 case 0:
-                    price.day = 2;
+                    price.dayFrom = 0;
+                    price.dayEnd = 2;
                     break;
                 case 1:
-                    price.day = 6;
+                    price.dayFrom = 3;
+                    price.dayEnd = 6;
                     break;
                 case 2:
-                    price.day = 13;
+                    price.dayFrom = 7;
+                    price.dayEnd = 13;
                     break;
                 case 3:
-                    price.day = 22;
+                    price.dayFrom = 14;
+                    price.dayEnd = 22;
                     break;
                 case 4:
-                    price.day = 30;
+                    price.dayFrom = 23;
+                    price.dayEnd = 30;
                     break;
             }
             dbContext.Prices.Add(price);

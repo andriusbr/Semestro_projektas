@@ -91,7 +91,9 @@ namespace CarRental.Web.Migrations
 
                     b.Property<decimal>("Value");
 
-                    b.Property<int>("day");
+                    b.Property<int>("dayEnd");
+
+                    b.Property<int>("dayFrom");
 
                     b.HasKey("PriceId");
                 });
