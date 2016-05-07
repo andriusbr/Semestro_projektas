@@ -7,6 +7,7 @@ namespace CarRental.DataAccess
     {
         public DbSet<Auto> Autos { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Price> Prices { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

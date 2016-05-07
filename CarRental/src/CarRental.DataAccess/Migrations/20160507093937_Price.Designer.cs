@@ -8,7 +8,7 @@ using CarRental.DataAccess;
 namespace CarRental.Web.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20160507093406_Price")]
+    [Migration("20160507093937_Price")]
     partial class Price
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,20 @@ namespace CarRental.Web.Migrations
                     b.Property<string>("RentReturn");
 
                     b.HasKey("OrderId");
+                });
+
+            modelBuilder.Entity("CarRental.DataAccess.Entities.Price", b =>
+                {
+                    b.Property<int>("PriceId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AutoId");
+
+                    b.Property<decimal>("Value");
+
+                    b.Property<int>("day");
+
+                    b.HasKey("PriceId");
                 });
         }
     }
