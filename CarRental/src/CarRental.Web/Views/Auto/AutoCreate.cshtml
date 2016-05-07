@@ -1,5 +1,5 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<div>
+<div id="autoid">
     <h2>Naujas automobilis</h2>
     <div class="form-horizontal col-md-6">
         <div class="form-group">
@@ -126,31 +126,31 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 2 parų</label>
             <div class="col-md-9">
-                <input type="number" id="2days" class="form-control" />
+                <input type="number" name="price[]" id="2days" class="form-control" />
             </div>
         </div>      
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 6 parų</label>
             <div class="col-md-9">
-                <input type="number" id="6days" class="form-control" />
+                <input type="number" name="price[]" id="6days" class="form-control" />
             </div>
         </div> 
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 13 parų</label>
             <div class="col-md-9">
-                <input type="number" id="13days" class="form-control" />
+                <input type="number" name="price[]" id="13days" class="form-control" />
             </div>
         </div> 
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 22 parų</label>
             <div class="col-md-9">
-                <input type="number" id="22days" class="form-control" />
+                <input type="number" name="price[]" id="22days" class="form-control" />
             </div>
         </div>    
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 30 parų</label>
             <div class="col-md-9">
-                <input type="number" id="30days" class="form-control" />
+                <input type="number" name="price[]" id="30days" class="form-control" />
             </div>
         </div>              
         <div class="form-group">
@@ -168,7 +168,11 @@
     function create() {
         $.ajax({
             type: "POST",
-            url: "../api/autos",
+            url: "../api/autos/" + document.getElementById('2days').value + '/'
+            + document.getElementById('6days').value + '/'
+            + document.getElementById('13days').value + '/'
+            + document.getElementById('22days').value + '/'
+            + document.getElementById('30days').value,
             data: JSON.stringify({
                 "Make": document.getElementById('make').value,
                 "PriceId": 5,
@@ -189,9 +193,13 @@
                 "Gearbox": document.getElementById('gearbox').value,
                 "Activity": document.getElementById('activity').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            //success: function (id) {
+               // $('#autoid').val(id);
+       // }
         });
     }
+
 
     function check(id) {
         if (id.length == 0) {

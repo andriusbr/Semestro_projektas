@@ -10,7 +10,7 @@ namespace CarRental.ServicesContracts
 
         Auto GetById(int id);
 
-        void Create(Auto auto);
+        void Create(Auto auto, int[] prices);
 
         void Delete(int id);
 

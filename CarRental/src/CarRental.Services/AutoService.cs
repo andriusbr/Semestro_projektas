@@ -30,10 +30,15 @@ namespace CarRental.Services
             return auto;
         }
 
-        public void Create(Auto auto)
-        {          
+        public void Create(Auto auto, int[] prices)
+        {
+            AutoPrice price = new AutoPrice(dbContext);
             dbContext.Autos.Add(auto);
-            dbContext.SaveChanges();           
+            dbContext.SaveChanges();
+            for(int i = 0; i < prices.Length; i++)
+            {
+                price.AddPrice(auto.AutoId, prices[i], i);
+            }          
         }
 
         public void Delete(int id)

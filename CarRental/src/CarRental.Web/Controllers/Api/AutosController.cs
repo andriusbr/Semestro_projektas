@@ -41,10 +41,12 @@ namespace CarRental.Web.Controllers.Api
             return auto;
         }        
 
-        [HttpPost]
-        public void Post([FromBody]Auto value)
+        [HttpPost("{twoDays}/{sixDays}/{thirteenDays}/{twoTwoDays}/{thirtyDays}")]
+        public void Post([FromBody]Auto value, int twoDays, int sixDays, 
+            int thirteenDays, int twoTwoDays, int thirtyDays)
         {
-            autoService.Create(value);
+            int[] prices = { twoDays, sixDays, thirteenDays, twoTwoDays, thirteenDays };
+            autoService.Create(value, prices);
         }
 
         [HttpPut("{id}")]
