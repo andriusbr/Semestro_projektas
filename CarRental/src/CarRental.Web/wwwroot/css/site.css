@@ -145,3 +145,84 @@ textarea {
     max-width: 280px;
 }
 
+
+.top-margin10{
+    margin-top: 10px;
+}
+
+.left-right-margin1{
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+
+.search-container {
+    align-items: center;
+    padding: 20px;
+    background-color: #d0e4fe;
+
+}
+
+.time {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 6%;
+}
+
+
+.carResultsDiv{
+    margin-bottom: 50px;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.carResultDiv{
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+}
+
+.carResultTable{
+
+}
+
+.carImage{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.carResultRow_CarSpec {
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+
+
+.orderBtn {
+  margin: 10px;
+  background: #22f04b;
+  background-image: -webkit-linear-gradient(top, #22f04b, #32b82b);
+  background-image: -moz-linear-gradient(top, #22f04b, #32b82b);
+  background-image: -ms-linear-gradient(top, #22f04b, #32b82b);
+  background-image: -o-linear-gradient(top, #22f04b, #32b82b);
+  background-image: linear-gradient(to bottom, #22f04b, #32b82b);
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+}
+
+.orderBtn:hover {
+  background: #00d619;
+  background-image: -webkit-linear-gradient(top, #00d619, #00b31b);
+  background-image: -moz-linear-gradient(top, #00d619, #00b31b);
+  background-image: -ms-linear-gradient(top, #00d619, #00b31b);
+  background-image: -o-linear-gradient(top, #00d619, #00b31b);
+  background-image: linear-gradient(to bottom, #00d619, #00b31b);
+  text-decoration: none;
+}
