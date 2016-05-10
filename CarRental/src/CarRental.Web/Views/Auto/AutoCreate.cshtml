@@ -152,10 +152,13 @@
             <div class="col-md-9">
                 <input type="number" name="price[]" id="30days" class="form-control" />
             </div>
-        </div>              
+        </div>  
+        <div class="form-group">
+            <input type="file" id="fileUploads"/>
+        </div>     
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();/*location.href="/Auto/AutoIndex";*/' class="btn btn-default" />
+                <input type="button" value="Ivesti" class="btn btn-default" id="butt" />
             </div>
         </div>
     </div>
@@ -165,7 +168,34 @@
 </div>
 
 <script>
+    var fileName = "";
+    function uploadFile() {
+        var d = new FormData();
+        var f = document.getElementById('fileUploads').files[0];
+        d.append('file', f);       
+
+        $.ajax({
+            type: "POST",
+            url: "../api/autos",
+            data: d,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (id) {
+                fileName = id.id;
+                create();
+            },
+            error: function (x) {
+                alert('ne');
+                fileName = "";
+                create();
+            }
+        });
+    }
+
     function create() {
+        
+
         $.ajax({
             type: "POST",
             url: "../api/autos/" + document.getElementById('2days').value + '/'
@@ -217,4 +247,11 @@
         }
         return date;
     }
+
+    $(function () {
+        $('#butt').on('click', function () {
+            //create();
+            uploadFile();
+        });
+    });
 </script>

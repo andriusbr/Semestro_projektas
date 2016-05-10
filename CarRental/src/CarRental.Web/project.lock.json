@@ -10341,6 +10341,7 @@
       "CarRental.Services >= 1.0.0-*",
       "CarRental.ServicesContracts >= 1.0.0-*",
       "EntityFramework.Commands >= 7.0.0-rc1-final",
+      "microsoft-web-helpers >= 2.1.20710.2",
       "Microsoft.AspNet.Diagnostics >= 1.0.0-rc1-final",
       "Microsoft.AspNet.Identity >= 3.0.0-rc1-final",
       "Microsoft.AspNet.Identity.EntityFramework >= 3.0.0-rc1-final",
@@ -10354,7 +10355,6 @@
       "Twitter.Bootstrap.Less >= 3.3.6"
     ],
     "DNX,Version=v4.5.1": [
-      "microsoft-web-helpers >= 2.1.20710.2",
       "System-Web-Helpers.dll >= 1.0.1",
       "fx/presentationframework.aero2 >= 4.0.0",
       "fx/presentationframework.aerolite >= 4.0.0",
