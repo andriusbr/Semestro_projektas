@@ -1,4 +1,4 @@
-﻿@model CarRental.Web.Models.Account
+﻿@model CarRental.Web.Models.Car
 @{
     ViewBag.Title = "Car Rental";
 }
@@ -6,52 +6,35 @@
 
     <h1>CarRental</h1>
 
-    <div class="search-container">
+    <div class="search-container col-xs-3">
         <form id="eventForm" method="post" class="form-horizontal">
 
             <label>Pradžia</label></br>
-            <div class="row">
-                <div class="col-xs-3">
+            <div class="row left-right-margin1">
                     <div class="input-group input-append date" id="datepicker1">
                         <input type="text" class="form-control" name="date" />
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                    </div>
                 </div>
                 
             </div>
             <label>Pabaiga</label></br>
-            <div class="row">
-                <div class="col-xs-3">
+            <div class="row left-right-margin1">
                     <div class="input-group input-append date" id="datepicker2">
                         <input type="text" class="form-control" name="date" />
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
-                </div>
                 
+            </div>
+            <div class="row top-margin10" align="right">
+                <span class="orderBtn">Search</span>
             </div>
         </form>
     </div>
 
-
-
-
-
-
-<style>
-    .search-container {
-        align-items: center;
-        padding: 20px;
-        background-color: #d0e4fe;
-    }
-
-    .time {
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 6%;
-    }
-
-</style>
-
+<div id="carResults" class="col-xs-9">
+    @Html.Partial("IndexPartial", Model)
+</div>
+<div class="row"></div>
 
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-
+using CarRental.Web.Models;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -40,6 +40,21 @@ namespace CarRental.Web.Controllers.Web
             ViewData["Title"] = "Užsakymo redagavimas";
             ViewBag.orderId = id;
             return View();
+        }
+
+
+        public IActionResult OrderSubmit(int id)
+        {
+            ViewData["Title"] = "Užsakymas";
+            ViewBag.orderId = id;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult OrderSubmit(OrderSubmit model)
+        {
+            
+            return View(model);
         }
     }
 }
