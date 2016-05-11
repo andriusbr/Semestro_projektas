@@ -23,5 +23,6 @@ namespace CarRental.DataAccess.Entities
         public string FuelType { get; set; }
         public string Gearbox { get; set; }
         public bool Activity { get; set; }
+        public string Photo { get; set; }
     }
 }
