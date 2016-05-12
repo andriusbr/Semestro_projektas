@@ -49,6 +49,8 @@ namespace CarRental.Web.Migrations
 
                     b.Property<int>("OilChange");
 
+                    b.Property<string>("Photo");
+
                     b.Property<string>("PlateNumber");
 
                     b.Property<DateTime>("TAEnd");

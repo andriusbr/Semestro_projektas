@@ -1,9 +1,20 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Mvc;
+using System.IO;
+using System.Web.UI;
 
 namespace CarRental.Web.Controllers.Web
 {
     public class AutoController : Controller
-    {      
+    {
+        private IHostingEnvironment _environment;
+
+
+        public AutoController(IHostingEnvironment environment)
+        {
+            _environment = environment;
+        }
+
         public IActionResult AutoIndex()
         {
             ViewData["Title"] = "Automobiliai";
@@ -27,6 +38,7 @@ namespace CarRental.Web.Controllers.Web
         {
             ViewData["Title"] = "Automobilis detaliau";
             ViewBag.autoId = id;
+            ViewBag.adress = "/Uploads/";
             return View();
         }
 

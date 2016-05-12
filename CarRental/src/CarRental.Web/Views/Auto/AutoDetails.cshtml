@@ -2,6 +2,9 @@
     <h2>Automobilis</h2>
 </div>
 <dl class="dl-horizontal" id="auto"></dl>
+<div id="photoAdress">
+
+</div>
 <p>
     <a asp-action="AutoIndex">Grįžti į sąrašą</a>
 </p>
@@ -32,6 +35,7 @@
                     addItem('Kuro tipas:', data.FuelType);
                     addItem('Pavarų dėžė:', data.Gearbox);
                     addItem('Aktyvus:', data.Activity);
+                    $('#photoAdress').append('<img class="carImage" src="' + @ViewBag.adress + data.Photo + '" />');
                 });
         });
 </script>
