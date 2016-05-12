@@ -8,10 +8,10 @@ namespace CarRental.Web.Models
 {
     public class AddPhoneNumber
     {
-        [Required]
-        [Display(Name = "Phone number")]
+        [Required(ErrorMessage = "Įveskite telefono numerį")]
+        [Display(Name = "Telefono numeris")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Not a valid Phone number")]
+        [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Netinkamas telefono numeris")]
         public string PhoneNumber { get; set; }
     }
 }

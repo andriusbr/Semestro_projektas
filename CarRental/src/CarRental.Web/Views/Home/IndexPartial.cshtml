@@ -32,16 +32,22 @@
             @:var make = document.createElement('h2');
             var name = car.Make + " " + car.Model;
             @:make.innerHTML = '@name';
+            @:var specsDiv = document.createElement('div');
+            @:specsDiv.className = "carSpecs";
+            @:var specs = document.createElement('span');
+            @:specs.innerHTML = "test";
+            @:specsDiv.appendChild(specs);
             @:var btnRef = document.createElement('a');
             @:btnRef.className = "noUnderline";
             @:btnRef.href = "@Html.Raw(@Url.Action("OrderSubmit", "Order",
                             new { @id = car.Id, @start = Model.StartDate, @end = Model.EndDate }))";
             @:var btn = document.createElement('span');
             @:btn.className = "orderBtn";
-            @:btn.innerHTML = "Order";
+            @:btn.innerHTML = "Užsakyti";
             @:btnRef.appendChild(btn);
 
             @:td2.appendChild(make);
+            @:td2.appendChild(specsDiv);
             @:td2.appendChild(btnRef);
             @:tr.appendChild(td);
             @:tr.appendChild(td2);

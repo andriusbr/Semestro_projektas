@@ -8,20 +8,20 @@ namespace CarRental.Web.Models
 {
     public class ChangePassword
     {
-        [Required]
+        [Required(ErrorMessage = "Įveskite dabartinį slaptažodį")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Dabartinis slaptažodis")]
         public string CurrentPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite naują slaptažodį")]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Naujas slaptažodis")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         public string NewPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pakartokite slaptažodį")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Pakartokite slaptažodį")]
         [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
         public string NewPasswordConfirm { get; set; }
     }

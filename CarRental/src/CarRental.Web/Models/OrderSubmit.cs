@@ -10,46 +10,46 @@ namespace CarRental.Web.Models
     {
         [Required]
         [DataType(DataType.DateTime)]
-        [Display(Name = "Start Date")]
+        [Display(Name = "Pradžia")]
         public DateTime? StartDate { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
-        [Display(Name = "End Date")]
+        [Display(Name = "Pabaiga")]
         public DateTime? EndDate { get; set; }
 
         [Required]
-        [Display(Name = "First name")]
+        [Display(Name = "Vardas")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last name")]
+        [Display(Name = "Pavardė")]
         public string LastName { get; set; }
 
 
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "El. paštas")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Not a valid Phone number")]
-        [Display(Name = "Phone")]
+        [Display(Name = "Telefono nr.")]
         public string PhoneNumber { get; set; }
 
         
-        [Display(Name = "Pick Up Location")]
+        [Display(Name = "Pristatymo vieta")]
         public string PickUp { get; set; }
 
         
-        [Display(Name = "Drop Off Location")]
+        [Display(Name = "Grąžinimo vieta")]
         public string DropOff { get; set; }
 
-        [Display(Name = "Comments (Optional)")]
+        [Display(Name = "Komentarai")]
         public string Comments { get; set; }
 
-        [Display(Name ="If you selected one of the cities, please specify the location in the comments")]
+        [Display(Name ="Jei pasirinkote vieną iš miestų, prašom nurodyti tikslią vietą komentaruose")]
         public string LocationComment { get; }
     }
 }
