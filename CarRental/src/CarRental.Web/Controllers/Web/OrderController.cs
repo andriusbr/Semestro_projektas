@@ -8,6 +8,7 @@ using CarRental.DataAccess.Entities;
 using Microsoft.AspNet.Mvc.Rendering;
 using CarRental.DataAccess;
 using CarRental.Services;
+using Microsoft.AspNet.Authorization;
 
 namespace CarRental.Web.Controllers.Web
 {
@@ -18,6 +19,7 @@ namespace CarRental.Web.Controllers.Web
 
         private static OrderService orderService = new OrderService(new CarRentalDbContext());
 
+        [Authorize(Roles = UserStatus.Admin + "," + UserStatus.Master + "," + UserStatus.SuperAdmin)]
         public IActionResult OrderIndex()
         {
             ViewData["Title"] = "Užsakymai";
@@ -62,7 +64,6 @@ namespace CarRental.Web.Controllers.Web
                                       Value = x.ToString()
                                   });
             OrderSubmit orderSubmit = new OrderSubmit();
-            //ViewBag.currentUser = null;
             if (User.Identity.IsAuthenticated)
             {
                 User user = loginService.GetByUsername(User.Identity.Name);
@@ -73,11 +74,8 @@ namespace CarRental.Web.Controllers.Web
 
                 
             }
-            //orderSubmit.StartDate = start;
-            //orderSubmit.EndDate = end;
-            /*ViewBag.startDate =  start;
-            ViewBag.endDate = end;
-            ViewData["test"] = "test";*/
+            orderSubmit.StartDate = start;
+            orderSubmit.EndDate = end;
 
             return View(orderSubmit);
         }
