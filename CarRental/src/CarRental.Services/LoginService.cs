@@ -31,6 +31,12 @@ namespace CarRental.Services
             return user;
         }
 
+        public User GetByUsername(string username)
+        {
+            var user = dbContext.Logins.FirstOrDefault(x => x.UserName.Equals(username));
+            return user;
+        }
+
 
 
 
@@ -186,10 +192,10 @@ namespace CarRental.Services
                 {
                     list.Add(user);
                 }
-                else if (user.Id.ToString().Contains(SearchLower))
+                /*else if (user.Id.ToString().Contains(SearchLower))
                 {
                     list.Add(user);
-                }
+                }*/
                 else if (user.PhoneNumber != null && user.PhoneNumber.Contains(SearchLower))
                 {
                     list.Add(user);

@@ -1,27 +1,7 @@
-﻿@model CarRental.Web.Models.Car
+﻿@model CarRental.Web.Models.Cars
 
 <div id="carResultsDiv" class="carResultsDiv">
-    <div class="carResultDiv">
-        <table id="carResultTable">
-            <tbody id="carTableBody">
-                <tr>
-                    <td>
-                         <img class="carImage" src="http://cdn.rcstatic.com/images/car_images/new_images/kia/rio_lrg.jpg" />
-                    </td>
-
-                    <td class="carResultRow_CarSpec">
-                        <h2>
-                            Kia Rio
-                        </h2>
-                        <a href="/Order/OrderSubmit/" class="noUnderline">
-                            <span class="orderBtn">Order</span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>
-    </div>
+    
 </div>
 
 
@@ -33,36 +13,59 @@
 
     function displayCars() {
 
-        var body = document.getElementById('carResultsDiv');
-        var carResultDiv = document.createElement("div");
-        carResultDiv.className = "carResultDiv";
-        var tbl = document.createElement('table');
-        var tbdy = document.createElement('tbody');
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        var image = document.createElement('img');
-        image.className = "carImage";
-        image.src = "http://www.carstoti.com/wp-content/uploads/2014/08/white-2015-volkswagen-polo.jpg";
-        td.appendChild(image);
-        var td2 = document.createElement('td');
-        td2.className = "carResultRow_CarSpec";
-        var make = document.createElement('h2');
-        make.innerHTML = "Volkswagen Polo";
-        var btnRef = document.createElement('a');
-        btnRef.className = "noUnderline";
-        btnRef.href = "/Order/OrderSubmit/";//+id
-        var btn = document.createElement('span');
-        btn.className = "orderBtn";
-        btn.innerHTML = "Order";
-        btnRef.appendChild(btn);
+        @for (var i = 0; i < Model.CarList.Count; i++) {
+            var car = Model.CarList.ElementAt(i);
 
-        td2.appendChild(make);
-        td2.appendChild(btnRef);
-        tr.appendChild(td);
-        tr.appendChild(td2);
-        tbdy.appendChild(tr);
-        tbl.appendChild(tbdy);
-        carResultDiv.appendChild(tbl);
-        body.appendChild(carResultDiv);
+            @:var body = document.getElementById('carResultsDiv');
+            @:var carResultDiv = document.createElement("div");
+            @:carResultDiv.className = "carResultDiv";
+            @:var tbl = document.createElement('table');
+            @:var tbdy = document.createElement('tbody');
+            @:var tr = document.createElement('tr');
+            @:var td = document.createElement('td');
+            @:var image = document.createElement('img');
+            @:image.className = "carImage";
+            @:image.src = '@car.Photo';
+            @:td.appendChild(image);
+            @:var td2 = document.createElement('td');
+            @:td2.className = "carResultRow_CarSpec";
+            @:var make = document.createElement('h2');
+            var name = car.Make + " " + car.Model;
+            @:make.innerHTML = '@name';
+            @:var btnRef = document.createElement('a');
+            @:btnRef.className = "noUnderline";
+            @:btnRef.href = "@Html.Raw(@Url.Action("OrderSubmit", "Order",
+                            new { @id = car.Id, @start = Model.StartDate, @end = Model.EndDate }))";
+            @:var btn = document.createElement('span');
+            @:btn.className = "orderBtn";
+            @:btn.innerHTML = "Order";
+            @:btnRef.appendChild(btn);
+
+            @:td2.appendChild(make);
+            @:td2.appendChild(btnRef);
+            @:tr.appendChild(td);
+            @:tr.appendChild(td2);
+            @:tbdy.appendChild(tr);
+            @:tbl.appendChild(tbdy);
+            @:carResultDiv.appendChild(tbl);
+            @:body.appendChild(carResultDiv);
+        }
+
+    }
+
+    function goToOrderPage(car) {
+        var StringToPost = JSON.stringify({ id: car, start: null, end: null });
+        $.ajax({
+            url: "@Url.Action("OrderSubmit", "Order")",
+            type: 'GET',
+            contentType: "application/json",
+            dataType: 'html',
+            data: StringToPost,
+            success: function (data) {
+            var imagestring = btoa(data);
+            $('#ChartImage').html(data);
+        }
+    })
+
     }
 </script>

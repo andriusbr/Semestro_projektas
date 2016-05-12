@@ -9,6 +9,16 @@ namespace CarRental.Web.Models
     public class OrderSubmit
     {
         [Required]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Start Date")]
+        public DateTime? StartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "End Date")]
+        public DateTime? EndDate { get; set; }
+
+        [Required]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
 
@@ -28,15 +38,18 @@ namespace CarRental.Web.Models
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
 
-        [Required]
+        
         [Display(Name = "Pick Up Location")]
         public string PickUp { get; set; }
 
-        [Required]
+        
         [Display(Name = "Drop Off Location")]
         public string DropOff { get; set; }
 
         [Display(Name = "Comments (Optional)")]
         public string Comments { get; set; }
+
+        [Display(Name ="If you selected one of the cities, please specify the location in the comments")]
+        public string LocationComment { get; }
     }
 }
