@@ -47,6 +47,8 @@ namespace CarRental.Web.Migrations
 
                     b.Property<int>("Milleage");
 
+                    b.Property<string>("Model");
+
                     b.Property<int>("OilChange");
 
                     b.Property<string>("Photo");
@@ -67,19 +69,29 @@ namespace CarRental.Web.Migrations
 
                     b.Property<int>("AutoId");
 
-                    b.Property<string>("Commentd");
+                    b.Property<string>("Comments");
+
+                    b.Property<bool>("Confirmed");
 
                     b.Property<decimal>("DayPrice");
 
                     b.Property<string>("DeliveryPrice");
 
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
                     b.Property<DateTime>("OrderEnd");
 
                     b.Property<DateTime>("OrderStart");
 
+                    b.Property<string>("Phone");
+
                     b.Property<string>("RentPlace");
 
                     b.Property<string>("RentReturn");
+
+                    b.Property<string>("Surname");
 
                     b.HasKey("OrderId");
                 });
