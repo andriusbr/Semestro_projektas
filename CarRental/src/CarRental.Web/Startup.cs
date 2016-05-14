@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
+using System.Globalization;
 
 namespace Canplanet.Web
 {
@@ -51,6 +52,9 @@ namespace Canplanet.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("lt");
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("lt");
+
             // Klaidų puslapis
             if (env.IsDevelopment())
             {

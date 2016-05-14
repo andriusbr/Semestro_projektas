@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Hosting;
+﻿using CarRental.DataAccess.Entities;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
 using System.IO;
 using System.Web.UI;
@@ -15,6 +17,7 @@ namespace CarRental.Web.Controllers.Web
             _environment = environment;
         }
 
+        [Authorize(Roles = UserStatus.Admin + "," + UserStatus.Master + "," + UserStatus.SuperAdmin)]
         public IActionResult AutoIndex()
         {
             ViewData["Title"] = "Automobiliai";

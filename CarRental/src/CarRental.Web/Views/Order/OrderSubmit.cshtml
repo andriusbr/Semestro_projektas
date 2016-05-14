@@ -25,46 +25,73 @@
     <form asp-controller="Order" asp-action="OrderSubmit" class="form-horizontal" method="post">
         <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
         <div class="form-group">
+            <label asp-for="StartDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <div class='input-group date input-width280' id='datetimepickerStart'>
+                    <input asp-for="StartDate" class="form-control" id="orderEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <div class='input-group date input-width280' id='datetimepickerEnd'>
+                    <input asp-for="EndDate" class="form-control" id="orderEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="FirstName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control input-width280" />
+                <input asp-for="FirstName" id="firstname" class="form-control input-width280" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="LastName" class="form-control input-width280" />
+                <input asp-for="LastName" id="lastname" class="form-control input-width280" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Email" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Email" class="form-control input-width280" />
+                <input asp-for="Email" id="email" class="form-control input-width280" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="PhoneNumber" class="form-control input-width280" />
+                <input asp-for="PhoneNumber" id="phone" class="form-control input-width280" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="PickUp" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="PickUp" class="form-control input-width280" />
-                <span asp-validation-for="PickUp" class="text-danger"></span>
+                <select asp-for="PickUp" class="form-control input-width280"
+                         asp-items="@ViewBag.locations"></select>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="DropOff" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="DropOff" class="form-control input-width280" />
-                <span asp-validation-for="DropOff" class="text-danger"></span>
+                <select asp-for="DropOff" class="form-control input-width280" 
+                        asp-items="@ViewBag.locations"></select>
             </div>
+        </div>
+        <div class="form-group">
+            <span class="col-md-2"></span>
+            <label asp-for="LocationComment" class="col-md-10 location-comment"></label>
         </div>
         <div class="form-group">
             <label asp-for="Comments" class="col-md-2 control-label"></label>
@@ -79,3 +106,45 @@
         </div>
     </form>
 </div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $("#datetimepickerStart").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm'
+    });
+
+    $("#datetimepickerEnd").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm'
+    });
+
+    @*$(document).ready(function () {
+
+        @if(ViewBag.currentUser != null){
+            if(ViewBag.currentUser.FirstName != null)
+            {
+                @:var input = document.getElementById("firstname");
+                @:input.value = '@ViewBag.currentUser.FirstName';
+
+            }
+            if(ViewBag.currentUser.LastName != null)
+            {
+                @:var input = document.getElementById("lastname");
+                @:input.value = '@ViewBag.currentUser.LastName';
+                @:var str = '@ViewBag.currentUser.LastName';
+
+            }
+            if(ViewBag.currentUser.Email != null)
+            {
+                @:var input = document.getElementById("email");
+                @:input.value = '@ViewBag.currentUser.Email';
+
+            }
+            if(ViewBag.currentUser.PhoneNumber != null)
+            {
+                @:var input = document.getElementById("phone");
+                @:input.value = '@ViewBag.currentUser.PhoneNumber';
+
+            }
+        }
+    });*@
+</script>

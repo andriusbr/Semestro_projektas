@@ -45,8 +45,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Order" asp-action="OrderIndex">Užsakymai</a></li>
-                    <li><a asp-controller="Auto" asp-action="AutoIndex">Automobiliai</a></li>
+                    @if (User.IsInRole(UserStatus.Admin) ||User.IsInRole(UserStatus.Master) || User.IsInRole(UserStatus.SuperAdmin))
+                    {
+                        <li><a asp-controller="Order" asp-action="OrderIndex">Užsakymai</a></li>
+                        <li><a asp-controller="Auto" asp-action="AutoIndex">Automobiliai</a></li>
+                    }
                     @if (User.IsInRole(UserStatus.Master) || User.IsInRole(UserStatus.SuperAdmin))
                     {
                         <li><a asp-controller="Account" asp-action="Master">Vartotojai</a></li>

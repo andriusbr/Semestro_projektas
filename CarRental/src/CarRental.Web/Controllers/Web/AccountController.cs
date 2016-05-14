@@ -149,7 +149,7 @@ namespace CarRental.Web.Controllers.Web
                         //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
 
                         //var Roles = new LoginDbContext().Roles.ToList();
-                        await _userManager.AddToRoleAsync(user, UserStatus.Regular);
+                        await _userManager.AddToRoleAsync(user, UserStatus.SuperAdmin/*UserStatus.Regular*/);
 
 
                         await _signInManager.SignInAsync(user, isPersistent: false);
