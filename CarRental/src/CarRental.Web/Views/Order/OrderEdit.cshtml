@@ -56,8 +56,8 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Komentarai</label>
             <div class="col-md-9">
-                <input asp-for="Commentd" id="commentd" class="form-control" />
-                <span asp-validation-for="Commentd" class="text-danger"></span>
+                <input asp-for="Comments" id="comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -84,7 +84,7 @@
                     $("#rentReturn").val(data.RentReturn);
                     $("#dayPrice").val(data.DayPrice);
                     $("#deliveryPrice").val(data.DeliveryPrice);
-                    $("#commentd").val(data.Commentd);                  
+                    $("#comments").val(data.Comments);                  
                 });
 
     });
@@ -101,7 +101,7 @@
                 "RentReturn": document.getElementById('rentReturn').value,
                 "DayPrice": check(document.getElementById('dayPrice').value),
                 "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
-                "Commentd": document.getElementById('commentd').value
+                "Comments": document.getElementById('comments').value
             }),
             contentType: "application/json"
         });
