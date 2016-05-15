@@ -15,6 +15,11 @@ namespace CarRental.DataAccess.Entities
         public string RentReturn { get; set; }
         public decimal DayPrice { get; set; }
         public string DeliveryPrice { get; set; }
-        public string Commentd { get; set; }
+        public string Comments { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public bool Confirmed { get; set; }
     }
 }

@@ -2,7 +2,7 @@
     <h2>Ištrinti užsakymą?</h2>
 </div>
 <dl class="dl-horizontal" id="order"></dl>
-<input type="button" value="Ištrinti" onclick='deleteOrder();location.href="/Order/OrderIndex";' class="btn btn-default" />
+<input type="button" value="Ištrinti" onclick='deleteOrder();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
 <p>
     <a asp-action="OrderIndex">Grįžti į sąrašą</a>
 </p>
@@ -23,7 +23,7 @@
                     addItem('Grąžinimo vieta:', data.RentReturn);
                     addItem('Paros kaina:', data.DayPrice);
                     addItem('Pristatymo kaina:', data.DeliveryPrice);
-                    addItem('Komentarai:', data.Commentd);
+                    addItem('Komentarai:', data.Comments);
                 });
         });
 

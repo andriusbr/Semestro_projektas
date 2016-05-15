@@ -91,7 +91,7 @@ namespace CarRental.Web.Controllers.Web
                     OrderEnd = model.EndDate ?? DateTime.Now,
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
-                    Commentd = model.Comments
+                    Comments = model.Comments
 
                 };
                 orderService.Create(order);
