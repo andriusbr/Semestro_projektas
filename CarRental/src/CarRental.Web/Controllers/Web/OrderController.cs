@@ -17,6 +17,7 @@ namespace CarRental.Web.Controllers.Web
         private static LoginDbContext loginContext = new LoginDbContext();
         private static LoginService loginService = new LoginService(loginContext);
 
+        private static AutoService autoService = new AutoService(new CarRentalDbContext());
         private static OrderService orderService = new OrderService(new CarRentalDbContext());
 
         [Authorize(Roles = UserStatus.Admin + "," + UserStatus.Master + "," + UserStatus.SuperAdmin)]
@@ -57,13 +58,19 @@ namespace CarRental.Web.Controllers.Web
         public IActionResult OrderSubmit(int id, DateTime? start, DateTime? end)
         {
             ViewData["Title"] = "Užsakymas";
+
             ViewBag.locations = OrderLocation.LocationList.Select(x =>
                                   new SelectListItem()
                                   {
                                       Text = x.ToString(),
                                       Value = x.ToString()
                                   });
-            OrderSubmit orderSubmit = new OrderSubmit();
+            Auto car = autoService.GetById(id);
+            OrderSubmit orderSubmit = new OrderSubmit()
+            {
+                AutoId = car.AutoId,
+                Car = car
+            };
             if (User.Identity.IsAuthenticated)
             {
                 User user = loginService.GetByUsername(User.Identity.Name);
@@ -87,6 +94,7 @@ namespace CarRental.Web.Controllers.Web
             {
                 Order order = new Order()
                 {
+                    AutoId = model.AutoId,
                     OrderStart = model.StartDate ?? DateTime.Now,
                     OrderEnd = model.EndDate ?? DateTime.Now,
                     RentPlace = model.PickUp,
@@ -104,6 +112,8 @@ namespace CarRental.Web.Controllers.Web
                                       Text = x.ToString(),
                                       Value = x.ToString()
                                   });
+            Auto car = autoService.GetById(model.AutoId);
+            model.Car = car;
             return View(model);
         }
 

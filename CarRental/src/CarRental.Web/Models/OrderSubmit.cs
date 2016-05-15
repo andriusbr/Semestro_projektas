@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarRental.DataAccess.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,31 +9,35 @@ namespace CarRental.Web.Models
 {
     public class OrderSubmit
     {
-        [Required]
+        public int AutoId { get; set; }
+        public Auto Car { get; set; }
+        
+
+        [Required(ErrorMessage = "Įveskite pradždios datą")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Pradžia")]
         public DateTime? StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite pabaigos datą")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Pabaiga")]
         public DateTime? EndDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite savo vardą")]
         [Display(Name = "Vardas")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite savo pavardę")]
         [Display(Name = "Pavardė")]
         public string LastName { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite el. paštą")]
         [EmailAddress]
         [Display(Name = "El. paštas")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Įveskite tel. numerį")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Not a valid Phone number")]
         [Display(Name = "Telefono nr.")]
