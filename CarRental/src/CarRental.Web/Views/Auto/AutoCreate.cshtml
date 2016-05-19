@@ -5,6 +5,13 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Modelis</label>
             <div class="col-md-9">
+                <input asp-for="Model" id="model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Markė</label>
+            <div class="col-md-9">
                 <input asp-for="Make" id="make" class="form-control" />
                 <span asp-validation-for="Make" class="text-danger"></span>
             </div>
