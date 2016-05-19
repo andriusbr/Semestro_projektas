@@ -1,6 +1,6 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<div id="autoid">
-    <h2 class="text-center">Naujas aumobilis</h2>
+<div id="autoid" class="row">
+    <h2 class="text-center">Naujas automobilis</h2>
     <div class="form-horizontal col-md-6">
         <h3 class="text-center">Pagrindiniai duomenys</h3>
         <div class="form-group">
@@ -149,44 +149,45 @@
             <div class="col-md-9">
                 <input type="number" name="price[]" id="2days" class="form-control" />
             </div>
-        </div>      
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 6 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="6days" class="form-control" />
             </div>
-        </div> 
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 13 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="13days" class="form-control" />
             </div>
-        </div> 
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 22 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="22days" class="form-control" />
             </div>
-        </div>    
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 30 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="30days" class="form-control" />
             </div>
         </div>
-        <h4 class="text-center">Pridėti nuotrauką</h4>  
+        <h4 class="text-center">Pridėti nuotrauką</h4>
         <div class="form-group">
             <label class="col-md-3 control-label">Įkelti</label>
             <div class="col-md-9">
-                <input type="file" value="Ieškoti" id="fileUploads" />
-            </div>     
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Įvesti" class="btn btn-default" id="butt" />
+                <input type="file" id="fileUploads" />
             </div>
         </div>
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Įvesti" class="btn btn-default" id="butt" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="AutoIndex">Grįžti į sąrašą</a>
     </p>
 </div>
@@ -217,7 +218,7 @@
     function uploadFile() {
         var d = new FormData();
         var f = document.getElementById('fileUploads').files[0];
-        d.append('file', f);       
+        d.append('file', f);
 
         $.ajax({
             type: "POST",
@@ -239,7 +240,7 @@
     }
 
     function create() {
-        
+
 
         $.ajax({
             type: "POST",
@@ -272,8 +273,8 @@
             }),
             contentType: "application/json",
             //success: function (id) {
-               // $('#autoid').val(id);
-       // }
+            // $('#autoid').val(id);
+            // }
         });
     }
 
