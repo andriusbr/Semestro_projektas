@@ -105,11 +105,6 @@ namespace CarRental.Web.Controllers.Web
         [AllowAnonymous]
         public IActionResult Register()
         {
-
-            //User user = new User();
-            //_userManager.GetRolesAsync(user);//IsInRole(user.Id, "Admin")
-            //string[] roles = Roles.GetRolesForUser(user.UserName);
-
             return View();
         }
 

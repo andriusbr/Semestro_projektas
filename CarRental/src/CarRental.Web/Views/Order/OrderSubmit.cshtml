@@ -19,24 +19,11 @@
                                 <span>Kuro tipas: @Model.Car.FuelType</span>
                             </div>
                         </div>
-                        <h3>Kaina: </h3>
+                        <h3>Kaina: <span id="priceField"></span></h3>
                     </td>
                 </tr>
             </tbody>
         </table>
-        @*<div class="col-xs-4">
-            <img class="carImage" src="@Model.Photo" />
-        </div>
-
-        <div class="carResultRow_CarSpec col-xs-8">
-            <h2>
-               @Model.Make @Model.Model
-            </h2>
-            <h3>
-                Total:
-                100$
-            </h3>
-        </div>*@
     </div>
 </div>
 
@@ -46,11 +33,12 @@
     <form asp-controller="Order" asp-action="OrderSubmit" class="form-horizontal" method="post">
         <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
         <input asp-for="AutoId" type="hidden" />
+        <input asp-for="Price" type="hidden" id="dailyRate" />
         <div class="form-group">
             <label asp-for="StartDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <div class='input-group date input-width280' id='datetimepickerStart'>
-                    <input asp-for="StartDate" class="form-control" id="orderEnd" />
+                    <input asp-for="StartDate" class="form-control" id="orderStart" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -130,7 +118,37 @@
 </div>
 
 
-<script type="text/javascript" charset="utf-8">
+<script>
+
+    $(function () {
+        displayPrice();
+        /*$('#datetimepickerstart').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+
+
+        $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });*/
+
+    });
+
+    function displayPrice() {
+        var span = document.getElementById("priceField");
+        var price = document.getElementById("dailyRate").value;
+        var days = daydiff(orderStart, orderEnd);
+        if (price > 0 && days > 0) {
+            
+            span.innerHTML = (price * days).toFixed(2) + "€";
+        }else if(price > 0 && (orderStart.value == "" || orderEnd.value == null)){
+            span.innerHTML = price + "€";
+        }
+        else {
+            //span.innerHTML = orderStart.value;
+            span.innerHTML = "0.00€";
+        }
+    }
+
     $("#datetimepickerStart").datetimepicker({
         format: 'YYYY-MM-DD hh:mm'
     });
@@ -139,5 +157,6 @@
         format: 'YYYY-MM-DD hh:mm'
     });
 
-    
+
+
 </script>

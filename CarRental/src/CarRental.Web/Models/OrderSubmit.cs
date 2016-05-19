@@ -10,6 +10,7 @@ namespace CarRental.Web.Models
     public class OrderSubmit
     {
         public int AutoId { get; set; }
+        public decimal Price { get; set; }
         public Auto Car { get; set; }
         
 
@@ -39,7 +40,7 @@ namespace CarRental.Web.Models
 
         [Required(ErrorMessage = "Įveskite tel. numerį")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Not a valid Phone number")]
+        [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Netinkamas telefono numeris")]
         [Display(Name = "Telefono nr.")]
         public string PhoneNumber { get; set; }
 

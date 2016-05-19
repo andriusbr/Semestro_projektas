@@ -20,11 +20,29 @@
                                 <div>
                                     <span>Kuro tipas: @car.FuelType</span>
                                 </div>
+                                @if (Model.PriceList != null && Model.PriceList.Count > i) {
+                                    var price = Model.PriceList.ElementAt(i) * Model.Duration;
+                                    <div style="color:black;">
+                                        <h4>Kaina nuo: @price€</h4>
+                                    </div>
+                                }
                             </div>
-                            <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
-                            new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate }))">
-                                <span class="orderBtn">Užsakyti</span>
-                            </a>
+                            @if (Model.PriceList != null && Model.PriceList.Count > i)
+                            {
+                                <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
+                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate, @price = Model.PriceList.ElementAt(i) }))">
+                                    <span class="orderBtn">Užsakyti</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
+                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate, @price = -1 }))">
+                                    <span class="orderBtn">Užsakyti</span>
+                                </a>
+                            }
+
+
                         </td>
                     </tr>
                 </tbody>
@@ -35,7 +53,6 @@
 
 
 <script>
-
     @*$(document).ready(function () {
         //displayCars();
     });

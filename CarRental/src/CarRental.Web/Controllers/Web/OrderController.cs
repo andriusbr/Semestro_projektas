@@ -55,7 +55,7 @@ namespace CarRental.Web.Controllers.Web
         }
 
         [HttpGet]
-        public IActionResult OrderSubmit(int id, DateTime? start, DateTime? end)
+        public IActionResult OrderSubmit(int id, DateTime? start, DateTime? end, decimal price)
         {
             ViewData["Title"] = "Užsakymas";
 
@@ -83,6 +83,7 @@ namespace CarRental.Web.Controllers.Web
             }
             orderSubmit.StartDate = start;
             orderSubmit.EndDate = end;
+            orderSubmit.Price = price;
 
             return View(orderSubmit);
         }
@@ -99,6 +100,7 @@ namespace CarRental.Web.Controllers.Web
                     OrderEnd = model.EndDate ?? DateTime.Now,
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
+                    DayPrice = model.Price,
                     Comments = model.Comments
 
                 };
