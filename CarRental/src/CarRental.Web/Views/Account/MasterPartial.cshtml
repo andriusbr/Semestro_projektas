@@ -7,12 +7,12 @@
     <table id="userTable" class="table table-bordered">
         <thead>
             <tr>
-                <td>Username</td>
-                <td>Email</td>
-                <td>First name</td>
-                <td>Last name</td>
-                <td>Phone</td>
-                <td>Status</td>
+                <td>Prisijungimas</td>
+                <td>El. paštas</td>
+                <td>Vardas</td>
+                <td>Pavardė</td>
+                <td>Telefonas</td>
+                <td>Statusas</td>
             </tr>
         </thead>
 
@@ -92,7 +92,7 @@
             if (Model.UserRoles.ElementAt(i) != UserStatus.SuperAdmin) {
                 @:var link = document.createElement('a');
                 @:link.setAttribute('href', 'javascript:window.location.reload();');
-                @:link.innerHTML = 'Remove';
+                @:link.innerHTML = 'Šalinti';
                 @:link.onclick = (function (param) {
                     @:return function () {
                         @:removeUser(param);
@@ -111,7 +111,7 @@
     }
 
     function removeUser(_id) {
-        if(confirm("Are you sure you want to remove this user?")){
+        if(confirm("Ar tikrai norite pašalinti šį vartotoją?")){
             $.get("/Account/RemoveUser", { id: _id });
         }
     }

@@ -7,11 +7,11 @@ namespace CarRental.DataAccess.Entities
 {
     public class OrderLocation
     {
-        public const string ParkingLot = "Parking lot (Donelaičio g. 15)";
+        public const string ParkingLot = "Aikštelė (Donelaičio g. 15)";
         public const string KaunasCity = "Kaunas";
-        public const string KaunasAirport = "Kaunas Airport";
+        public const string KaunasAirport = "Kauno oro uostas";
         public const string VilniusCity = "Vilnius";
-        public const string VilniusAirport = "Vilnius Airport";
+        public const string VilniusAirport = "Vilniaus oro uostas";
 
         public static readonly List<string> LocationList = new List<string>() {
             ParkingLot,

@@ -13,40 +13,39 @@ namespace CarRental.Web.Models
     public class Register
     {
 
-        [Required]
-        [Display(Name = "First name")]
+        [Required(ErrorMessage = "Įveskite savo vardą")]
+        [Display(Name = "Vardas")]
         public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = "Last name")]
+        [Required(ErrorMessage = "Įveskite savo pavardę")]
+        [Display(Name = "Pavardė")]
         public string LastName { get; set; }
 
-
-        [Required]
+        [Required(ErrorMessage = "Įveskite el. paštą")]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "El. paštas")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "User name")]
+        [Required(ErrorMessage = "Įveskite prisijungimą")]
+        [StringLength(100, ErrorMessage = "{0} turi būti sudarytas bent iš {2} simbolių.", MinimumLength = 6)]
+        [Display(Name = "Prisijungimas")]
         public string UserName { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Įveskite slaptažodį")]
+        [StringLength(100, ErrorMessage = "{0} turi būti sudarytas bent iš {2} simbolių.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Slaptažodis")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pakartokite slaptažodį")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Pakartokite slaptažodį")]
+        [Compare("Password", ErrorMessage = "Slaptažodžiai nesutampa.")]
         public string ConfirmPassword { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Not a valid Phone number")]
-        [Display(Name = "Phone (Optional)")]
+        [Display(Name = "Telefono nr.")]
         public string PhoneNumber { get; set; }
 
 

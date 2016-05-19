@@ -58,13 +58,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-controller="Account" asp-action="AccountSettings">Settings</a></li>
-                        <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+                        <li><a asp-controller="Account" asp-action="AccountSettings">Profilis</a></li>
+                        <li><a asp-controller="Account" asp-action="Logout">Atsijungti</a></li>
                     }
                     else
                     {
-                        <li><a asp-controller="Account" asp-action="Register">Register</a></li>
-                        <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a asp-controller="Account" asp-action="Register">Registracija</a></li>
+                        <li><a asp-controller="Account" asp-action="Login">Prisijungti</a></li>
 
                     }
                 </ul>

@@ -108,6 +108,15 @@ textarea {
     vertical-align: middle;
 }
 
+.carResultRow_CarSpec h2 {
+    margin: 0px;
+}
+
+.carSpecs{
+    margin: 10px;
+    color: #6f6d6d;
+}
+
 .noUnderline{
     text-decoration: none !important;
 }
@@ -119,8 +128,9 @@ textarea {
 
 
 
+
 .orderBtn {
-  margin: 10px;
+  margin: 5px;
   background: #22f04b;
   background-image: -webkit-linear-gradient(top, #22f04b, #32b82b);
   background-image: -moz-linear-gradient(top, #22f04b, #32b82b);
@@ -130,7 +140,8 @@ textarea {
   -webkit-border-radius: 3;
   -moz-border-radius: 3;
   border-radius: 3px;
-  font-family: Arial;
+  font-family: 'Ubuntu','Open sans',sans-serif;
+  font-weight: 600;
   color: #ffffff;
   font-size: 16px;
   padding: 5px 10px 5px 10px;

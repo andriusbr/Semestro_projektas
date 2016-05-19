@@ -1,14 +1,43 @@
 ﻿@model CarRental.Web.Models.Cars
 
 <div id="carResultsDiv" class="carResultsDiv">
-    
+    @for (var i = 0; i < Model.CarList.Count; i++)
+    {
+        var car = Model.CarList.ElementAt(i);
+        <div class="carResultDiv">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img class="carImage" src="/Uploads/@car.Photo" />
+                        </td>
+                        <td class="carResultRow_CarSpec">
+                            <h2>@car.Make @car.Model</h2>
+                            <div class="carSpecs">
+                                <div>
+                                    <span>Metai: @car.Year</span>
+                                </div>
+                                <div>
+                                    <span>Kuro tipas: @car.FuelType</span>
+                                </div>
+                            </div>
+                            <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
+                            new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate }))">
+                                <span class="orderBtn">Užsakyti</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 
 
 <script>
 
-    $(document).ready(function () {
-        displayCars();
+    @*$(document).ready(function () {
+        //displayCars();
     });
 
     function displayCars() {
@@ -25,23 +54,36 @@
             @:var td = document.createElement('td');
             @:var image = document.createElement('img');
             @:image.className = "carImage";
-            @:image.src = '@car.Photo';
+            @:image.src = '/Uploads/' + '@car.Photo';
             @:td.appendChild(image);
             @:var td2 = document.createElement('td');
             @:td2.className = "carResultRow_CarSpec";
             @:var make = document.createElement('h2');
             var name = car.Make + " " + car.Model;
             @:make.innerHTML = '@name';
+            @:var specYearDiv = document.createElement('div');//
+            @:specYearDiv.className = "carSpecs";
+            @:var specYear = document.createElement('span');
+            @:specYear.innerHTML = "Metai: " + '@car.Year';
+            @:specYearDiv.appendChild(specYear);
+            @:var specFuelTypeDiv = document.createElement('div');
+            if(car.FuelType != null) {
+                @:var specFuelType = document.createElement('span');
+                @:specFuelType.innerHTML = "Kuro tipas: " + '@car.FuelType';
+                @:specFuelTypeDiv.appendChild(specFuelType);
+            }
             @:var btnRef = document.createElement('a');
             @:btnRef.className = "noUnderline";
             @:btnRef.href = "@Html.Raw(@Url.Action("OrderSubmit", "Order",
-                            new { @id = car.Id, @start = Model.StartDate, @end = Model.EndDate }))";
+                            new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate }))";
             @:var btn = document.createElement('span');
             @:btn.className = "orderBtn";
-            @:btn.innerHTML = "Order";
+            @:btn.innerHTML = "Užsakyti";
             @:btnRef.appendChild(btn);
 
             @:td2.appendChild(make);
+            @:td2.appendChild(specYearDiv);
+            @:td2.appendChild(specFuelTypeDiv);
             @:td2.appendChild(btnRef);
             @:tr.appendChild(td);
             @:tr.appendChild(td2);
@@ -51,7 +93,7 @@
             @:body.appendChild(carResultDiv);
         }
 
-    }
+    }*@
 
     function goToOrderPage(car) {
         var StringToPost = JSON.stringify({ id: car, start: null, end: null });
