@@ -75,22 +75,34 @@
         <div class="form-group">
             <label class="col-md-3 control-label">TA pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="tAEnd" class="form-control" />
-                <span asp-validation-for="TAEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerTaEnd'>
+                    <input type='text' class="form-control" id="tAEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Draudimo pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="insurenceEnd" class="form-control" />
-                <span asp-validation-for="InsurenceEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerInsuranceEnd'>
+                    <input type='text' class="form-control" id="insurenceEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Kasko pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="cascoInsurenceEnd" class="form-control" />
-                <span asp-validation-for="CascoInsurenceEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerCascoInsurenceEnd'>
+                    <input type='text' class="form-control" id="cascoInsurenceEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -175,6 +187,27 @@
 </div>
 
 <script>
+    $("#datepickerTaEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepickerInsuranceEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepickerCascoInsurenceEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
     var fileName = "";
     function uploadFile() {
         var d = new FormData();
@@ -211,6 +244,7 @@
             + document.getElementById('22days').value + '/'
             + document.getElementById('30days').value,
             data: JSON.stringify({
+                "Model": document.getElementById('model').value,
                 "Make": document.getElementById('make').value,
                 "PriceId": 5,
                 "Year": check(document.getElementById('year').value),
