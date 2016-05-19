@@ -271,9 +271,9 @@
                 "Photo": fileName
             }),
             contentType: "application/json",
-            //success: function (id) {
-            // $('#autoid').val(id);
-            // }
+            success: function (id) {
+                location.href = "/Auto/AutoIndex";
+            }
         });
     }
 
@@ -297,7 +297,6 @@
 
     $(function () {
         $('#butt').on('click', function () {
-            //create();
             uploadFile();
         });
     });
