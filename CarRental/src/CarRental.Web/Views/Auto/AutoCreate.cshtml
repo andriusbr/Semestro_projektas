@@ -1,7 +1,8 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
 <div id="autoid">
-    <h2>Naujas automobilis</h2>
+    <h2 class="text-center">Naujas aumobilis</h2>
     <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Pagrindiniai duomenys</h3>
         <div class="form-group">
             <label class="col-md-3 control-label">Modelis</label>
             <div class="col-md-9">
@@ -141,7 +142,8 @@
             </div>
         </div>
     </div>
-    <div class="form-horizontal col-md-6"> 
+    <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Nuomos kaina</h3>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 2 parų</label>
             <div class="col-md-9">
@@ -171,7 +173,8 @@
             <div class="col-md-9">
                 <input type="number" name="price[]" id="30days" class="form-control" />
             </div>
-        </div>  
+        </div>
+        <h4 class="text-center">Pridėti nuotrauką</h4>  
         <div class="form-group">
             <input type="file" id="fileUploads"/>
         </div>     
