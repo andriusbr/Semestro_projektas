@@ -144,7 +144,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Redaguoti" onclick='edit();location.href="/Auto/AutoIndex";' class="btn btn-default" />
+                <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -189,10 +189,8 @@
                     $("#engineCapicity").val(data.EngineCapicity);
                     $("#milleage").val(data.Milleage);
                     $("#mainBelt").val(data.MainBelt);
-                    $("#oilChange").val(data.OilChange);
-                    var datas = new Date(data.TAEnd);
-                    //$("#tAEnd").val(datas.getFullYear() + '-' + datas.getMonth() + '-' + datas.getDay());
-                    $("#tAEnd").val(datas.format('Y'));
+                    $("#oilChange").val(data.OilChange);                   
+                    $("#tAEnd").val(data.TAEnd);
                     $("#insurenceEnd").val(data.InsurenceEnd);
                     $("#cascoInsurenceEnd").val(data.CascoInsurenceEnd);
                     $("#audioCode").val(data.AudioCode);
@@ -227,7 +225,10 @@
                 "Gearbox": document.getElementById('gearbox').value,
                 "Activity": document.getElementById('activity').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            success: function (id) {
+                location.href = "/Auto/AutoIndex";
+            }
         });
     }
 
