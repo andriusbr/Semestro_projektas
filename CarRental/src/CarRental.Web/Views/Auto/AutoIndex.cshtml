@@ -6,8 +6,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Modelis</th>
                 <th>Markė</th>
+                <th>Modelis</th>
                 <th>Metai</th>
                 <th>Valst. nr.</th>
                 <th>Kuro tipas</th>
@@ -38,7 +38,7 @@
               $('#spinner').hide();
             // On success, 'data' contains a list of autos.
               $.each(data, function (key, item) {
-                  var html = '<tr><td>' + item.Model + '</td><td>' + item.Make + '</td><td>'
+                  var html = '<tr><td>' + item.Make + '</td><td>' + item.Model + '</td><td>'
                       + item.Year + '</td><td>' + item.PlateNumber + '</td><td>'
                       + item.FuelType + '</td><td>' + item.Gearbox + '</td><td>'
                       + item.TAEnd + '</td><td>' + item.InsurenceEnd + '</td><td>'

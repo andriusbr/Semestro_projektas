@@ -17,7 +17,8 @@
 
             $.getJSON(uri)
                 .done(function (data) {
-                    addItem('Modelis:', data.Make);
+                    addItem('Markė:', data.Make);
+                    addItem('Modelis:', data.Model);
                     addItem('Metai:', data.Year);
                     addItem('Numeris:', data.PlateNumber);
                     addItem('Spalva:', data.Color);
@@ -41,7 +42,10 @@
             $.ajax({
                 type: "DELETE",
                 url: uri,
-                contentType: "application/json"
-            });
+                contentType: "application/json",
+                success: function (id) {
+                    location.href = "/Auto/AutoIndex";
+                }
+            });           
         }
 </script>
