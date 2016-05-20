@@ -76,6 +76,14 @@ namespace CarRental.Services
                 .Where(pr => id == pr.AutoId && duration >= pr.dayFrom && duration <= pr.dayEnd)
                 .ToList();
 
+            if(price.Count() == 0)
+            {
+                var priceLong = dbContext.Prices
+                    .Where(pr => id == pr.AutoId && pr.dayEnd == 30)
+                    .ToList();
+                return priceLong[0].Value;
+            }
+
             return price[0].Value;
         }
 
