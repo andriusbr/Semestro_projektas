@@ -18,7 +18,8 @@
 
             $.getJSON(uri)
                 .done(function (data) {
-                    addItem('Modelis:', data.Make);
+                    addItem('Modelis:', data.Model);
+                    addItem('Markė:', data.Make);
                     addItem('Metai:', data.Year);
                     addItem('Numeris:', data.PlateNumber);
                     addItem('Spalva:', data.Color);
