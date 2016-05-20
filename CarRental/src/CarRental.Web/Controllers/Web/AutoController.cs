@@ -49,6 +49,7 @@ namespace CarRental.Web.Controllers.Web
         {
             ViewData["Title"] = "Automobilio redagavimas";
             ViewBag.autoId = id;
+            ViewBag.adress = "/Uploads/";
             return View();
         }
     }
