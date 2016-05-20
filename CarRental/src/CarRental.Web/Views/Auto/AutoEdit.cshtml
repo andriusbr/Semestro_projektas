@@ -3,10 +3,17 @@
     <h2>Redaguoti automobilį</h2>
     <div class="form-horizontal col-md-6">
         <div class="form-group">
-            <label class="col-md-3 control-label">Modelis</label>
+            <label class="col-md-3 control-label">Markė</label>
             <div class="col-md-9">
                 <input asp-for="Make" id="make" class="form-control" />
                 <span asp-validation-for="Make" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Modelis</label>
+            <div class="col-md-9">
+                <input asp-for="Model" id="model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -141,6 +148,7 @@
         $.getJSON(uri)
                 .done(function (data){
                     $("#make").val(data.Make);
+                    $("#model").val(data.Model);
                     $("#year").val(data.Year);
                     $("#plateNumber").val(data.PlateNumber);
                     $("#color").val(data.Color);
