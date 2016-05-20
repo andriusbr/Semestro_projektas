@@ -209,13 +209,13 @@
             processData: false,
             dataType: 'json',
             success: function (id) {
-                console.log('taip');
                 fileName = id.id;
+                changePrice();
                 edit();
             },
             error: function (x) {
-                console.log('ne');
                 fileName = document.getElementById('photo').value;
+                changePrice();
                 edit();
             }
         });
@@ -295,6 +295,34 @@
                   $('#30days').val(price);
               });
     });
+
+    function changePrice() {
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos/" + @ViewBag.autoId + "/" + 2 + "/" + document.getElementById('2days').value
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos/" + @ViewBag.autoId + "/" + 6 + "/" + document.getElementById('6days').value
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos/" + @ViewBag.autoId + "/" + 13 + "/" + document.getElementById('13days').value
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos/" + @ViewBag.autoId + "/" + 22 + "/" + document.getElementById('22days').value
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos/" + @ViewBag.autoId + "/" + 30 + "/" + document.getElementById('30days').value
+        });
+
+    }
 
     function edit() {
         $.ajax({

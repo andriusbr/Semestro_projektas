@@ -78,5 +78,13 @@ namespace CarRental.Services
 
             return price[0].Value;
         }
+
+        public void ChangePrice(int autoId, int dayEnd, decimal price)
+        {
+            Price autoPrice = dbContext.Prices.Single(m => m.AutoId == autoId && m.dayEnd == dayEnd);
+            autoPrice.Value = price;
+            dbContext.Prices.Update(autoPrice);
+            dbContext.SaveChanges();
+        }
     }
 }
