@@ -1,7 +1,8 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<div>
-    <h2>Redaguoti automobilį</h2>
+<div class="row">
+    <h2 class="text-center">Redaguoti automobilį</h2>
     <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Pagrindiniai duomenys</h3>
         <div class="form-group">
             <label class="col-md-3 control-label">Markė</label>
             <div class="col-md-9">
@@ -64,9 +65,7 @@
                 <input asp-for="MainBelt" id="mainBelt" class="form-control" />
                 <span asp-validation-for="MainBelt" class="text-danger"></span>
             </div>
-        </div>     
-    </div>
-    <div class="form-horizontal col-md-6">
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Keisti tepalai</label>
             <div class="col-md-9">
@@ -142,13 +141,53 @@
                 <span asp-validation-for="Activity" class="text-danger"></span>
             </div>
         </div>
+    </div>
+    <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Paros nuomos kaina</h3>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
+            <label class="col-md-3 control-label">Iki 2 parų</label>
+            <div class="col-md-9">
+                <input type="number" name="price[]" id="2days" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Iki 6 parų</label>
+            <div class="col-md-9">
+                <input type="number" name="price[]" id="6days" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Iki 13 parų</label>
+            <div class="col-md-9">
+                <input type="number" name="price[]" id="13days" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Iki 22 parų</label>
+            <div class="col-md-9">
+                <input type="number" name="price[]" id="22days" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Iki 30 parų</label>
+            <div class="col-md-9">
+                <input type="number" name="price[]" id="30days" class="form-control" />
+            </div>
+        </div>
+        <h4 class="text-center">Pakeisti nuotrauką</h4>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Įkelti</label>
+            <div class="col-md-9">
+                <input type="file" id="fileUploads" />
             </div>
         </div>
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="AutoIndex">Grįžti į sąrašą</a>
     </p>
 </div>
@@ -189,7 +228,7 @@
                     $("#engineCapicity").val(data.EngineCapicity);
                     $("#milleage").val(data.Milleage);
                     $("#mainBelt").val(data.MainBelt);
-                    $("#oilChange").val(data.OilChange);                   
+                    $("#oilChange").val(data.OilChange);
                     $("#tAEnd").val(data.TAEnd);
                     $("#insurenceEnd").val(data.InsurenceEnd);
                     $("#cascoInsurenceEnd").val(data.CascoInsurenceEnd);
@@ -197,9 +236,33 @@
                     $("#comments").val(data.Comments);
                     $("#fuelType").val(data.FuelType);
                     $("#gearbox").val(data.Gearbox);
-                    $("#activity").val(data.Activity);                
+                    $("#activity").val(data.Activity);
                 });
-    
+
+        $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 2 + '/bla')
+            .done(function (price) {
+                $('#2days').val(price);
+            });
+
+        $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 6 + '/bla')
+                .done(function (price) {
+                    $('#6days').val(price);
+                });
+
+        $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 13 + '/bla')
+                .done(function (price) {
+                    $('#13days').val(price);
+                });
+
+        $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 22 + '/bla')
+               .done(function (price) {
+                   $('#22days').val(price);
+               });
+
+        $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 30 + '/bla')
+              .done(function (price) {
+                  $('#30days').val(price);
+              });
     });
 
     function edit() {
@@ -208,6 +271,7 @@
             url: "../../api/autos/" + @ViewBag.autoId,
             data: JSON.stringify({
                 "Make": document.getElementById('make').value,
+                "Model": document.getElementById('model').value,
                 "Year": check(document.getElementById('year').value),
                 "PlateNumber": document.getElementById('plateNumber').value,
                 "Color": document.getElementById('color').value,
