@@ -1,5 +1,5 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<div class="row">
+<div class="row" id="photo">
     <h2 class="text-center">Redaguoti automobilį</h2>
     <div class="form-horizontal col-md-6">
         <h3 class="text-center">Pagrindiniai duomenys</h3>
@@ -176,15 +176,16 @@
         </div>
         <h4 class="text-center">Pakeisti nuotrauką</h4>
         <div class="form-group">
-            <label class="col-md-3 control-label">Įkelti</label>
+            <label class="col-md-3 control-label">Pakeisti</label>
             <div class="col-md-9">
                 <input type="file" id="fileUploads" />
             </div>
         </div>
+        <div  class="col-md-12" id="photoAdress"></div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
+            <input type="button" value="Redaguoti" class="btn btn-default" id="butt" />
         </div>
     </div>
     <p class="col-md-12">
@@ -193,6 +194,33 @@
 </div>
 
 <script>
+    var fileName = "";
+    function uploadFile() {
+        var d = new FormData();
+        var f = document.getElementById('fileUploads').files[0];
+        d.append('file', f);
+        console.log(f);
+
+        $.ajax({
+            type: "POST",
+            url: "../../api/autos",
+            data: d,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (id) {
+                console.log('taip');
+                fileName = id.id;
+                edit();
+            },
+            error: function (x) {
+                console.log('ne');
+                fileName = document.getElementById('photo').value;
+                edit();
+            }
+        });
+    }
+
     $("#datepickerTaEnd").datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
@@ -237,6 +265,9 @@
                     $("#fuelType").val(data.FuelType);
                     $("#gearbox").val(data.Gearbox);
                     $("#activity").val(data.Activity);
+                    $("#photo").val(data.Photo);
+                    fileName = data.Photo;
+                    $('#photoAdress').append('<img class="carImage" src="' + @ViewBag.adress + data.Photo + '" />');
                 });
 
         $.getJSON('/api/autos/' + @ViewBag.autoId + '/' + 2 + '/bla')
@@ -287,7 +318,8 @@
                 "Comments": document.getElementById('comments').value,
                 "FuelType": document.getElementById('fuelType').value,
                 "Gearbox": document.getElementById('gearbox').value,
-                "Activity": document.getElementById('activity').value
+                "Activity": document.getElementById('activity').value,
+                "Photo": fileName
             }),
             contentType: "application/json",
             success: function (id) {
@@ -312,4 +344,10 @@
         }
         return date;
     }
+
+    $(function () {
+        $('#butt').on('click', function () {
+            uploadFile();
+        });
+    });
 </script>
