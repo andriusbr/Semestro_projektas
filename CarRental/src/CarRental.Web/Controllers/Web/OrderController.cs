@@ -83,7 +83,7 @@ namespace CarRental.Web.Controllers.Web
             }
             orderSubmit.StartDate = start;
             orderSubmit.EndDate = end;
-            orderSubmit.Price = price;
+            orderSubmit.Price = (double) price;
 
             return View(orderSubmit);
         }
@@ -91,6 +91,7 @@ namespace CarRental.Web.Controllers.Web
         [HttpPost]
         public IActionResult OrderSubmit(OrderSubmit model)
         {
+            ViewData["Title"] = "Užsakymas";
             if (ModelState.IsValid)
             {
                 Order order = new Order()
@@ -100,7 +101,7 @@ namespace CarRental.Web.Controllers.Web
                     OrderEnd = model.EndDate ?? DateTime.Now,
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
-                    DayPrice = model.Price,
+                    DayPrice = (decimal)model.Price,
                     Comments = model.Comments
 
                 };
@@ -117,6 +118,16 @@ namespace CarRental.Web.Controllers.Web
             Auto car = autoService.GetById(model.AutoId);
             model.Car = car;
             return View(model);
+        }
+
+        public decimal GetDailyRate(int autoId, int duration)
+        {
+            if(duration == 0)
+            {
+                return 0;
+            }
+
+            return autoService.GetPrice(autoId, duration);
         }
 
         public IActionResult OrderSuccess()

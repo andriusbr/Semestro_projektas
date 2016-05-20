@@ -25,7 +25,7 @@ namespace CarRental.Web.Models
 
         public int Duration { get; set; }
 
-        public IList<decimal> PriceList { get; set; }
+        public IList<double> PriceList { get; set; }
 
     }
 }

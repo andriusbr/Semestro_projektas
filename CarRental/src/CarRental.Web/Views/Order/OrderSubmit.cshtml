@@ -19,7 +19,9 @@
                                 <span>Kuro tipas: @Model.Car.FuelType</span>
                             </div>
                         </div>
-                        <h3>Kaina: <span id="priceField"></span></h3>
+                        <h3>Kaina: 
+                            <span id="priceField"></span>
+                        </h3>
                     </td>
                 </tr>
             </tbody>
@@ -31,7 +33,7 @@
     <h3>Vairuotojo informacija</h3>
     <hr style="border-color: black"/>
     <form asp-controller="Order" asp-action="OrderSubmit" class="form-horizontal" method="post">
-        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger" id="validationSummary"></div>
         <input asp-for="AutoId" type="hidden" />
         <input asp-for="Price" type="hidden" id="dailyRate" />
         <div class="form-group">
@@ -43,6 +45,7 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
+                <span asp-validation-for="StartDate" class="text-danger" id="startDateValidation"></span>
             </div>
         </div>
         <div class="form-group">
@@ -54,7 +57,7 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <span asp-validation-for="EndDate" class="text-danger" id="endDateValidation"></span>
             </div>
         </div>
         <div class="form-group">
@@ -122,29 +125,69 @@
 
     $(function () {
         displayPrice();
-        /*$('#datetimepickerstart').datetimepicker().on('dp.change', function (e) {
-            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        $('#datetimepickerStart').datetimepicker().on('dp.change', function (e) {
+            if(validateDates()){
+                setPrice();
+                //displayPrice();
+                //isFree(orderStart, orderEnd);
+            }
         });
 
 
-        $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
-            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
-        });*/
+        $('#datetimepickerEnd').datetimepicker().on('dp.change', function (e) {
+            if(validateDates()){
+                setPrice();
+                //displayPrice();
+                //isFree(orderStart, orderEnd);
+            }
+        });
 
     });
+
+    function validateDates(){
+        var days = daydiff(orderStart, orderEnd);
+        var validation = document.getElementById("validationSummary");
+        if(days < 0){
+            validation.innerHTML = "Pradžios data yra vėliau negu pabaigos data";
+        }else if(days == 0){
+            validation.innerHTML = "Užsakymas trukmė turi būti bent viena diena";
+        }else{
+            validation.innerHTML="";
+            return true;
+        }
+        return false;
+    }
+
+    function setPrice() {
+        var searchQuery = $("#txt_Search").val();
+        var days = daydiff(orderStart, orderEnd);
+        $.ajax({
+            type: "POST",
+            url: "/Order/GetDailyRate",
+            data: {
+                autoId: @Model.AutoId,
+                duration: days
+            },
+            success: function (result) {
+                document.getElementById("dailyRate").value = result;
+                displayPrice() 
+                //document.getElementById("priceField").innerHTML = document.getElementById("dailyRate").value;
+            },
+        });
+
+    }
 
     function displayPrice() {
         var span = document.getElementById("priceField");
         var price = document.getElementById("dailyRate").value;
         var days = daydiff(orderStart, orderEnd);
         if (price > 0 && days > 0) {
-            
+
             span.innerHTML = (price * days).toFixed(2) + "€";
         }else if(price > 0 && (orderStart.value == "" || orderEnd.value == null)){
             span.innerHTML = price + "€";
         }
         else {
-            //span.innerHTML = orderStart.value;
             span.innerHTML = "0.00€";
         }
     }
@@ -157,6 +200,28 @@
         format: 'YYYY-MM-DD hh:mm'
     });
 
+    /*function validateStartDate() {
+        var timestamp=Date.parse('orderStart');
 
+        if (isNaN(timestamp) == false)
+        {
+            var validation = document.getElementById("startDateValidation");
+            validation.innerHTML = "Neteisinga data";
+            return false;
+        }
+        return true;
+    }
+
+    function validateEndDate() {
+        var timestamp=Date.parse('orderEnd');
+
+        if (isNaN(timestamp) == false)
+        {
+            var validation = document.getElementById("endDateValidation");
+            validation.innerHTML = "Neteisinga data";
+            return false;
+        }
+        return true;
+    }*/
 
 </script>

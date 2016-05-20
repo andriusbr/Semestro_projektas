@@ -23,10 +23,10 @@ namespace CarRental.Web.Controllers.Web
             //Cars model = new Cars(cars/*, new DateTime(2016, 4, 4), new DateTime(2016, 4, 7)*/); 
             Cars model = new Cars();
             model.CarList = autoService.GetAll();
-            IList<decimal> PriceList = new List<decimal>();
+            IList<double> PriceList = new List<double>();
             foreach (var car in model.CarList)
             {
-                PriceList.Add(autoService.GetPrice(car.AutoId, 1));
+                PriceList.Add((double)autoService.GetPrice(car.AutoId, 1));
             }
             model.PriceList = PriceList;
             model.Duration = 1;
@@ -39,13 +39,15 @@ namespace CarRental.Web.Controllers.Web
             if (ModelState.IsValid && model.EndDate > model.StartDate)
             {
                 model.CarList = autoService.GetAllFreeAuto(model.StartDate ?? DateTime.Now, model.EndDate ?? DateTime.Now);
-                IList<decimal> PriceList = new List<decimal>();
-                TimeSpan difference = (model.EndDate ?? DateTime.Now) - (model.StartDate ?? DateTime.Now);
+                IList<double> PriceList = new List<double>();
+                DateTime start = new DateTime(model.StartDate.Value.Year, model.StartDate.Value.Month, model.StartDate.Value.Day);
+                DateTime end = new DateTime(model.EndDate.Value.Year, model.EndDate.Value.Month, model.EndDate.Value.Day);
+                TimeSpan difference = end - start;
                 int days = (int)Math.Ceiling(difference.TotalDays);
                 foreach (var car in model.CarList)
                 {
                     var price = autoService.GetPrice(car.AutoId, days);
-                    PriceList.Add(price);
+                    PriceList.Add((double)price);
                 }
                 model.PriceList = PriceList;
                 model.Duration = days;
@@ -56,10 +58,10 @@ namespace CarRental.Web.Controllers.Web
                     ModelState.AddModelError("Invalid date error", "Pabaigos data yra anksčiau negu pradžios");
                 }
                 model.CarList = autoService.GetAll();
-                IList<decimal> PriceList = new List<decimal>();
+                IList<double> PriceList = new List<double>();
                 foreach (var car in model.CarList)
                 {
-                    PriceList.Add(autoService.GetPrice(car.AutoId, 1));
+                    PriceList.Add((double)autoService.GetPrice(car.AutoId, 1));
                 }
                 model.PriceList = PriceList;
                 model.Duration = 1;

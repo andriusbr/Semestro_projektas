@@ -10,11 +10,11 @@ namespace CarRental.Web.Models
     public class OrderSubmit
     {
         public int AutoId { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public Auto Car { get; set; }
         
 
-        [Required(ErrorMessage = "Įveskite pradždios datą")]
+        [Required(ErrorMessage = "Įveskite pradžios datą")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Pradžia")]
         public DateTime? StartDate { get; set; }
