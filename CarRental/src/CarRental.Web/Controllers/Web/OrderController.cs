@@ -90,15 +90,72 @@ namespace CarRental.Web.Controllers.Web
         [HttpPost]
         public IActionResult OrderSubmit(OrderSubmit model)
         {
+            ViewData["Title"] = "Užsakymas";
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(OrderController.OrderConfirm), "Order", 
+                    new {
+                        @autoId = model.AutoId,
+                        @startDate = model.StartDate,
+                        @endDate = model.EndDate,
+                        @firstName = model.FirstName,
+                        @lastName = model.LastName,
+                        @email = model.Email,
+                        @phone = model.PhoneNumber,
+                        @pickup = model.PickUp,
+                        @dropoff = model.DropOff,
+                        @comments = model.Comments
+                    });
+            }
+
+            ViewBag.locations = OrderLocation.LocationList.Select(x =>
+                                  new SelectListItem()
+                                  {
+                                      Text = x.ToString(),
+                                      Value = x.ToString()
+                                  });
+            Auto car = autoService.GetById(model.AutoId);
+            model.Car = car;
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult OrderConfirm(int autoId, DateTime startDate, DateTime endDate,
+            string firstName, string lastName, string email, string phone,
+            string pickup, string dropoff, string comments)
+        {
+            ViewData["Title"] = "Patvirtinimas";
+            OrderConfirm confirmModel = new OrderConfirm()
+            {
+                AutoId = autoId,
+                Car = autoService.GetById(autoId),
+                StartDate = startDate,
+                EndDate = endDate,
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                PhoneNumber = phone,
+                PickUp = pickup,
+                DropOff = dropoff,
+                Comments = comments
+            };
+            return View(confirmModel);
+        }
+
+        [HttpPost]
+        public IActionResult OrderConfirm(OrderConfirm model)
+        {
+            ViewData["Title"] = "Patvirtinimas";
             if (ModelState.IsValid)
             {
                 Order order = new Order()
                 {
                     AutoId = model.AutoId,
-                    OrderStart = model.StartDate ?? DateTime.Now,
-                    OrderEnd = model.EndDate ?? DateTime.Now,
+                    OrderStart = model.StartDate,
+                    OrderEnd = model.EndDate,
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
+                    DayPrice = model.Price,
                     Comments = model.Comments
 
                 };
@@ -115,6 +172,24 @@ namespace CarRental.Web.Controllers.Web
             Auto car = autoService.GetById(model.AutoId);
             model.Car = car;
             return View(model);
+        }
+
+        public double GetDailyRate(int autoId, int duration)
+        {
+            if(duration == 0)
+            {
+                return (double)autoService.GetPrice(autoId, 1);
+            }
+            
+            return (double)autoService.GetPrice(autoId, duration);
+        }
+
+        public bool IsAvailable(int id, DateTime startDate, DateTime endDate)
+        {
+            DateTime start = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+            DateTime end = new DateTime(endDate.Year, endDate.Month, endDate.Day);
+            bool reslt = orderService.IsAvailable(id, start, end);
+            return orderService.IsAvailable(id, start, end);
         }
 
         public IActionResult OrderSuccess()

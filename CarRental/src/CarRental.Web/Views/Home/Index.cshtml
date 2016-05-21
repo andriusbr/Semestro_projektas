@@ -7,27 +7,32 @@
     <h1>Automobilių nuoma</h1>
 
     <div class="search-container col-xs-3">
-        <form id="eventForm" method="post" class="form-horizontal">
-
-            <label>Pradžia</label></br>
-            <div class="row left-right-margin1">
-                    <div class="input-group input-append date" id="datepicker1">
-                        <input type="text" class="form-control" name="date" />
-                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-                
-            </div>
-            <label>Pabaiga</label></br>
-            <div class="row left-right-margin1">
-                    <div class="input-group input-append date" id="datepicker2">
-                        <input type="text" class="form-control" name="date" />
-                        <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+        <span class="text-danger">@Html.ValidationMessage("Invalid date error")</span>
+        <form asp-controller="Home" asp-action="Index" class="form-horizontal" method="post">
+                <label asp-for="StartDate"></label></br>
+                <div class="row left-right-margin1">
+                    <div class="input-group date" id="datetimepickerStart">
+                        <input asp-for="StartDate" class="form-control" />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
-                
-            </div>
-            <div class="row top-margin10" align="right">
-                <span class="orderBtn">Filtruoti</span>
-            </div>
+                </div>
+                <div>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+
+                <label asp-for="EndDate"></label></br>
+                <div class="row left-right-margin1">
+                    <div class="input-group date" id="datetimepickerEnd">
+                        <input asp-for="EndDate" class="form-control" />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <div class="row top-margin10" align="right">
+                    <button class="orderBtn" type="submit">
+                        Filtruoti
+                    </button>
+                </div>
         </form>
     </div>
 
@@ -41,9 +46,17 @@
 
 <script>
    
+    $("#datetimepickerStart").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm'
+    });
+
+    $("#datetimepickerEnd").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm'
+    });
+
 
     //$('#datepicker1').datepicker($.datepicker.regional['lt']);
-    $("#datepicker1").datepicker({
+    /*$("#datepicker1").datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         language: "lt",
@@ -56,7 +69,7 @@
         language: "lt",
         locale: "lt",
         orientation: "top"
-    });
+    });*/
 
     /*$("#datepicker1").datepicker();
 

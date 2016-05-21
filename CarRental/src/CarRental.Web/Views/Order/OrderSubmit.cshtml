@@ -19,24 +19,13 @@
                                 <span>Kuro tipas: @Model.Car.FuelType</span>
                             </div>
                         </div>
-                        <h3>Kaina: </h3>
+                        <h3>Kaina: 
+                            <span id="priceField"></span>
+                        </h3>
                     </td>
                 </tr>
             </tbody>
         </table>
-        @*<div class="col-xs-4">
-            <img class="carImage" src="@Model.Photo" />
-        </div>
-
-        <div class="carResultRow_CarSpec col-xs-8">
-            <h2>
-               @Model.Make @Model.Model
-            </h2>
-            <h3>
-                Total:
-                100$
-            </h3>
-        </div>*@
     </div>
 </div>
 
@@ -44,17 +33,18 @@
     <h3>Vairuotojo informacija</h3>
     <hr style="border-color: black"/>
     <form asp-controller="Order" asp-action="OrderSubmit" class="form-horizontal" method="post">
-        <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+        <div asp-validation-summary="ValidationSummary.All" class="text-danger" id="validationSummary"></div>
         <input asp-for="AutoId" type="hidden" />
         <div class="form-group">
             <label asp-for="StartDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <div class='input-group date input-width280' id='datetimepickerStart'>
-                    <input asp-for="StartDate" class="form-control" id="orderEnd" />
+                    <input asp-for="StartDate" class="form-control" id="orderStart" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
+                <span asp-validation-for="StartDate" class="text-danger" id="startDateValidation"></span>
             </div>
         </div>
         <div class="form-group">
@@ -66,7 +56,7 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <span asp-validation-for="EndDate" class="text-danger"></span>
+                <span asp-validation-for="EndDate" class="text-danger" id="endDateValidation"></span>
             </div>
         </div>
         <div class="form-group">
@@ -123,14 +113,105 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-default">Pateikti</button>
+                <button type="submit" class="btn btn-default" id="btnSubmit">Pateikti</button>
             </div>
         </div>
     </form>
 </div>
 
 
-<script type="text/javascript" charset="utf-8">
+<script>
+
+    $(function () {
+        setPrice();
+
+        $('#datetimepickerStart').datetimepicker().on('dp.change', function (e) {
+            checkIfAvailable();
+        });
+
+
+        $('#datetimepickerEnd').datetimepicker().on('dp.change', function (e) {
+            checkIfAvailable();
+        });
+
+    });
+
+    function checkIfAvailable() {
+        if(!validateDates()){
+            document.getElementById("btnSubmit").disabled = true;
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/Order/IsAvailable",
+                data: {
+                    id: @Model.AutoId,
+                    startDate: new Date(orderStart.value.replace(/-/g,"/")).toISOString(),
+                    endDate: new Date(orderEnd.value.replace(/-/g,"/")).toISOString()
+                },
+                success: function (result) {
+                    var validation = document.getElementById("validationSummary");
+                    if(result == false){
+                        validation.innerHTML = "Atsiprašome, pasirinktu laiku automobilis yra užimtas";
+                        document.getElementById("btnSubmit").disabled = true;
+                    }else{
+                        validation.innerHTML = "";
+                        document.getElementById("btnSubmit").disabled = false;
+                    }
+                    setPrice();
+                },
+            });
+        }
+    }
+
+    function validateDates(){
+        var days = daydiff(orderStart, orderEnd);
+        var validation = document.getElementById("validationSummary");
+        if(days < 0){
+            validation.innerHTML = "Pradžios data yra vėliau negu pabaigos data";
+        }else if(days == 0){
+            validation.innerHTML = "Užsakymo trukmė turi būti bent viena diena";
+        }else if(isEarlierThanNow(orderStart) || isEarlierThanNow(orderEnd)){
+            validation.innerHTML = "Pasirinkta diena jau praėjo";
+        }else{
+            validation.innerHTML="";
+            return true;
+        }
+        return false;
+    }
+
+    function setPrice() {
+        var days = daydiff(orderStart, orderEnd);
+        $.ajax({
+            type: "POST",
+            url: "/Order/GetDailyRate",
+            data: {
+                autoId: @Model.AutoId,
+                duration: days
+            },
+            success: function (result) {
+                if(result >= 0){
+                    displayPrice(result);
+                }
+            },
+        });
+
+    }
+
+
+
+    function displayPrice(dailyRate) {
+        var span = document.getElementById("priceField");
+        var days = daydiff(orderStart, orderEnd);
+        if (dailyRate > 0 && days > 0) {
+            span.innerHTML = (dailyRate * days).toFixed(2) + "€";
+        }else if(dailyRate > 0 && (orderStart.value == "" || orderEnd.value == "")){
+            span.innerHTML = (dailyRate * 1).toFixed(2) + "€";
+        }
+        else {
+            span.innerHTML = "0.00€";
+        }
+    }
+
     $("#datetimepickerStart").datetimepicker({
         format: 'YYYY-MM-DD hh:mm'
     });
@@ -139,5 +220,28 @@
         format: 'YYYY-MM-DD hh:mm'
     });
 
-    
+    /*function validateStartDate() {
+        var timestamp=Date.parse('orderStart');
+
+        if (isNaN(timestamp) == false)
+        {
+            var validation = document.getElementById("startDateValidation");
+            validation.innerHTML = "Neteisinga data";
+            return false;
+        }
+        return true;
+    }
+
+    function validateEndDate() {
+        var timestamp=Date.parse('orderEnd');
+
+        if (isNaN(timestamp) == false)
+        {
+            var validation = document.getElementById("endDateValidation");
+            validation.innerHTML = "Neteisinga data";
+            return false;
+        }
+        return true;
+    }*/
+
 </script>

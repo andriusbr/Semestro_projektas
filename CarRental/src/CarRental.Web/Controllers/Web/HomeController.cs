@@ -1,4 +1,5 @@
 ﻿using CarRental.DataAccess;
+using CarRental.DataAccess.Entities;
 using CarRental.Services;
 using CarRental.ServicesContracts;
 using CarRental.Web.Models;
@@ -15,14 +16,63 @@ namespace CarRental.Web.Controllers.Web
         [HttpGet]
         public IActionResult Index()
         {
-            /*Car car = new Car(1, "http://cdn.rcstatic.com/images/car_images/new_images/kia/rio_lrg.jpg", "Kia", "Rio");
-            Car car2 = new Car(2, "http://www.carstoti.com/wp-content/uploads/2014/08/white-2015-volkswagen-polo.jpg", "Volkswagen", "Polo");
-            List<Car> cars = new List<Car>();
-            cars.Add(car); cars.Add(car2);*/
-
-            //Cars model = new Cars(cars/*, new DateTime(2016, 4, 4), new DateTime(2016, 4, 7)*/); 
-            Cars model = new Cars(autoService.GetAll());
+            Cars model = new Cars();
+            model.CarList = autoService.GetAll();
+            IList<decimal> PriceList = new List<decimal>();
+            foreach (var car in model.CarList)
+            {
+                PriceList.Add(autoService.GetPrice(car.AutoId, 1));
+            }
+            model.PriceList = PriceList;
+            model.Duration = 1;
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Index(Cars model)
+        {
+            DateTime start = new DateTime(model.StartDate.Value.Year, model.StartDate.Value.Month, model.StartDate.Value.Day);
+            DateTime end = new DateTime(model.EndDate.Value.Year, model.EndDate.Value.Month, model.EndDate.Value.Day);
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            if (ModelState.IsValid && start < end && start != end && start >= now && end >= now)
+            {
+                model.CarList = autoService.GetAllFreeAuto(model.StartDate ?? DateTime.Now, model.EndDate ?? DateTime.Now);
+                TimeSpan difference = end - start;
+                int days = (int)Math.Ceiling(difference.TotalDays);
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, days);
+                model.Duration = days;
+            }
+            else
+            {
+                if (model.EndDate < model.StartDate) {
+                    ModelState.AddModelError("Invalid date error", "Pabaigos data yra anksčiau negu pradžios");
+                }
+                else if (model.EndDate == model.StartDate)
+                {
+                    ModelState.AddModelError("Invalid date error", "Užsakymo trukmė turi būti bent viena diena");
+                }
+                else if (start < DateTime.Now || end < DateTime.Now)
+                {
+                    ModelState.AddModelError("Invalid date error", "Pasirinkta diena jau praėjo");
+                }
+
+                model.CarList = autoService.GetAll();
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, 1);
+                model.Duration = 1;
+            }
+            
+            return View(model);
+        }
+
+        private IList<decimal> GetAvailableAutoPriceList(IList<Auto> carList, int duration)
+        {
+            IList<decimal> PriceList = new List<decimal>();
+            foreach (var car in carList)
+            {
+                var price = autoService.GetPrice(car.AutoId, duration);
+                PriceList.Add(price);
+            }
+            return PriceList;
         }
     }
 }

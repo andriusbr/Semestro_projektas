@@ -61,5 +61,18 @@ namespace CarRental.Services
 
             return orders;
         }
+
+        public bool IsAvailable(int id, DateTime start, DateTime end)
+        {
+            bool noOrders = !dbContext.Orders.Any(ord =>ord.AutoId == id);
+            if (noOrders)
+            {
+                return true;
+            }
+            return dbContext.Orders.Any(ord =>
+                ord.AutoId == id &&
+                ((start.Date < ord.OrderStart.Date && end.Date < ord.OrderStart.Date) ||
+                (start.Date > ord.OrderEnd.Date && end.Date > ord.OrderEnd.Date)));
+        }
     }
 }
