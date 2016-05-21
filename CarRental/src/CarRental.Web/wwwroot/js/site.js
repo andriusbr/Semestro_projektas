@@ -22,6 +22,7 @@ function daydiff(firstDate, secondDate) {
     return days;
 }
 
+
 function isEarlierThanNow(date) {
     var convertedDate = new Date(moment(date.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
     var currentDate = new Date();

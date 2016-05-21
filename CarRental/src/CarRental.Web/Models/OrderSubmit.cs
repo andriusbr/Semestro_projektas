@@ -10,7 +10,6 @@ namespace CarRental.Web.Models
     public class OrderSubmit
     {
         public int AutoId { get; set; }
-        public double Price { get; set; }
         public Auto Car { get; set; }
         
 

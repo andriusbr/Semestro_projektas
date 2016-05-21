@@ -18,10 +18,10 @@ namespace CarRental.Web.Controllers.Web
         {
             Cars model = new Cars();
             model.CarList = autoService.GetAll();
-            IList<double> PriceList = new List<double>();
+            IList<decimal> PriceList = new List<decimal>();
             foreach (var car in model.CarList)
             {
-                PriceList.Add((double)autoService.GetPrice(car.AutoId, 1));
+                PriceList.Add(autoService.GetPrice(car.AutoId, 1));
             }
             model.PriceList = PriceList;
             model.Duration = 1;
@@ -39,7 +39,7 @@ namespace CarRental.Web.Controllers.Web
                 model.CarList = autoService.GetAllFreeAuto(model.StartDate ?? DateTime.Now, model.EndDate ?? DateTime.Now);
                 TimeSpan difference = end - start;
                 int days = (int)Math.Ceiling(difference.TotalDays);
-                model.PriceList = GetAvailableAutoList(model.CarList, days);
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, days);
                 model.Duration = days;
             }
             else
@@ -57,20 +57,20 @@ namespace CarRental.Web.Controllers.Web
                 }
 
                 model.CarList = autoService.GetAll();
-                model.PriceList = GetAvailableAutoList(model.CarList, 1);
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, 1);
                 model.Duration = 1;
             }
             
             return View(model);
         }
 
-        private IList<double> GetAvailableAutoList(IList<Auto> carList, int duration)
+        private IList<decimal> GetAvailableAutoPriceList(IList<Auto> carList, int duration)
         {
-            IList<double> PriceList = new List<double>();
+            IList<decimal> PriceList = new List<decimal>();
             foreach (var car in carList)
             {
                 var price = autoService.GetPrice(car.AutoId, duration);
-                PriceList.Add((double)price);
+                PriceList.Add(price);
             }
             return PriceList;
         }

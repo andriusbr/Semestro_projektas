@@ -35,7 +35,6 @@
     <form asp-controller="Order" asp-action="OrderSubmit" class="form-horizontal" method="post">
         <div asp-validation-summary="ValidationSummary.All" class="text-danger" id="validationSummary"></div>
         <input asp-for="AutoId" type="hidden" />
-        <input asp-for="Price" type="hidden" id="dailyRate" />
         <div class="form-group">
             <label asp-for="StartDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -127,25 +126,42 @@
         setPrice();
 
         $('#datetimepickerStart').datetimepicker().on('dp.change', function (e) {
-            if(validateDates() && isAvailable()){
-                setPrice();
-                document.getElementById("btnSubmit").disabled = false;
-            }else{
-                document.getElementById("btnSubmit").disabled = true;
-            }
+            checkIfAvailable();
         });
 
 
         $('#datetimepickerEnd').datetimepicker().on('dp.change', function (e) {
-            if(validateDates() && isAvailable()){
-                setPrice();
-                document.getElementById("btnSubmit").disabled = false;
-            }else{
-                document.getElementById("btnSubmit").disabled = true;
-            }
+            checkIfAvailable();
         });
 
     });
+
+    function checkIfAvailable() {
+        if(!validateDates()){
+            document.getElementById("btnSubmit").disabled = true;
+        }else{
+            $.ajax({
+                type: "POST",
+                url: "/Order/IsAvailable",
+                data: {
+                    id: @Model.AutoId,
+                    startDate: new Date(orderStart.value.replace(/-/g,"/")).toISOString(),
+                    endDate: new Date(orderEnd.value.replace(/-/g,"/")).toISOString()
+                },
+                success: function (result) {
+                    var validation = document.getElementById("validationSummary");
+                    if(result == false){
+                        validation.innerHTML = "Atsiprašome, pasirinktu laiku automobilis yra užimtas";
+                        document.getElementById("btnSubmit").disabled = true;
+                    }else{
+                        validation.innerHTML = "";
+                        document.getElementById("btnSubmit").disabled = false;
+                    }
+                    setPrice();
+                },
+            });
+        }
+    }
 
     function validateDates(){
         var days = daydiff(orderStart, orderEnd);
@@ -154,7 +170,7 @@
             validation.innerHTML = "Pradžios data yra vėliau negu pabaigos data";
         }else if(days == 0){
             validation.innerHTML = "Užsakymo trukmė turi būti bent viena diena";
-        }else if(isEarlierThanNow(orderStart)/* || isEarlierThanNow(orderEnd)*/){
+        }else if(isEarlierThanNow(orderStart) || isEarlierThanNow(orderEnd)){
             validation.innerHTML = "Pasirinkta diena jau praėjo";
         }else{
             validation.innerHTML="";
@@ -163,36 +179,8 @@
         return false;
     }
 
-    function isAvailable() {
-        $.ajax({
-            type: "POST",
-            url: "/Order/IsAvailable",
-            data: {
-                id: @Model.AutoId,
-                startDate: new Date(orderStart.value.replace(/-/g,"/")).toISOString(),
-                endDate: new Date(orderEnd.value.replace(/-/g,"/")).toISOString()
-            },
-            success: function (result) {
-                var validation = document.getElementById("validationSummary");
-                if(result == false){
-                    validation.innerHTML = "Atsiprašome, pasirinktu laiku automobilis yra užimtas";
-                    return false;
-                }else{
-                    validation.innerHTML = "";
-                    return true;
-                }
-            },
-        });
-
-    }
-
     function setPrice() {
         var days = daydiff(orderStart, orderEnd);
-        var timestamp = Date.parse(days);
-        if(isNaN(timestamp) == true){
-            days = 0;
-        }
-        alert("days:"+days);
         $.ajax({
             type: "POST",
             url: "/Order/GetDailyRate",
@@ -201,10 +189,8 @@
                 duration: days
             },
             success: function (result) {
-                alert(result);
                 if(result >= 0){
-                    document.getElementById("dailyRate").value = result;
-                    displayPrice();
+                    displayPrice(result);
                 }
             },
         });
@@ -213,15 +199,13 @@
 
 
 
-    function displayPrice() {
+    function displayPrice(dailyRate) {
         var span = document.getElementById("priceField");
-        var price = document.getElementById("dailyRate").value;
         var days = daydiff(orderStart, orderEnd);
-        if (price > 0 && days > 0) {
-
-            span.innerHTML = (price * days).toFixed(2) + "€";
-        }else if(price > 0 && (orderStart.value == "" || orderEnd.value == "")){
-            span.innerHTML = price + "€";
+        if (dailyRate > 0 && days > 0) {
+            span.innerHTML = (dailyRate * days).toFixed(2) + "€";
+        }else if(dailyRate > 0 && (orderStart.value == "" || orderEnd.value == "")){
+            span.innerHTML = (dailyRate * 1).toFixed(2) + "€";
         }
         else {
             span.innerHTML = "0.00€";
