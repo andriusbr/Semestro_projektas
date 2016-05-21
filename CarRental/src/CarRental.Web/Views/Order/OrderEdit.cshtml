@@ -5,22 +5,29 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Auto Id</label>
             <div class="col-md-9">
-                <input asp-for="AutoId" id="auto" class="form-control" />
-                <span asp-validation-for="AutoId" class="text-danger"></span>
+                <input type="text" id="auto" class="form-control" disabled />
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Nuomos pražia</label>
             <div class="col-md-9">
-                <input type="date" id="orderStart" class="form-control" />
-                <span asp-validation-for="OrderStart" class="text-danger"></span>
+                <div class='input-group date' id='datetimepickerstart'>
+                    <input type='text' class="form-control" id="orderStart" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Nuomos Pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="orderEnd" class="form-control" />
-                <span asp-validation-for="OrderEnd" class="text-danger"></span>
+                <div class='input-group date' id='datetimepickerend'>
+                    <input type='text' class="form-control" id="orderEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -72,12 +79,27 @@
 </div>
 
 <script>
+
+    $(function () {
+        $('#datetimepickerstart').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+       
+
+        $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+    });
+
     var uri = '../../api/orders/' + @ViewBag.orderId;
 
     $(document).ready(function (){
         $.getJSON(uri)
-                .done(function (data){
-                    $("#auto").val(data.AutoId);
+                .done(function (data){                  
+                    $.getJSON('../../api/autos/' + data.AutoId)
+               .done(function (aut) {
+                   $("#auto").val(aut.Make + ' ' + aut.Model + ' ' + aut.PlateNumber);                                   
+               });
                     $("#orderStart").val(data.OrderStart);
                     $("#orderEnd").val(data.OrderEnd);
                     $("#rentPlace").val(data.RentPlace);
