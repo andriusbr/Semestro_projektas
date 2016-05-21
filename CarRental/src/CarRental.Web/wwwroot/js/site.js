@@ -22,7 +22,11 @@ function daydiff(firstDate, secondDate) {
     return days;
 }
 
-function convertFromLithuanianToAmerican(date) {
-    var result = new Date(moment(date.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
-    return result;
+function isEarlierThanNow(date) {
+    var convertedDate = new Date(moment(date.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
+    var currentDate = new Date();
+    if (convertedDate.getTime() < currentDate.getTime()) {
+        return true;
+    }
+    return false;
 }

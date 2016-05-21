@@ -130,8 +130,6 @@
             if(validateDates() && isAvailable()){
                 setPrice();
                 document.getElementById("btnSubmit").disabled = false;
-                //displayPrice();
-                //isFree(orderStart, orderEnd);
             }else{
                 document.getElementById("btnSubmit").disabled = true;
             }
@@ -142,8 +140,6 @@
             if(validateDates() && isAvailable()){
                 setPrice();
                 document.getElementById("btnSubmit").disabled = false;
-                //displayPrice();
-                //isFree(orderStart, orderEnd);
             }else{
                 document.getElementById("btnSubmit").disabled = true;
             }
@@ -157,7 +153,9 @@
         if(days < 0){
             validation.innerHTML = "Pradžios data yra vėliau negu pabaigos data";
         }else if(days == 0){
-            validation.innerHTML = "Užsakymas trukmė turi būti bent viena diena";
+            validation.innerHTML = "Užsakymo trukmė turi būti bent viena diena";
+        }else if(isEarlierThanNow(orderStart)/* || isEarlierThanNow(orderEnd)*/){
+            validation.innerHTML = "Pasirinkta diena jau praėjo";
         }else{
             validation.innerHTML="";
             return true;
@@ -176,7 +174,7 @@
             },
             success: function (result) {
                 var validation = document.getElementById("validationSummary");
-                if(result == true){
+                if(result == false){
                     validation.innerHTML = "Atsiprašome, pasirinktu laiku automobilis yra užimtas";
                     return false;
                 }else{
@@ -190,6 +188,11 @@
 
     function setPrice() {
         var days = daydiff(orderStart, orderEnd);
+        var timestamp = Date.parse(days);
+        if(isNaN(timestamp) == true){
+            days = 0;
+        }
+        alert("days:"+days);
         $.ajax({
             type: "POST",
             url: "/Order/GetDailyRate",
@@ -198,11 +201,11 @@
                 duration: days
             },
             success: function (result) {
+                alert(result);
                 if(result >= 0){
                     document.getElementById("dailyRate").value = result;
                     displayPrice();
                 }
-                //document.getElementById("priceField").innerHTML = document.getElementById("dailyRate").value;
             },
         });
 

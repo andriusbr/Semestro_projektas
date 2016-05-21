@@ -66,9 +66,8 @@ namespace CarRental.Services
         {
             return dbContext.Orders.Any(ord =>
                 ord.AutoId == id &&
-                ((start.Date >= ord.OrderStart.Date && start.Date <= ord.OrderEnd.Date) ||
-                (end.Date >= ord.OrderStart.Date && end.Date <= ord.OrderEnd.Date) ||
-                (start.Date <= ord.OrderStart.Date && end.Date >= ord.OrderEnd.Date)));
+                ((start.Date < ord.OrderStart.Date && end.Date < ord.OrderStart.Date) ||
+                (start.Date > ord.OrderEnd.Date && end.Date > ord.OrderEnd.Date)));
         }
     }
 }

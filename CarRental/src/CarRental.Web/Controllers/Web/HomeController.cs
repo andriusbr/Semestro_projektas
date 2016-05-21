@@ -31,11 +31,12 @@ namespace CarRental.Web.Controllers.Web
         [HttpPost]
         public IActionResult Index(Cars model)
         {
-            if (ModelState.IsValid && model.EndDate > model.StartDate)
+            DateTime start = new DateTime(model.StartDate.Value.Year, model.StartDate.Value.Month, model.StartDate.Value.Day);
+            DateTime end = new DateTime(model.EndDate.Value.Year, model.EndDate.Value.Month, model.EndDate.Value.Day);
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            if (ModelState.IsValid && start < end && start != end && start >= now && end >= now)
             {
                 model.CarList = autoService.GetAllFreeAuto(model.StartDate ?? DateTime.Now, model.EndDate ?? DateTime.Now);
-                DateTime start = new DateTime(model.StartDate.Value.Year, model.StartDate.Value.Month, model.StartDate.Value.Day);
-                DateTime end = new DateTime(model.EndDate.Value.Year, model.EndDate.Value.Month, model.EndDate.Value.Day);
                 TimeSpan difference = end - start;
                 int days = (int)Math.Ceiling(difference.TotalDays);
                 model.PriceList = GetAvailableAutoList(model.CarList, days);
@@ -43,9 +44,18 @@ namespace CarRental.Web.Controllers.Web
             }
             else
             {
-                if(model.EndDate < model.StartDate){
+                if (model.EndDate < model.StartDate) {
                     ModelState.AddModelError("Invalid date error", "Pabaigos data yra anksčiau negu pradžios");
                 }
+                else if (model.EndDate == model.StartDate)
+                {
+                    ModelState.AddModelError("Invalid date error", "Užsakymo trukmė turi būti bent viena diena");
+                }
+                else if (start < DateTime.Now || end < DateTime.Now)
+                {
+                    ModelState.AddModelError("Invalid date error", "Pasirinkta diena jau praėjo");
+                }
+
                 model.CarList = autoService.GetAll();
                 model.PriceList = GetAvailableAutoList(model.CarList, 1);
                 model.Duration = 1;

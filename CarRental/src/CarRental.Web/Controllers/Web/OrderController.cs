@@ -133,7 +133,7 @@ namespace CarRental.Web.Controllers.Web
         {
             DateTime start = new DateTime(startDate.Year, startDate.Month, startDate.Day);
             DateTime end = new DateTime(endDate.Year, endDate.Month, endDate.Day);
-            
+            bool reslt = orderService.IsAvailable(id, start, end);
             return orderService.IsAvailable(id, start, end);
         }
 
