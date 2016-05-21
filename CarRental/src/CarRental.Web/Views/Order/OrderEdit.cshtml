@@ -37,8 +37,6 @@
                 <span asp-validation-for="RentPlace" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="form-horizontal col-md-6">
         <div class="form-group">
             <label class="col-md-3 control-label">Grąžinimo vieta</label>
             <div class="col-md-9">
@@ -52,14 +50,9 @@
                 <input asp-for="DayPrice" id="dayPrice" class="form-control" />
                 <span asp-validation-for="DayPrice" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">Pristatymo kaina</label>
-            <div class="col-md-9">
-                <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
-                <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
-            </div>
-        </div>
+        </div>    
+    </div>
+    <div class="form-horizontal col-md-6">            
         <div class="form-group">
             <label class="col-md-3 control-label">Komentarai</label>
             <div class="col-md-9">
@@ -67,6 +60,34 @@
                 <span asp-validation-for="Comments" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Vardas</label>
+            <div class="col-md-9">
+                <input asp-for="Name" id="name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Pavardė</label>
+            <div class="col-md-9">
+                <input asp-for="Surname" id="surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Telefonas</label>
+            <div class="col-md-9">
+                <input asp-for="Phone" id="phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">E. Paštas</label>
+            <div class="col-md-9">
+                <input asp-for="Email" id="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="button" value="Redaguoti" onclick='edit();location.href="/Order/OrderIndex";' class="btn btn-default" />
@@ -106,7 +127,11 @@
                     $("#rentReturn").val(data.RentReturn);
                     $("#dayPrice").val(data.DayPrice);
                     $("#deliveryPrice").val(data.DeliveryPrice);
-                    $("#comments").val(data.Comments);                  
+                    $("#comments").val(data.Comments);   
+                    $("#name").val(data.Name);
+                    $("#surname").val(data.Surname);
+                    $("#phone").val(data.Phone);
+                    $("#email").val(data.Email);
                 });
 
     });
