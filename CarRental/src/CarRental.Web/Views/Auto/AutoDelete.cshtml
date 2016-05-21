@@ -2,7 +2,7 @@
     <h2>Ištrinti automobilį?</h2>
 </div>
 <dl class="dl-horizontal" id="auto"></dl>
-<input type="button" value="Ištrinti" onclick='deleteAuto();/*location.href="/Auto/AutoIndex";*/' class="btn btn-default" />
+<input type="button" value="Ištrinti" onclick='deleteAuto();' class="btn btn-default" />
 <p>
     <a asp-action="AutoIndex">Grįžti į sąrašą</a>
 </p>
@@ -17,7 +17,8 @@
 
             $.getJSON(uri)
                 .done(function (data) {
-                    addItem('Modelis:', data.Make);
+                    addItem('Markė:', data.Make);
+                    addItem('Modelis:', data.Model);
                     addItem('Metai:', data.Year);
                     addItem('Numeris:', data.PlateNumber);
                     addItem('Spalva:', data.Color);
@@ -41,7 +42,10 @@
             $.ajax({
                 type: "DELETE",
                 url: uri,
-                contentType: "application/json"
-            });
+                contentType: "application/json",
+                success: function (id) {
+                    location.href = "/Auto/AutoIndex";
+                }
+            });           
         }
 </script>

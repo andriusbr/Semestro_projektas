@@ -1,12 +1,20 @@
 ﻿@model CarRental.DataAccess.Entities.Auto
-<div id="autoid">
-    <h2>Naujas automobilis</h2>
+<div id="autoid" class="row">
+    <h2 class="text-center">Naujas automobilis</h2>
     <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Pagrindiniai duomenys</h3>      
         <div class="form-group">
-            <label class="col-md-3 control-label">Modelis</label>
+            <label class="col-md-3 control-label">Markė</label>
             <div class="col-md-9">
                 <input asp-for="Make" id="make" class="form-control" />
                 <span asp-validation-for="Make" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Modelis</label>
+            <div class="col-md-9">
+                <input asp-for="Model" id="model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -68,22 +76,34 @@
         <div class="form-group">
             <label class="col-md-3 control-label">TA pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="tAEnd" class="form-control" />
-                <span asp-validation-for="TAEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerTaEnd'>
+                    <input type='text' class="form-control" id="tAEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Draudimo pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="insurenceEnd" class="form-control" />
-                <span asp-validation-for="InsurenceEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerInsuranceEnd'>
+                    <input type='text' class="form-control" id="insurenceEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Kasko pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="cascoInsurenceEnd" class="form-control" />
-                <span asp-validation-for="CascoInsurenceEnd" class="text-danger"></span>
+                <div class='input-group date' id='datepickerCascoInsurenceEnd'>
+                    <input type='text' class="form-control" id="cascoInsurenceEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -122,57 +142,83 @@
             </div>
         </div>
     </div>
-    <div class="form-horizontal col-md-6"> 
+    <div class="form-horizontal col-md-6">
+        <h3 class="text-center">Paros nuomos kaina</h3>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 2 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="2days" class="form-control" />
             </div>
-        </div>      
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 6 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="6days" class="form-control" />
             </div>
-        </div> 
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 13 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="13days" class="form-control" />
             </div>
-        </div> 
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 22 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="22days" class="form-control" />
             </div>
-        </div>    
+        </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Iki 30 parų</label>
             <div class="col-md-9">
                 <input type="number" name="price[]" id="30days" class="form-control" />
             </div>
-        </div>  
+        </div>
+        <h4 class="text-center">Pridėti nuotrauką</h4>
         <div class="form-group">
-            <input type="file" id="fileUploads"/>
-        </div>     
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" class="btn btn-default" id="butt" />
+            <label class="col-md-3 control-label">Įkelti</label>
+            <div class="col-md-9">
+                <input type="file" id="fileUploads" />
             </div>
         </div>
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Įvesti" class="btn btn-default" id="butt" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="AutoIndex">Grįžti į sąrašą</a>
     </p>
 </div>
 
 <script>
+    $("#datepickerTaEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepickerInsuranceEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
+    $("#datepickerCascoInsurenceEnd").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        language: "lt",
+        orientation: "top"
+    });
+
     var fileName = "";
     function uploadFile() {
         var d = new FormData();
         var f = document.getElementById('fileUploads').files[0];
-        d.append('file', f);       
+        d.append('file', f);
 
         $.ajax({
             type: "POST",
@@ -186,7 +232,6 @@
                 create();
             },
             error: function (x) {
-                alert('ne');
                 fileName = "";
                 create();
             }
@@ -194,7 +239,7 @@
     }
 
     function create() {
-        
+
 
         $.ajax({
             type: "POST",
@@ -204,6 +249,7 @@
             + document.getElementById('22days').value + '/'
             + document.getElementById('30days').value,
             data: JSON.stringify({
+                "Model": document.getElementById('model').value,
                 "Make": document.getElementById('make').value,
                 "PriceId": 5,
                 "Year": check(document.getElementById('year').value),
@@ -225,9 +271,9 @@
                 "Photo": fileName
             }),
             contentType: "application/json",
-            //success: function (id) {
-               // $('#autoid').val(id);
-       // }
+            success: function (id) {
+                location.href = "/Auto/AutoIndex";
+            }
         });
     }
 
@@ -251,7 +297,6 @@
 
     $(function () {
         $('#butt').on('click', function () {
-            //create();
             uploadFile();
         });
     });

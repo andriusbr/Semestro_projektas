@@ -67,6 +67,12 @@ namespace CarRental.Web.Controllers.Api
             autoService.Create(value, prices);
         }
 
+        [HttpPost("{autoId}/{dayEnd}/{price}")]
+        public void ChangePrices(int autoId, int dayEnd, decimal price)
+        {
+            autoService.ChangePrice(autoId, dayEnd, price);
+        }
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]Auto value)
         {

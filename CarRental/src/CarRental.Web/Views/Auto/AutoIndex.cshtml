@@ -6,13 +6,15 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Markė</th>
                 <th>Modelis</th>
                 <th>Metai</th>
+                <th>Valst. nr.</th>
                 <th>Kuro tipas</th>
+                <th>Pavaros</th>
                 <th>TA iki</th>
                 <th>Civ.dr. iki</th>
                 <th>Kasko iki</th>
-                <th>Būsena</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -36,10 +38,11 @@
               $('#spinner').hide();
             // On success, 'data' contains a list of autos.
               $.each(data, function (key, item) {
-                  var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
-                      + item.FuelType + '</td><td>' + item.TAEnd + '</td><td>'
-                      + item.InsurenceEnd + '</td><td>' + item.CascoInsurenceEnd + '</td><td>'
-                      + item.Activity + '</td><td>'
+                  var html = '<tr><td>' + item.Make + '</td><td>' + item.Model + '</td><td>'
+                      + item.Year + '</td><td>' + item.PlateNumber + '</td><td>'
+                      + item.FuelType + '</td><td>' + item.Gearbox + '</td><td>'
+                      + item.TAEnd + '</td><td>' + item.InsurenceEnd + '</td><td>'
+                      + item.CascoInsurenceEnd + '</td><td>'
                       + '<a href="/Auto/AutoDetails/' + item.AutoId + '">Detaliau</a>' + '</td><td>'
                       + '<a href="/Auto/AutoEdit/' + item.AutoId + '">Redaguoti</a>' + '</td><td>'
                       + '<a href="/Auto/AutoDelete/' + item.AutoId + '">Ištrinti</a>' + '</td></tr>';
