@@ -21,3 +21,8 @@ function daydiff(firstDate, secondDate) {
     var days = millisBetween / millisecondsPerDay;
     return days;
 }
+
+function convertFromLithuanianToAmerican(date) {
+    var result = new Date(moment(date.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
+    return result;
+}

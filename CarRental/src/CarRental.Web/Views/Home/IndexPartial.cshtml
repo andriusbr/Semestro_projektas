@@ -30,14 +30,14 @@
                             @if (Model.PriceList != null && Model.PriceList.Count > i)
                             {
                                 <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
-                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate, @price = Model.PriceList.ElementAt(i) }))">
+                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate }))">
                                     <span class="orderBtn">Užsakyti</span>
                                 </a>
                             }
                             else
                             {
                                 <a class="noUnderline" href="@Html.Raw(@Url.Action("OrderSubmit", "Order",
-                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate, @price = -1 }))">
+                                    new { @id = car.AutoId, @start = Model.StartDate, @end = Model.EndDate }))">
                                     <span class="orderBtn">Užsakyti</span>
                                 </a>
                             }

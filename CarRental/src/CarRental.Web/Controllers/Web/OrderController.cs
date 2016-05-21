@@ -55,7 +55,7 @@ namespace CarRental.Web.Controllers.Web
         }
 
         [HttpGet]
-        public IActionResult OrderSubmit(int id, DateTime? start, DateTime? end, decimal price)
+        public IActionResult OrderSubmit(int id, DateTime? start, DateTime? end)
         {
             ViewData["Title"] = "Užsakymas";
 
@@ -83,7 +83,6 @@ namespace CarRental.Web.Controllers.Web
             }
             orderSubmit.StartDate = start;
             orderSubmit.EndDate = end;
-            orderSubmit.Price = (double) price;
 
             return View(orderSubmit);
         }
@@ -124,10 +123,18 @@ namespace CarRental.Web.Controllers.Web
         {
             if(duration == 0)
             {
-                return 0;
+                return autoService.GetPrice(autoId, 1);
             }
-
+            
             return autoService.GetPrice(autoId, duration);
+        }
+
+        public bool IsAvailable(int id, DateTime startDate, DateTime endDate)
+        {
+            DateTime start = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+            DateTime end = new DateTime(endDate.Year, endDate.Month, endDate.Day);
+            
+            return orderService.IsAvailable(id, start, end);
         }
 
         public IActionResult OrderSuccess()

@@ -114,7 +114,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-default">Pateikti</button>
+                <button type="submit" class="btn btn-default" id="btnSubmit">Pateikti</button>
             </div>
         </div>
     </form>
@@ -124,21 +124,28 @@
 <script>
 
     $(function () {
-        displayPrice();
+        setPrice();
+
         $('#datetimepickerStart').datetimepicker().on('dp.change', function (e) {
-            if(validateDates()){
+            if(validateDates() && isAvailable()){
                 setPrice();
+                document.getElementById("btnSubmit").disabled = false;
                 //displayPrice();
                 //isFree(orderStart, orderEnd);
+            }else{
+                document.getElementById("btnSubmit").disabled = true;
             }
         });
 
 
         $('#datetimepickerEnd').datetimepicker().on('dp.change', function (e) {
-            if(validateDates()){
+            if(validateDates() && isAvailable()){
                 setPrice();
+                document.getElementById("btnSubmit").disabled = false;
                 //displayPrice();
                 //isFree(orderStart, orderEnd);
+            }else{
+                document.getElementById("btnSubmit").disabled = true;
             }
         });
 
@@ -158,8 +165,30 @@
         return false;
     }
 
+    function isAvailable() {
+        $.ajax({
+            type: "POST",
+            url: "/Order/IsAvailable",
+            data: {
+                id: @Model.AutoId,
+                startDate: new Date(orderStart.value.replace(/-/g,"/")).toISOString(),
+                endDate: new Date(orderEnd.value.replace(/-/g,"/")).toISOString()
+            },
+            success: function (result) {
+                var validation = document.getElementById("validationSummary");
+                if(result == true){
+                    validation.innerHTML = "Atsiprašome, pasirinktu laiku automobilis yra užimtas";
+                    return false;
+                }else{
+                    validation.innerHTML = "";
+                    return true;
+                }
+            },
+        });
+
+    }
+
     function setPrice() {
-        var searchQuery = $("#txt_Search").val();
         var days = daydiff(orderStart, orderEnd);
         $.ajax({
             type: "POST",
@@ -169,13 +198,17 @@
                 duration: days
             },
             success: function (result) {
-                document.getElementById("dailyRate").value = result;
-                displayPrice() 
+                if(result >= 0){
+                    document.getElementById("dailyRate").value = result;
+                    displayPrice();
+                }
                 //document.getElementById("priceField").innerHTML = document.getElementById("dailyRate").value;
             },
         });
 
     }
+
+
 
     function displayPrice() {
         var span = document.getElementById("priceField");
@@ -184,7 +217,7 @@
         if (price > 0 && days > 0) {
 
             span.innerHTML = (price * days).toFixed(2) + "€";
-        }else if(price > 0 && (orderStart.value == "" || orderEnd.value == null)){
+        }else if(price > 0 && (orderStart.value == "" || orderEnd.value == "")){
             span.innerHTML = price + "€";
         }
         else {
