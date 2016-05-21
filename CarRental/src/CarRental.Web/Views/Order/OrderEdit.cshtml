@@ -1,5 +1,5 @@
 ﻿@model CarRental.DataAccess.Entities.Order
-<div class="row">
+<div class="row" id="autId">
     <h2>Užsakymo redagavimas</h2>
     <div class="form-horizontal col-md-6">
         <div class="form-group">
@@ -47,7 +47,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Paros Kaina</label>
             <div class="col-md-9">
-                <input asp-for="DayPrice" id="dayPrice" class="form-control" />
+                <input asp-for="DayPrice" id="dayPrice" class="form-control" disabled/>
                 <span asp-validation-for="DayPrice" class="text-danger"></span>
             </div>
         </div>    
@@ -91,7 +91,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" value="Redaguoti" onclick='edit();location.href="/Order/OrderIndex";' class="btn btn-default" />
+            <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
         </div>
     </div>
     <p class="col-md-12">
@@ -116,7 +116,8 @@
 
     $(document).ready(function (){
         $.getJSON(uri)
-                .done(function (data){                  
+                .done(function (data){ 
+                    $('#autId').val(data.AutoId);
                     $.getJSON('../../api/autos/' + data.AutoId)
                .done(function (aut) {
                    $("#auto").val(aut.Make + ' ' + aut.Model + ' ' + aut.PlateNumber);                                   
@@ -141,16 +142,22 @@
             type: "PUT",
             url: "../../api/orders/" + @ViewBag.orderId,
             data: JSON.stringify({
-                "AutoId": check(document.getElementById('auto').value),
+                "AutoId": check(document.getElementById('autId').value),
                 "OrderStart": checkDate(document.getElementById('orderStart').value),
                 "OrderEnd": checkDate(document.getElementById('orderEnd').value),
                 "RentPlace": document.getElementById('rentPlace').value,
                 "RentReturn": document.getElementById('rentReturn').value,
                 "DayPrice": check(document.getElementById('dayPrice').value),
-                "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
-                "Comments": document.getElementById('comments').value
+                "Comments": document.getElementById('comments').value,
+                "Name": document.getElementById('name').value,
+                "Surname": document.getElementById('surname').value,
+                "Phone": document.getElementById('phone').value,
+                "Email": document.getElementById('email').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            success: function (id) {
+                location.href = "/Order/OrderIndex";
+            }
         });
     }
 
