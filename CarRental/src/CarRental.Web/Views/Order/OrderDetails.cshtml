@@ -14,7 +14,12 @@
 
             $.getJSON(uri)
                 .done(function (data) {
-                    addItem('AutoId:', data.AutoId);
+                    $.getJSON('../../api/autos/' + data.AutoId)
+               .done(function (data) {
+                   addItem('Markė:', data.Make);
+                   addItem('Modelis:', data.Model);                   
+                   addItem('Numeris:', data.PlateNumber);                 
+               });
                     addItem('Užsakymo pradžia:', data.OrderStart);
                     addItem('Užsakymo pabaiga:', data.OrderEnd);
                     addItem('Pristatymo vieta:', data.RentPlace);
