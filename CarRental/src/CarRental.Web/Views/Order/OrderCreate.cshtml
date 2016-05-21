@@ -97,17 +97,13 @@
                 <input asp-for="Email" id="email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
-            </div>
-        </div>
+        </div>        
     </div>
     <div class="form-horizontal col-md-7">
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>Markė</th>
                     <th>Modelis</th>
                     <th>Metai</th>
                     <th>Kuras</th>
@@ -119,7 +115,12 @@
             <tbody id="autos"></tbody>
         </table>
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Ivesti" onclick='create();' class="btn btn-default" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="OrderIndex">Grįžti į sąrašą</a>
     </p>
 </div>
@@ -140,9 +141,9 @@
         $.getJSON('/api/autos/' + startMonth + '-' + startDay + '-' + startYear + '/' + endMonth + '-' + endDay + '-' + endYear)
             .done(function (data) {
                 $.each(data, function (key, item) {
-                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
-                         + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
-                         + item.Gearbox + '</td><td>'
+                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Model + '</td><td>'
+                        + item.Year + '</td><td>' + item.FuelType + '</td><td>' + item.PlateNumber
+                        + '</td><td>' + item.Gearbox + '</td><td>'
                          + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
                     $("#autos").append(html);
                 });
@@ -171,14 +172,16 @@
                 "RentPlace": document.getElementById('rentPlace').value,
                 "RentReturn": document.getElementById('rentReturn').value,
                 "DayPrice": check(document.getElementById('dayPrice').value),
-                "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
                 "Comments": document.getElementById('comments').value,
                 "Name": document.getElementById('name').value,
                 "Surname": document.getElementById('surname').value,
                 "Phone": document.getElementById('phone').value,
                 "Email": document.getElementById('email').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            success: function (id) {
+                location.href = "/Order/OrderIndex";
+            }
         });
     }
 
@@ -186,7 +189,7 @@
         $.getJSON('../../api/autos/' + auto)
             .done(function (data) {
                 $('#autoId').val(data.AutoId);
-                $('#autoModel').val(data.Make + ' ' + data.PlateNumber);
+                $('#autoModel').val(data.Make + ' ' + data.Model + ' ' + data.PlateNumber);
                 getPrice(data.AutoId);                
             });
     }
