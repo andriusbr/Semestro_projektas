@@ -14,33 +14,22 @@ namespace CarRental.Web.Models
         public decimal Price { get; set; }
 
 
-        //[Required(ErrorMessage = "Įveskite pradžios datą")]
-        //[DataType(DataType.DateTime)]
         [Display(Name = "Pradžia")]
         public DateTime StartDate { get; set; }
 
-        //[Required(ErrorMessage = "Įveskite pabaigos datą")]
-        //[DataType(DataType.DateTime)]
         [Display(Name = "Pabaiga")]
         public DateTime EndDate { get; set; }
 
-        //[Required(ErrorMessage = "Įveskite savo vardą")]
         [Display(Name = "Vardas")]
         public string FirstName { get; set; }
 
-        //[Required(ErrorMessage = "Įveskite savo pavardę")]
         [Display(Name = "Pavardė")]
         public string LastName { get; set; }
 
 
-        //[Required(ErrorMessage = "Įveskite el. paštą")]
-        //[EmailAddress]
         [Display(Name = "El. paštas")]
         public string Email { get; set; }
 
-        //[Required(ErrorMessage = "Įveskite tel. numerį")]
-        //[DataType(DataType.PhoneNumber)]
-        //[RegularExpression(@"^\(?([+]?[0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3,6})$", ErrorMessage = "Netinkamas telefono numeris")]
         [Display(Name = "Telefono nr.")]
         public string PhoneNumber { get; set; }
 

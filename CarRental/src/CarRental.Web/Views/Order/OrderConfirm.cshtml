@@ -120,7 +120,6 @@
 
     function setPrice(){
         var days = daydiff(startDate, endDate);
-        alert(days);
         $.ajax({
             type: "POST",
             url: "/Order/GetDailyRate",
