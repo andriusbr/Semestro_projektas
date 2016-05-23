@@ -5,7 +5,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label">Automobilis</label>
             <div class="col-md-8">
-                <input type="text" id="autoModel" class="form-control" />
+                <input type="text" id="autoModel" class="form-control" disabled/>
             </div>
         </div>
         <div class="form-group">
@@ -33,7 +33,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label">Nuomos trukmė</label>
             <div class="col-md-8">
-                <input type='text' id="duration" class="form-control" />
+                <input type='text' id="duration" class="form-control"  disabled/>
             </div>
         </div>
         <div class="form-group">
@@ -53,15 +53,14 @@
         <div class="form-group">
             <label class="col-md-4 control-label">Paros Kaina</label>
             <div class="col-md-8">
-                <input asp-for="DayPrice" id="dayPrice" class="form-control" />
+                <input asp-for="DayPrice" id="dayPrice" class="form-control" disabled/>
                 <span asp-validation-for="DayPrice" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-4 control-label">Pristatymo kaina</label>
+            <label class="col-md-4 control-label">Užsakymo kaina</label>
             <div class="col-md-8">
-                <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
-                <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
+                <input type='text' id="price" class="form-control" disabled/>
             </div>
         </div>
         <div class="form-group">
@@ -72,15 +71,39 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Ivesti" onclick='create();/*location.href="/Order/OrderIndex";*/' class="btn btn-default" />
+            <label class="col-md-4 control-label">Vardas</label>
+            <div class="col-md-8">
+                <input asp-for="Name" id="name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Pavardė</label>
+            <div class="col-md-8">
+                <input asp-for="Surname" id="surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Telefonas</label>
+            <div class="col-md-8">
+                <input asp-for="Phone" id="phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">E. Paštas</label>
+            <div class="col-md-8">
+                <input asp-for="Email" id="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>        
     </div>
     <div class="form-horizontal col-md-7">
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>Markė</th>
                     <th>Modelis</th>
                     <th>Metai</th>
                     <th>Kuras</th>
@@ -92,7 +115,12 @@
             <tbody id="autos"></tbody>
         </table>
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Ivesti" onclick='create();' class="btn btn-default" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="OrderIndex">Grįžti į sąrašą</a>
     </p>
 </div>
@@ -113,9 +141,9 @@
         $.getJSON('/api/autos/' + startMonth + '-' + startDay + '-' + startYear + '/' + endMonth + '-' + endDay + '-' + endYear)
             .done(function (data) {
                 $.each(data, function (key, item) {
-                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Year + '</td><td>'
-                         + item.FuelType + '</td><td>' + item.PlateNumber + '</td><td>'
-                         + item.Gearbox + '</td><td>'
+                    var html = '<tr><td>' + item.Make + '</td><td>' + item.Model + '</td><td>'
+                        + item.Year + '</td><td>' + item.FuelType + '</td><td>' + item.PlateNumber
+                        + '</td><td>' + item.Gearbox + '</td><td>'
                          + '<button type="button" class="btn btn-link" onclick="addAuto(' + item.AutoId + ');">Rinktis</button>';
                     $("#autos").append(html);
                 });
@@ -131,7 +159,6 @@
         $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
             orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
         });
-
     });
      
     function create() {
@@ -145,10 +172,16 @@
                 "RentPlace": document.getElementById('rentPlace').value,
                 "RentReturn": document.getElementById('rentReturn').value,
                 "DayPrice": check(document.getElementById('dayPrice').value),
-                "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
-                "Comments": document.getElementById('comments').value
+                "Comments": document.getElementById('comments').value,
+                "Name": document.getElementById('name').value,
+                "Surname": document.getElementById('surname').value,
+                "Phone": document.getElementById('phone').value,
+                "Email": document.getElementById('email').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            success: function (id) {
+                location.href = "/Order/OrderIndex";
+            }
         });
     }
 
@@ -156,8 +189,8 @@
         $.getJSON('../../api/autos/' + auto)
             .done(function (data) {
                 $('#autoId').val(data.AutoId);
-                $('#autoModel').val(data.Make + ' ' + data.PlateNumber);
-                getPrice(data.AutoId);
+                $('#autoModel').val(data.Make + ' ' + data.Model + ' ' + data.PlateNumber);
+                getPrice(data.AutoId);                
             });
     }
 
@@ -165,7 +198,8 @@
         $.getJSON('/api/autos/' + autid + '/' + document.getElementById('duration').value + '/bla')
             .done(function (price) {
                 $('#dayPrice').val(price);
-
+                $('#price').val(document.getElementById('dayPrice').value
+                    * document.getElementById('duration').value);
             });
 
     }

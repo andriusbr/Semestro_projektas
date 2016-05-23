@@ -12,7 +12,8 @@
                 <th>Pristatymo vieta</th>
                 <th>Grąžinimo vieta</th>
                 <th>Paros Kaina</th>
-                <th>Pristatymo kaina</th>
+                <th>Tel. Nr.</th>
+                <th>E. Paštas.</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -48,7 +49,7 @@
                 var html = '<tr><td>' + data.Make + ' ' + data.PlateNumber + '</td><td>' + item.OrderStart + '</td><td>'
                       + item.OrderEnd + '</td><td>' + item.RentPlace + '</td><td>'
                       + item.RentReturn + '</td><td>' + item.DayPrice + '</td><td>'
-                      + item.DeliveryPrice + '</td><td>'
+                      + item.Phone + '</td><td>' + item.Email + '</td><td>'
                       + '<a href="/Order/OrderDetails/' + item.OrderId + '">Detaliau</a>' + '</td><td>'
                       + '<a href="/Order/OrderEdit/' + item.OrderId + '">Redaguoti</a>' + '</td><td>'
                       + '<a href="/Order/OrderDelete/' + item.OrderId + '">Ištrinti</a>' + '</td></tr>';

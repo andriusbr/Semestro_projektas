@@ -14,14 +14,22 @@
 
             $.getJSON(uri)
                 .done(function (data) {
-                    addItem('AutoId:', data.AutoId);
+                    $.getJSON('../../api/autos/' + data.AutoId)
+               .done(function (data) {
+                   addItem('Markė:', data.Make);
+                   addItem('Modelis:', data.Model);                   
+                   addItem('Numeris:', data.PlateNumber);                 
+               });
                     addItem('Užsakymo pradžia:', data.OrderStart);
                     addItem('Užsakymo pabaiga:', data.OrderEnd);
                     addItem('Pristatymo vieta:', data.RentPlace);
                     addItem('Grąžinimo vieta:', data.RentReturn);
                     addItem('Paros kaina:', data.DayPrice);
-                    addItem('Pristatymo kaina:', data.DeliveryPrice);
                     addItem('Komentarai:', data.Comments);
+                    addItem('Vardas:', data.Name);
+                    addItem('Pavardė:', data.Surname);
+                    addItem('Tel. Nr.:', data.Phone);
+                    addItem('E. Paštas:', data.Email);
                 });
         });
 </script>

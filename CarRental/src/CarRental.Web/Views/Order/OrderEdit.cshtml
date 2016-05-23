@@ -1,26 +1,33 @@
 ﻿@model CarRental.DataAccess.Entities.Order
-<div>
+<div class="row" id="autId">
     <h2>Užsakymo redagavimas</h2>
     <div class="form-horizontal col-md-6">
         <div class="form-group">
             <label class="col-md-3 control-label">Auto Id</label>
             <div class="col-md-9">
-                <input asp-for="AutoId" id="auto" class="form-control" />
-                <span asp-validation-for="AutoId" class="text-danger"></span>
+                <input type="text" id="auto" class="form-control" disabled />
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Nuomos pražia</label>
             <div class="col-md-9">
-                <input type="date" id="orderStart" class="form-control" />
-                <span asp-validation-for="OrderStart" class="text-danger"></span>
+                <div class='input-group date' id='datetimepickerstart'>
+                    <input type='text' class="form-control" id="orderStart" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Nuomos Pabaiga</label>
             <div class="col-md-9">
-                <input type="date" id="orderEnd" class="form-control" />
-                <span asp-validation-for="OrderEnd" class="text-danger"></span>
+                <div class='input-group date' id='datetimepickerend'>
+                    <input type='text' class="form-control" id="orderEnd" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -30,8 +37,6 @@
                 <span asp-validation-for="RentPlace" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="form-horizontal col-md-6">
         <div class="form-group">
             <label class="col-md-3 control-label">Grąžinimo vieta</label>
             <div class="col-md-9">
@@ -42,17 +47,12 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Paros Kaina</label>
             <div class="col-md-9">
-                <input asp-for="DayPrice" id="dayPrice" class="form-control" />
+                <input asp-for="DayPrice" id="dayPrice" class="form-control" disabled/>
                 <span asp-validation-for="DayPrice" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">Pristatymo kaina</label>
-            <div class="col-md-9">
-                <input asp-for="DeliveryPrice" id="deliveryPrice" class="form-control" />
-                <span asp-validation-for="DeliveryPrice" class="text-danger"></span>
-            </div>
-        </div>
+        </div>    
+    </div>
+    <div class="form-horizontal col-md-6">            
         <div class="form-group">
             <label class="col-md-3 control-label">Komentarai</label>
             <div class="col-md-9">
@@ -61,30 +61,78 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Redaguoti" onclick='edit();location.href="/Order/OrderIndex";' class="btn btn-default" />
+            <label class="col-md-3 control-label">Vardas</label>
+            <div class="col-md-9">
+                <input asp-for="Name" id="name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Pavardė</label>
+            <div class="col-md-9">
+                <input asp-for="Surname" id="surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Telefonas</label>
+            <div class="col-md-9">
+                <input asp-for="Phone" id="phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">E. Paštas</label>
+            <div class="col-md-9">
+                <input asp-for="Email" id="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>               
     </div>
-    <p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Redaguoti" onclick='edit();' class="btn btn-default" />
+        </div>
+    </div>
+    <p class="col-md-12">
         <a asp-action="OrderIndex">Grįžti į sąrašą</a>
     </p>
 </div>
 
 <script>
+
+    $(function () {
+        $('#datetimepickerstart').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+       
+
+        $('#datetimepickerend').datetimepicker().on('dp.change', function (e) {
+            orderTime(orderStart, orderEnd); isFree(orderStart, orderEnd);
+        });
+    });
+
     var uri = '../../api/orders/' + @ViewBag.orderId;
 
     $(document).ready(function (){
         $.getJSON(uri)
-                .done(function (data){
-                    $("#auto").val(data.AutoId);
+                .done(function (data){ 
+                    $('#autId').val(data.AutoId);
+                    $.getJSON('../../api/autos/' + data.AutoId)
+               .done(function (aut) {
+                   $("#auto").val(aut.Make + ' ' + aut.Model + ' ' + aut.PlateNumber);                                   
+               });
                     $("#orderStart").val(data.OrderStart);
                     $("#orderEnd").val(data.OrderEnd);
                     $("#rentPlace").val(data.RentPlace);
                     $("#rentReturn").val(data.RentReturn);
                     $("#dayPrice").val(data.DayPrice);
                     $("#deliveryPrice").val(data.DeliveryPrice);
-                    $("#comments").val(data.Comments);                  
+                    $("#comments").val(data.Comments);   
+                    $("#name").val(data.Name);
+                    $("#surname").val(data.Surname);
+                    $("#phone").val(data.Phone);
+                    $("#email").val(data.Email);
                 });
 
     });
@@ -94,16 +142,22 @@
             type: "PUT",
             url: "../../api/orders/" + @ViewBag.orderId,
             data: JSON.stringify({
-                "AutoId": check(document.getElementById('auto').value),
+                "AutoId": check(document.getElementById('autId').value),
                 "OrderStart": checkDate(document.getElementById('orderStart').value),
                 "OrderEnd": checkDate(document.getElementById('orderEnd').value),
                 "RentPlace": document.getElementById('rentPlace').value,
                 "RentReturn": document.getElementById('rentReturn').value,
                 "DayPrice": check(document.getElementById('dayPrice').value),
-                "DeliveryPrice": check(document.getElementById('deliveryPrice').value),
-                "Comments": document.getElementById('comments').value
+                "Comments": document.getElementById('comments').value,
+                "Name": document.getElementById('name').value,
+                "Surname": document.getElementById('surname').value,
+                "Phone": document.getElementById('phone').value,
+                "Email": document.getElementById('email').value
             }),
-            contentType: "application/json"
+            contentType: "application/json",
+            success: function (id) {
+                location.href = "/Order/OrderIndex";
+            }
         });
     }
 
