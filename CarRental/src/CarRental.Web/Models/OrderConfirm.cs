@@ -25,7 +25,7 @@ namespace CarRental.Web.Models
         public DateTime EndDate { get; set; }
 
         //[Required(ErrorMessage = "Įveskite savo vardą")]
-        //[Display(Name = "Vardas")]
+        [Display(Name = "Vardas")]
         public string FirstName { get; set; }
 
         //[Required(ErrorMessage = "Įveskite savo pavardę")]

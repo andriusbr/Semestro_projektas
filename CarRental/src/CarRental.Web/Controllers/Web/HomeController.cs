@@ -21,7 +21,7 @@ namespace CarRental.Web.Controllers.Web
             IList<decimal> PriceList = new List<decimal>();
             foreach (var car in model.CarList)
             {
-                PriceList.Add(autoService.GetPrice(car.AutoId, 1));
+                PriceList.Add(autoService.GetPrice(car.AutoId, 30));
             }
             model.PriceList = PriceList;
             model.Duration = 1;
@@ -39,7 +39,7 @@ namespace CarRental.Web.Controllers.Web
                 model.CarList = autoService.GetAllFreeAuto(model.StartDate ?? DateTime.Now, model.EndDate ?? DateTime.Now);
                 TimeSpan difference = end - start;
                 int days = (int)Math.Ceiling(difference.TotalDays);
-                model.PriceList = GetAvailableAutoPriceList(model.CarList, days);
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, 30);
                 model.Duration = days;
             }
             else
@@ -57,7 +57,7 @@ namespace CarRental.Web.Controllers.Web
                 }
 
                 model.CarList = autoService.GetAll();
-                model.PriceList = GetAvailableAutoPriceList(model.CarList, 1);
+                model.PriceList = GetAvailableAutoPriceList(model.CarList, 30);
                 model.Duration = 1;
             }
             

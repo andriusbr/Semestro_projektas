@@ -148,6 +148,9 @@ namespace CarRental.Web.Controllers.Web
             ViewData["Title"] = "Patvirtinimas";
             if (ModelState.IsValid)
             {
+                DateTime start = new DateTime(model.StartDate.Year, model.StartDate.Month, model.StartDate.Day);
+                DateTime end = new DateTime(model.EndDate.Year, model.EndDate.Month, model.EndDate.Day);
+                TimeSpan difference = end - start;
                 Order order = new Order()
                 {
                     AutoId = model.AutoId,
@@ -155,7 +158,7 @@ namespace CarRental.Web.Controllers.Web
                     OrderEnd = model.EndDate,
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
-                    DayPrice = model.Price,
+                    DayPrice = (decimal) GetDailyRate(model.AutoId, (int) difference.TotalDays),
                     Comments = model.Comments
 
                 };
