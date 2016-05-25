@@ -222,7 +222,7 @@ namespace CarRental.Web.Controllers.Web
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User changed their password successfully.");
+                    _logger.LogInformation(3, "Slaptažodis sėkmingai pakeistas.");
                     return RedirectToAction(nameof(AccountSettings), "Account");
                 }
                 AddErrors(result);

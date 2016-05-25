@@ -12,9 +12,9 @@
 
 //lietuviškom datom
 function daydiff(firstDate, secondDate) {
-    var startDay = new Date(moment(firstDate.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
+    var startDay = new Date(moment(firstDate.value, "YYYY/MM/DD HH:mm").format("MM/DD/YYYY"));
     startDay.setHours(00, 00, 0, 0);
-    var endDay = new Date(moment(secondDate.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
+    var endDay = new Date(moment(secondDate.value, "YYYY/MM/DD HH:mm").format("MM/DD/YYYY"));
     endDay.setHours(00, 00, 0, 0);
     var millisecondsPerDay = 1000 * 60 * 60 * 24;
     var millisBetween = endDay.getTime() - startDay.getTime();
@@ -24,8 +24,8 @@ function daydiff(firstDate, secondDate) {
 
 
 function isEarlierThanNow(date) {
-    var convertedDate = new Date(moment(date.value, "YYYY/MM/DD hh:mm").format("MM/DD/YYYY"));
-    var currentDate = new Date();
+    var convertedDate = new Date(moment(date.value, "YYYY/MM/DD HH:mm").format("MM/DD/YYYY"));
+    var currentDate = new Date(moment(new Date()).format("MM/DD/YYYY"));
     if (convertedDate.getTime() < currentDate.getTime()) {
         return true;
     }

@@ -114,8 +114,8 @@
     function changeDateFormats(){
         var start = new Date(@Model.StartDate.Year, @Model.StartDate.Month, @Model.StartDate.Day, @Model.StartDate.Hour, @Model.StartDate.Minute);
         var end = new Date(@Model.EndDate.Year, @Model.EndDate.Month, @Model.EndDate.Day, @Model.EndDate.Hour, @Model.EndDate.Minute);
-        document.getElementById("startDate").value = moment(start).format("YYYY-MM-DD hh:mm");
-        document.getElementById("endDate").value = moment(end).format("YYYY-MM-DD hh:mm");
+        document.getElementById("startDate").value = moment(start).format("YYYY-MM-DD HH:mm");
+        document.getElementById("endDate").value = moment(end).format("YYYY-MM-DD HH:mm");
     }
 
     function setPrice(){

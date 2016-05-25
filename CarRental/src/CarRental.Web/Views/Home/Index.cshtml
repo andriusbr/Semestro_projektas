@@ -7,12 +7,12 @@
     <h1>Automobilių nuoma</h1>
 
     <div class="search-container col-xs-3">
-        <span class="text-danger">@Html.ValidationMessage("Invalid date error")</span>
+        <span class="text-danger" id="validationSummary"></span>
         <form asp-controller="Home" asp-action="Index" class="form-horizontal" method="post">
                 <label asp-for="StartDate"></label></br>
                 <div class="row left-right-margin1">
                     <div class="input-group date" id="datetimepickerStart">
-                        <input asp-for="StartDate" class="form-control" />
+                        <input asp-for="StartDate" class="form-control" id="orderStart"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -23,13 +23,13 @@
                 <label asp-for="EndDate"></label></br>
                 <div class="row left-right-margin1">
                     <div class="input-group date" id="datetimepickerEnd">
-                        <input asp-for="EndDate" class="form-control" />
+                        <input asp-for="EndDate" class="form-control" id="orderEnd" />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
                 <span asp-validation-for="EndDate" class="text-danger"></span>
                 <div class="row top-margin10" align="right">
-                    <button class="orderBtn" type="submit">
+                    <button class="orderBtn" type="submit" id="btnSubmit">
                         Filtruoti
                     </button>
                 </div>
@@ -46,13 +46,45 @@
 
 <script>
    
+    $(function () {
+        validateDates();
+        $('#datetimepickerStart').datetimepicker().on('dp.change', function (e) {
+            validateDates();
+        });
+
+
+        $('#datetimepickerEnd').datetimepicker().on('dp.change', function (e) {
+            validateDates();
+        });
+
+    });
+
     $("#datetimepickerStart").datetimepicker({
-        format: 'YYYY-MM-DD hh:mm'
+        format: 'YYYY-MM-DD HH:mm'
     });
 
     $("#datetimepickerEnd").datetimepicker({
-        format: 'YYYY-MM-DD hh:mm'
+        format: 'YYYY-MM-DD HH:mm'
     });
+
+
+    function validateDates() {
+        var days = daydiff(orderStart, orderEnd);
+        var validation = document.getElementById("validationSummary");
+        if (days < 0) {
+            validation.innerHTML = "Pradžios data yra vėliau negu pabaigos data";
+        } else if (days == 0) {
+            validation.innerHTML = "Užsakymo trukmė turi būti bent viena diena";
+        } else if (isEarlierThanNow(orderStart) || isEarlierThanNow(orderEnd)) {
+            validation.innerHTML = "Pasirinkta diena jau praėjo";
+        } else {
+            validation.innerHTML = "";
+            document.getElementById("btnSubmit").disabled = false;
+            return true;
+        }
+        document.getElementById("btnSubmit").disabled = true;
+        return false;
+    }
 
 
     //$('#datepicker1').datepicker($.datepicker.regional['lt']);

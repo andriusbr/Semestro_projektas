@@ -159,6 +159,10 @@ namespace CarRental.Web.Controllers.Web
                     RentPlace = model.PickUp,
                     RentReturn = model.DropOff,
                     DayPrice = (decimal) GetDailyRate(model.AutoId, (int) difference.TotalDays),
+                    Phone = model.PhoneNumber,
+                    Email = model.Email,
+                    Name = model.FirstName,
+                    Surname = model.LastName,
                     Comments = model.Comments
 
                 };
